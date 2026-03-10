@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AluminiumKing IMS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-base:#08090B;--bg-surface:#0F1115;--bg-elevated:#161921;--bg-interactive:#1E2228;--bg-hover:#242930;
+  --border-subtle:#1A1D24;--border-default:#252930;--border-strong:#353B46;
+  --text-primary:#E2E4E9;--text-secondary:#8A93A4;--text-tertiary:#4D5666;
+  --accent:#F5A623;--accent-dim:rgba(245,166,35,0.1);--accent-glow:rgba(245,166,35,0.2);
+  --critical:#FF4040;--critical-dim:rgba(255,64,64,0.1);--critical-border:rgba(255,64,64,0.3);
+  --warning:#FFB800;--warning-dim:rgba(255,184,0,0.1);--warning-border:rgba(255,184,0,0.3);
+  --healthy:#00D080;--healthy-dim:rgba(0,208,128,0.1);--healthy-border:rgba(0,208,128,0.3);
+  --transit:#4D9EFF;--transit-dim:rgba(77,158,255,0.1);--transit-border:rgba(77,158,255,0.3);
+  --font-display:'Bebas Neue',sans-serif;
+  --font-condensed:'Barlow Condensed',sans-serif;
+  --font-body:'Barlow',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --sidebar-width:220px;--header-height:52px;--tr:150ms ease;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{background:var(--bg-base);color:var(--text-primary);font-family:var(--font-body);font-size:13px;line-height:1.5;}
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.035) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:2px;}
+
+/* LAYOUT */
+.app{display:flex;height:100vh;overflow:hidden;position:relative;z-index:1;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-width);min-width:var(--sidebar-width);background:var(--bg-surface);border-right:1px solid var(--border-default);display:flex;flex-direction:column;overflow-y:auto;position:relative;}
+.sidebar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),transparent);}
+.sidebar-logo{padding:18px 16px 14px;border-bottom:1px solid var(--border-subtle);}
+.logo-mark{font-family:var(--font-display);font-size:20px;letter-spacing:0.06em;line-height:1;}
+.logo-mark span{color:var(--accent);}
+.logo-sub{font-family:var(--font-mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--text-tertiary);margin-top:3px;}
+.nav-section{padding:12px 0 4px;}
+.nav-label{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--text-tertiary);padding:0 16px 6px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:7px 16px;cursor:pointer;transition:all var(--tr);border-left:2px solid transparent;color:var(--text-secondary);font-family:var(--font-condensed);font-size:13px;font-weight:500;letter-spacing:0.02em;user-select:none;}
+.nav-item:hover{background:var(--bg-interactive);color:var(--text-primary);}
+.nav-item.active{background:var(--accent-dim);border-left-color:var(--accent);color:var(--accent);}
+.nav-icon{font-size:12px;width:14px;text-align:center;flex-shrink:0;}
+.nav-badge{margin-left:auto;background:var(--critical);color:#fff;font-family:var(--font-mono);font-size:9px;font-weight:700;padding:1px 5px;border-radius:2px;}
+.sidebar-footer{margin-top:auto;padding:12px 16px;border-top:1px solid var(--border-subtle);}
+.user-chip{display:flex;align-items:center;gap:8px;}
+.user-avatar{width:28px;height:28px;background:var(--accent);border-radius:2px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:13px;color:var(--bg-base);flex-shrink:0;}
+.user-name{font-size:12px;font-weight:600;color:var(--text-primary);}
+.user-role{font-family:var(--font-mono);font-size:9px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.1em;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+.topbar{height:var(--header-height);min-height:var(--header-height);background:var(--bg-surface);border-bottom:1px solid var(--border-default);display:flex;align-items:center;padding:0 24px;gap:12px;}
+.page-title{font-family:var(--font-condensed);font-size:15px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-primary);}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.content{flex:1;overflow-y:auto;padding:20px 24px;}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border-default);background:var(--bg-interactive);color:var(--text-secondary);font-family:var(--font-condensed);font-size:12px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;transition:all var(--tr);border-radius:2px;}
+.btn:hover{background:var(--bg-hover);color:var(--text-primary);border-color:var(--border-strong);}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--bg-base);}
+.btn-primary:hover{background:#E8981A;border-color:#E8981A;color:var(--bg-base);}
+.btn-ghost{background:transparent;border-color:transparent;}
+.btn-ghost:hover{background:var(--bg-interactive);border-color:var(--border-default);}
+.btn-sm{padding:4px 10px;font-size:11px;}
+.btn-danger{border-color:var(--critical-border);color:var(--critical);background:transparent;}
+.btn-danger:hover{background:var(--critical-dim);}
+
+/* CARDS */
+.card{background:var(--bg-surface);border:1px solid var(--border-default);border-radius:2px;}
+.card-header{padding:12px 18px;border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:10px;}
+.card-title{font-family:var(--font-condensed);font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-secondary);}
+.card-action{margin-left:auto;font-family:var(--font-mono);font-size:10px;color:var(--accent);cursor:pointer;text-transform:uppercase;letter-spacing:0.05em;}
+.card-action:hover{text-decoration:underline;}
+
+/* STAT CARDS */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+.stat-card{background:var(--bg-surface);border:1px solid var(--border-default);border-radius:2px;padding:16px 18px;position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.stat-card.critical::before{background:var(--critical);}
+.stat-card.warning::before{background:var(--warning);}
+.stat-card.healthy::before{background:var(--healthy);}
+.stat-card.transit::before{background:var(--transit);}
+.stat-label{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-tertiary);margin-bottom:6px;}
+.stat-value{font-family:var(--font-display);font-size:52px;line-height:1;letter-spacing:0.02em;}
+.stat-card.critical .stat-value{color:var(--critical);}
+.stat-card.warning .stat-value{color:var(--warning);}
+.stat-card.healthy .stat-value{color:var(--healthy);}
+.stat-card.transit .stat-value{color:var(--transit);}
+.stat-desc{font-family:var(--font-condensed);font-size:11px;color:var(--text-tertiary);margin-top:3px;}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+th{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-tertiary);padding:9px 14px;text-align:left;border-bottom:1px solid var(--border-default);white-space:nowrap;}
+td{padding:9px 14px;border-bottom:1px solid var(--border-subtle);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tbody tr:hover td{background:var(--bg-elevated);cursor:pointer;}
+.td-sku{font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:500;}
+.td-num{font-family:var(--font-mono);font-size:12px;font-weight:700;text-align:right;}
+.td-unit{font-family:var(--font-mono);font-size:9px;color:var(--text-tertiary);margin-left:2px;}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border-radius:2px;font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;border:1px solid;}
+.badge-critical{background:var(--critical-dim);color:var(--critical);border-color:var(--critical-border);}
+.badge-warning{background:var(--warning-dim);color:var(--warning);border-color:var(--warning-border);}
+.badge-healthy{background:var(--healthy-dim);color:var(--healthy);border-color:var(--healthy-border);}
+.badge-transit{background:var(--transit-dim);color:var(--transit);border-color:var(--transit-border);}
+.badge-draft{background:var(--bg-elevated);color:var(--text-tertiary);border-color:var(--border-default);}
+.badge-sent{background:rgba(159,122,234,0.1);color:#9F7AEA;border-color:rgba(159,122,234,0.3);}
+.badge-received{background:var(--healthy-dim);color:var(--healthy);border-color:var(--healthy-border);}
+.badge-cancelled{background:var(--bg-elevated);color:var(--text-tertiary);border-color:var(--border-default);}
+.badge-disc{background:rgba(255,64,64,0.08);color:var(--critical);border-color:var(--critical-border);}
+.badge-pending{background:var(--warning-dim);color:var(--warning);border-color:var(--warning-border);}
+.badge-approved{background:var(--transit-dim);color:var(--transit);border-color:var(--transit-border);}
+.badge-issued{background:var(--healthy-dim);color:var(--healthy);border-color:var(--healthy-border);}
+.badge-active{background:var(--healthy-dim);color:var(--healthy);border-color:var(--healthy-border);}
+
+/* STATUS DOT */
+.sdot{width:7px;height:7px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.sdot.critical{background:var(--critical);box-shadow:0 0 6px var(--critical);}
+.sdot.warning{background:var(--warning);}
+.sdot.healthy{background:var(--healthy);}
+.sdot.transit{background:var(--transit);}
+
+/* SEARCH / FILTERS */
+.toolbar{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--border-subtle);}
+.search-input{flex:1;background:var(--bg-interactive);border:1px solid var(--border-default);border-radius:2px;padding:7px 11px;color:var(--text-primary);font-family:var(--font-mono);font-size:11px;outline:none;transition:border-color var(--tr);}
+.search-input::placeholder{color:var(--text-tertiary);}
+.search-input:focus{border-color:var(--accent);}
+.sel{background:var(--bg-interactive);border:1px solid var(--border-default);border-radius:2px;padding:7px 10px;color:var(--text-secondary);font-family:var(--font-condensed);font-size:12px;outline:none;cursor:pointer;}
+.sel:focus{border-color:var(--accent);}
+option{background:var(--bg-elevated);}
+
+/* STOCK BAR */
+.bar-wrap{display:flex;align-items:center;gap:8px;min-width:100px;}
+.bar-track{flex:1;height:3px;background:var(--bg-elevated);border-radius:2px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:2px;}
+.bar-fill.critical{background:var(--critical);}
+.bar-fill.warning{background:var(--warning);}
+.bar-fill.healthy{background:var(--healthy);}
+
+/* GRID */
+.page{display:flex;flex-direction:column;gap:14px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.span-2{grid-column:span 2;}
+
+/* LIST ITEMS (alerts, PO summary) */
+.list-item{display:flex;align-items:center;gap:12px;padding:10px 18px;border-bottom:1px solid var(--border-subtle);transition:background var(--tr);}
+.list-item:hover{background:var(--bg-elevated);}
+.list-item:last-child{border-bottom:none;}
+.li-sku{font-family:var(--font-mono);font-size:10px;color:var(--accent);min-width:90px;}
+.li-name{font-size:12px;font-weight:500;color:var(--text-primary);}
+.li-meta{margin-left:auto;font-family:var(--font-mono);font-size:10px;color:var(--text-secondary);}
+.li-sub{font-family:var(--font-condensed);font-size:11px;color:var(--text-secondary);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.72);display:flex;align-items:center;justify-content:center;z-index:1000;padding:24px;backdrop-filter:blur(3px);}
+.modal{background:var(--bg-surface);border:1px solid var(--border-strong);border-radius:2px;width:100%;max-width:700px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(0,0,0,0.6);}
+.modal-header{padding:16px 20px;border-bottom:1px solid var(--border-default);display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-family:var(--font-condensed);font-size:14px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+.modal-close{background:none;border:none;color:var(--text-tertiary);cursor:pointer;font-size:18px;line-height:1;padding:4px;}
+.modal-close:hover{color:var(--text-primary);}
+.modal-body{padding:20px;overflow-y:auto;flex:1;}
+.modal-footer{padding:14px 20px;border-top:1px solid var(--border-default);display:flex;align-items:center;justify-content:flex-end;gap:8px;}
+
+/* FORMS */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.span-2{grid-column:span 2;}
+.form-label{font-family:var(--font-mono);font-size:9px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-tertiary);}
+.form-input,.form-sel,.form-ta{background:var(--bg-interactive);border:1px solid var(--border-default);border-radius:2px;padding:8px 10px;color:var(--text-primary);font-family:var(--font-body);font-size:13px;outline:none;transition:border-color var(--tr);width:100%;}
+.form-input:focus,.form-sel:focus,.form-ta:focus{border-color:var(--accent);}
+.form-ta{resize:vertical;min-height:60px;}
+.form-divider{grid-column:span 2;border:none;border-top:1px solid var(--border-subtle);margin:4px 0;}
+
+/* INLINE LINE ITEMS */
+.li-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px;}
+.li-table th{font-family:var(--font-mono);font-size:9px;color:var(--text-tertiary);padding:6px 8px;text-align:left;border-bottom:1px solid var(--border-default);}
+.li-table td{padding:5px 8px;border-bottom:1px solid var(--border-subtle);}
+.li-table .fi{padding:4px 7px;font-size:11px;font-family:var(--font-mono);background:var(--bg-interactive);border:1px solid var(--border-default);border-radius:2px;color:var(--text-primary);width:90px;}
+.li-table .fi:focus{border-color:var(--accent);outline:none;}
+
+/* AVAIL CHECK */
+.avail-result{background:var(--bg-surface);border:1px solid var(--border-default);border-radius:2px;margin-bottom:12px;overflow:hidden;}
+.avail-head{padding:12px 16px;background:var(--bg-elevated);border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;gap:10px;}
+.avail-metrics{display:grid;grid-template-columns:repeat(4,1fr);}
+.avail-metric{padding:14px 16px;border-right:1px solid var(--border-subtle);}
+.avail-metric:last-child{border-right:none;}
+.aml{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);margin-bottom:4px;}
+.amv{font-family:var(--font-mono);font-size:22px;font-weight:700;}
+.amu{font-family:var(--font-mono);font-size:10px;color:var(--text-tertiary);margin-left:3px;}
+
+/* PAGINATION */
+.pagination{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-top:1px solid var(--border-subtle);}
+.pg-info{font-family:var(--font-mono);font-size:10px;color:var(--text-tertiary);}
+.pg-btns{display:flex;gap:4px;}
+.pg-btn{width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:var(--bg-interactive);border:1px solid var(--border-default);color:var(--text-secondary);font-family:var(--font-mono);font-size:11px;cursor:pointer;border-radius:2px;transition:all var(--tr);}
+.pg-btn:hover,.pg-btn.act{background:var(--accent);border-color:var(--accent);color:var(--bg-base);}
+
+/* REPORT CARDS */
+.report-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.report-card{background:var(--bg-surface);border:1px solid var(--border-default);border-radius:2px;padding:20px;cursor:pointer;transition:all var(--tr);}
+.report-card:hover{background:var(--bg-elevated);border-color:var(--accent);}
+.report-icon{font-size:22px;margin-bottom:10px;}
+.report-title{font-family:var(--font-condensed);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:5px;}
+.report-desc{font-size:11px;color:var(--text-secondary);line-height:1.5;}
+
+/* TRANSACTION LOG */
+.tx-receipt{color:var(--healthy);}
+.tx-issue{color:var(--critical);}
+.tx-adjust{color:var(--warning);}
+
+/* GRN VARIANCE */
+.var-ok{color:var(--healthy);font-family:var(--font-mono);font-size:11px;font-weight:700;}
+.var-short{color:var(--critical);font-family:var(--font-mono);font-size:11px;font-weight:700;}
+.var-over{color:var(--warning);font-family:var(--font-mono);font-size:11px;font-weight:700;}
+
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--border-default);}
+.tab{padding:10px 18px;font-family:var(--font-condensed);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-tertiary);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all var(--tr);}
+.tab:hover{color:var(--text-secondary);}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent);}
+
+/* EMPTY */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px;color:var(--text-tertiary);}
+.empty-icon{font-size:28px;margin-bottom:10px;opacity:0.4;}
+.empty-txt{font-size:12px;}
+
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+.pulse{animation:pulse 2s infinite;}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">ALUMINIUM<span>KING</span></div>
+      <div class="logo-sub">Inventory Management System</div>
+    </div>
+    <div id="nav-content"></div>
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar">AK</div>
+        <div>
+          <div class="user-name">Admin User</div>
+          <div class="user-role">Administrator</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <div class="page-title" id="page-title">Dashboard</div>
+      </div>
+      <div class="topbar-right" id="topbar-actions"></div>
+    </header>
+    <main class="content" id="content"></main>
+  </div>
+</div>
+
+<div id="modal-root"></div>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const DB = {
+  products: [
+    {sku:'AL-650-3M',name:'Profile 650 3m',cat:'Aluminium',sub:'Profile',uom:'meter',current:5.0,allocated:2.0,par:50.0,reorder:30.0,lead:45,rack:'C-01',status:'active',supplier:'China Aluminium Co.'},
+    {sku:'AL-750-6M',name:'Profile 750 6m',cat:'Aluminium',sub:'Profile',uom:'meter',current:120.0,allocated:30.0,par:80.0,reorder:50.0,lead:45,rack:'C-02',status:'active',supplier:'China Aluminium Co.'},
+    {sku:'AL-500-3M',name:'Profile 500 3m',cat:'Aluminium',sub:'Profile',uom:'meter',current:85.0,allocated:20.0,par:60.0,reorder:40.0,lead:45,rack:'C-03',status:'active',supplier:'China Aluminium Co.'},
+    {sku:'HG-X200',name:'Hinge Heavy Duty X-200',cat:'Hardware',sub:'Hinge',uom:'pcs',current:2,allocated:0,par:20,reorder:10,lead:30,rack:'A-12',status:'active',supplier:'Golden Hardware Co.'},
+    {sku:'HG-P100',name:'Pivot Hinge P-100',cat:'Hardware',sub:'Hinge',uom:'pcs',current:12,allocated:4,par:20,reorder:10,lead:30,rack:'A-10',status:'active',supplier:'Golden Hardware Co.'},
+    {sku:'TR-T500',name:'Track System T-500',cat:'Hardware',sub:'Track',uom:'pcs',current:0,allocated:0,par:10,reorder:5,lead:30,rack:'B-05',status:'active',supplier:'Golden Hardware Co.'},
+    {sku:'GL-6MM-CLR',name:'Glass 6mm Clear',cat:'Glass',sub:'Clear',uom:'sqm',current:45.5,allocated:12.0,par:20.0,reorder:15.0,lead:21,rack:'D-03',status:'active',supplier:'KL Glass Sdn Bhd'},
+    {sku:'GL-8MM-TIN',name:'Glass 8mm Tinted',cat:'Glass',sub:'Tinted',uom:'sqm',current:22.0,allocated:8.0,par:15.0,reorder:10.0,lead:21,rack:'D-05',status:'active',supplier:'KL Glass Sdn Bhd'},
+    {sku:'GL-10MM-FRO',name:'Glass 10mm Frosted',cat:'Glass',sub:'Frosted',uom:'sqm',current:0,allocated:0,par:10.0,reorder:5.0,lead:21,rack:'D-07',status:'active',supplier:'KL Glass Sdn Bhd'},
+    {sku:'LK-SS201',name:'Lock Stainless Steel 201',cat:'Hardware',sub:'Lock',uom:'pcs',current:8,allocated:3,par:15,reorder:8,lead:30,rack:'A-08',status:'discontinued',supplier:'Golden Hardware Co.'},
+    {sku:'RO-SS-01',name:'Roller Stainless Set',cat:'Hardware',sub:'Roller',uom:'set',current:35,allocated:10,par:30,reorder:20,lead:30,rack:'A-15',status:'active',supplier:'Golden Hardware Co.'},
+    {sku:'SC-SEAL-10M',name:'Rubber Seal Strip 10m',cat:'Accessory',sub:'Seal',uom:'roll',current:6,allocated:2,par:10,reorder:6,lead:14,rack:'E-01',status:'active',supplier:'Local Supplier KL'},
+  ],
+  pos: [
+    {id:'PO-2024-001',date:'2024-02-20',supplier:'China Aluminium Co.',contact:'+86 135 xxxx xxxx',exp:'2024-03-15',status:'in_transit',notes:'Urgent restock Q1',items:[
+      {sku:'AL-650-3M',name:'Profile 650 3m',ordered:200,received:0,eta:'2024-03-15'},
+      {sku:'AL-750-6M',name:'Profile 750 6m',ordered:50,received:0,eta:'2024-03-15'},
+    ]},
+    {id:'PO-2024-002',date:'2024-02-25',supplier:'Golden Hardware Co.',contact:'+86 138 xxxx xxxx',exp:'2024-03-18',status:'in_transit',notes:'',items:[
+      {sku:'HG-X200',name:'Hinge Heavy Duty X-200',ordered:100,received:0,eta:'2024-03-18'},
+      {sku:'TR-T500',name:'Track System T-500',ordered:50,received:0,eta:'2024-03-18'},
+      {sku:'RO-SS-01',name:'Roller Stainless Set',ordered:40,received:0,eta:'2024-03-20'},
+    ]},
+    {id:'PO-2024-003',date:'2024-03-01',supplier:'KL Glass Sdn Bhd',contact:'+60 12 xxxx xxxx',exp:'2024-03-22',status:'sent',notes:'Shower screen project',items:[
+      {sku:'GL-6MM-CLR',name:'Glass 6mm Clear',ordered:30,received:0,eta:'2024-03-22'},
+      {sku:'GL-10MM-FRO',name:'Glass 10mm Frosted',ordered:15,received:0,eta:'2024-03-22'},
+    ]},
+    {id:'PO-2024-004',date:'2024-01-15',supplier:'China Aluminium Co.',contact:'+86 135 xxxx xxxx',exp:'2024-02-20',status:'fully_received',notes:'',items:[
+      {sku:'AL-500-3M',name:'Profile 500 3m',ordered:100,received:100,eta:'2024-02-20'},
+    ]},
+    {id:'PO-2024-005',date:'2024-03-05',supplier:'Golden Hardware Co.',contact:'+86 138 xxxx xxxx',exp:'2024-03-25',status:'draft',notes:'Pending approval from manager',items:[
+      {sku:'HG-P100',name:'Pivot Hinge P-100',ordered:50,received:0,eta:'2024-03-25'},
+      {sku:'SC-SEAL-10M',name:'Rubber Seal Strip 10m',ordered:20,received:0,eta:'2024-03-25'},
+    ]},
+  ],
+  requisitions: [
+    {id:'REQ-2024-001',job:'JOB-145',by:'Ahmad Yusof',date:'2024-03-08',required:'2024-03-15',status:'pending',items:[
+      {sku:'AL-650-3M',name:'Profile 650 3m',req:20,issued:0},
+      {sku:'HG-X200',name:'Hinge X-200',req:8,issued:0},
+    ]},
+    {id:'REQ-2024-002',job:'JOB-148',by:'Rahman Ali',date:'2024-03-09',required:'2024-03-16',status:'approved',items:[
+      {sku:'GL-6MM-CLR',name:'Glass 6mm Clear',req:12,issued:0},
+      {sku:'RO-SS-01',name:'Roller Stainless Set',req:4,issued:0},
+    ]},
+    {id:'REQ-2024-003',job:'JOB-142',by:'Tan Wei Ming',date:'2024-03-05',required:'2024-03-10',status:'issued',items:[
+      {sku:'AL-500-3M',name:'Profile 500 3m',req:30,issued:30},
+    ]},
+  ],
+  transactions: [
+    {id:'TXN-001',date:'2024-03-05 09:14',type:'purchase_receipt',sku:'AL-500-3M',name:'Profile 500 3m',qty:+100,before:0,after:100,ref:'GRN-2024-001',user:'John Wong'},
+    {id:'TXN-002',date:'2024-03-05 14:30',type:'production_issue',sku:'AL-500-3M',name:'Profile 500 3m',qty:-15,before:100,after:85,ref:'REQ-2024-003',user:'Ahmad Yusof'},
+    {id:'TXN-003',date:'2024-03-07 10:00',type:'adjustment',sku:'GL-8MM-TIN',name:'Glass 8mm Tinted',qty:-2,before:24,after:22,ref:'ADJ-2024-001',user:'John Wong'},
+    {id:'TXN-004',date:'2024-03-08 08:45',type:'purchase_receipt',sku:'HG-P100',name:'Pivot Hinge P-100',qty:+20,before:0,after:20,ref:'GRN-2024-002',user:'John Wong'},
+    {id:'TXN-005',date:'2024-03-09 11:20',type:'production_issue',sku:'GL-6MM-CLR',name:'Glass 6mm Clear',qty:-10,before:55.5,after:45.5,ref:'REQ-2024-002',user:'Rahman Ali'},
+  ],
+};
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+
+const S = {
+  view: 'dashboard',
+  search: '',
+  catFilter: 'all',
+  statusFilter: 'all',
+  poStatusFilter: 'all',
+  availSearch: '',
+  grnPO: null,
+  newPOItems: [{sku:'',name:'',qty:'',eta:''}],
+};
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+
+function stockStatus(p) {
+  if(p.current === 0) return 'critical';
+  if(p.current < p.par) return p.current < p.par * 0.5 ? 'critical' : 'warning';
+  return 'healthy';
+}
+function available(p){return Math.max(0,p.current - p.allocated);}
+function fmtQty(n,uom){return `<span class="td-num">${n%1===0?n:n.toFixed(1)}</span><span class="td-unit">${uom}</span>`;}
+function fmtDate(s){if(!s)return '—';const d=new Date(s);return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}
+function poBadge(s){
+  const map={draft:'badge-draft',sent:'badge-sent',in_transit:'badge-transit',partially_received:'badge-warning',fully_received:'badge-received',cancelled:'badge-cancelled'};
+  const label={draft:'Draft',sent:'Sent',in_transit:'In-Transit',partially_received:'Partial',fully_received:'Received',cancelled:'Cancelled'};
+  return `<span class="badge ${map[s]||'badge-draft'}">${label[s]||s}</span>`;
+}
+function reqBadge(s){
+  const map={pending:'badge-pending',approved:'badge-approved',issued:'badge-issued',cancelled:'badge-cancelled'};
+  const label={pending:'Pending',approved:'Approved',issued:'Issued',cancelled:'Cancelled'};
+  return `<span class="badge ${map[s]||'badge-draft'}">${label[s]||s}</span>`;
+}
+function inTransitForSKU(sku){
+  return DB.pos.filter(p=>p.status==='in_transit'||p.status==='sent').flatMap(p=>p.items.filter(i=>i.sku===sku).map(i=>({...i,po:p.id,eta:i.eta,supplier:p.supplier})));
+}
+function criticalAlerts(){return DB.products.filter(p=>stockStatus(p)==='critical');}
+function warningAlerts(){return DB.products.filter(p=>stockStatus(p)==='warning');}
+function inTransitPOs(){return DB.pos.filter(p=>p.status==='in_transit');}
+function pendingReqs(){return DB.requisitions.filter(r=>r.status==='pending');}
+
+// ─── NAVIGATION ──────────────────────────────────────────────────────────────
+
+const NAV = [
+  {id:'dashboard',label:'Dashboard',icon:'⬚',section:null},
+  {section:'Inventory'},
+  {id:'inventory',label:'Products',icon:'◧'},
+  {id:'transactions',label:'Transactions',icon:'↕'},
+  {section:'Procurement'},
+  {id:'purchase-orders',label:'Purchase Orders',icon:'☰'},
+  {id:'receiving',label:'Stock Receiving',icon:'↙'},
+  {section:'Production'},
+  {id:'requisitions',label:'Requisitions',icon:'◈'},
+  {id:'availability',label:'Availability Check',icon:'◎'},
+  {section:'Reports'},
+  {id:'reports',label:'Reports',icon:'▤'},
+];
+
+function renderNav(){
+  const crit = criticalAlerts().length;
+  const pend = pendingReqs().length;
+  const badges = {dashboard: crit+pend, 'purchase-orders': DB.pos.filter(p=>p.status==='in_transit').length};
+  let html = '';
+  let inSection = false;
+  NAV.forEach(n=>{
+    if(n.section){
+      html+=`<div class="nav-section"><div class="nav-label">${n.section}</div>`;
+      inSection=true;
+    } else {
+      if(inSection&&!n.section){/* already opened */}
+      const badge = badges[n.id]?`<span class="nav-badge">${badges[n.id]}</span>`:'';
+      html+=`<div class="nav-item${S.view===n.id?' active':''}" data-nav="${n.id}">
+        <span class="nav-icon">${n.icon}</span>${n.label}${badge}
+      </div>`;
+    }
+  });
+  document.getElementById('nav-content').innerHTML = html;
+}
+
+function navigate(view){
+  S.view=view;
+  S.search='';
+  S.catFilter='all';
+  S.statusFilter='all';
+  renderNav();
+  renderTopbar();
+  renderContent();
+}
+
+function renderTopbar(){
+  const titles={dashboard:'Dashboard',inventory:'Products & Inventory','purchase-orders':'Purchase Orders',receiving:'Stock Receiving',requisitions:'Requisitions',availability:'Availability Check',transactions:'Transaction Log',reports:'Reports'};
+  document.getElementById('page-title').textContent = titles[S.view]||S.view;
+  const actions={
+    inventory:`<button class="btn btn-primary btn-sm" onclick="showAddProduct()">+ Add Product</button>`,
+    'purchase-orders':`<button class="btn btn-primary btn-sm" onclick="showCreatePO()">+ New PO</button>`,
+    receiving:``,
+    requisitions:`<button class="btn btn-primary btn-sm" onclick="showCreateReq()">+ New Requisition</button>`,
+  };
+  document.getElementById('topbar-actions').innerHTML = actions[S.view]||'';
+}
+
+function renderContent(){
+  const views={
+    dashboard:renderDashboard,
+    inventory:renderInventory,
+    'purchase-orders':renderPOs,
+    receiving:renderReceiving,
+    requisitions:renderRequisitions,
+    availability:renderAvailability,
+    transactions:renderTransactions,
+    reports:renderReports,
+  };
+  document.getElementById('content').innerHTML = (views[S.view]||renderDashboard)();
+  bindEvents();
+}
+
+// ─── VIEWS ───────────────────────────────────────────────────────────────────
+
+function renderDashboard(){
+  const crit=criticalAlerts();
+  const warn=warningAlerts();
+  const healthy=DB.products.filter(p=>stockStatus(p)==='healthy');
+  const transit=inTransitPOs();
+  const reqs=pendingReqs();
+
+  const alertItems = [...crit,...warn].slice(0,6).map(p=>{
+    const avail = available(p);
+    const s = stockStatus(p);
+    return `<div class="list-item">
+      <span class="sdot ${s}"></span>
+      <span class="li-sku">${p.sku}</span>
+      <div><div class="li-name">${p.name}</div><div class="li-sub">Rack ${p.rack} · ${p.supplier}</div></div>
+      <div class="li-meta">
+        <span style="color:${s==='critical'?'var(--critical)':'var(--warning)'}">
+          ${p.current}${p.uom} left
+        </span>
+        <span style="color:var(--text-tertiary);margin-left:6px">/ Par ${p.par}</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  const poItems = transit.map(po=>`<div class="list-item">
+    <span class="li-sku">${po.id}</span>
+    <div><div class="li-name">${po.supplier}</div><div class="li-sub">${po.items.length} items</div></div>
+    <div class="li-meta">
+      <span style="color:var(--transit)">ETA ${fmtDate(po.exp)}</span>
+      ${poBadge(po.status)}
+    </div>
+  </div>`).join('');
+
+  const reqItems = reqs.map(r=>`<div class="list-item">
+    <span class="li-sku">${r.id}</span>
+    <div><div class="li-name">${r.job} — ${r.items.length} items</div><div class="li-sub">By ${r.by}</div></div>
+    <div class="li-meta">
+      ${reqBadge(r.status)}
+      <span style="color:var(--text-tertiary);margin-left:8px">Due ${fmtDate(r.required)}</span>
+    </div>
+  </div>`).join('');
+
+  return `<div class="page">
+    <div class="stats-grid">
+      <div class="stat-card critical">
+        <div class="stat-label">Critical Stock</div>
+        <div class="stat-value">${crit.length}</div>
+        <div class="stat-desc">Items below par level</div>
+      </div>
+      <div class="stat-card warning">
+        <div class="stat-label">Low Stock Warning</div>
+        <div class="stat-value">${warn.length}</div>
+        <div class="stat-desc">Items near par level</div>
+      </div>
+      <div class="stat-card healthy">
+        <div class="stat-label">Healthy Stock</div>
+        <div class="stat-value">${healthy.length}</div>
+        <div class="stat-desc">Items above par level</div>
+      </div>
+      <div class="stat-card transit">
+        <div class="stat-label">In-Transit POs</div>
+        <div class="stat-value">${transit.length}</div>
+        <div class="stat-desc">Incoming shipments</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <span style="color:var(--critical);font-size:11px" class="pulse">⬤</span>
+          <span class="card-title">Low Stock Alerts</span>
+          <span class="nav-badge">${crit.length+warn.length}</span>
+          <span class="card-action" onclick="navigate('inventory')">View All →</span>
+        </div>
+        ${alertItems||`<div class="empty"><div class="empty-icon">✓</div><div class="empty-txt">All stock levels healthy</div></div>`}
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span style="color:var(--transit);font-size:11px">⬤</span>
+          <span class="card-title">Incoming Stock</span>
+          <span class="card-action" onclick="navigate('purchase-orders')">View All →</span>
+        </div>
+        ${poItems||`<div class="empty"><div class="empty-icon">📦</div><div class="empty-txt">No incoming shipments</div></div>`}
+      </div>
+
+      <div class="card span-2">
+        <div class="card-header">
+          <span style="color:var(--warning);font-size:11px">⬤</span>
+          <span class="card-title">Pending Requisitions</span>
+          <span class="nav-badge">${reqs.length}</span>
+          <span class="card-action" onclick="navigate('requisitions')">View All →</span>
+        </div>
+        ${reqItems||`<div class="empty"><div class="empty-icon">✓</div><div class="empty-txt">No pending requisitions</div></div>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderInventory(){
+  let prods = DB.products;
+  if(S.search) prods = prods.filter(p=>p.sku.toLowerCase().includes(S.search.toLowerCase())||p.name.toLowerCase().includes(S.search.toLowerCase()));
+  if(S.catFilter!=='all') prods = prods.filter(p=>p.cat===S.catFilter);
+  if(S.statusFilter!=='all') prods = prods.filter(p=>{
+    if(S.statusFilter==='critical') return stockStatus(p)==='critical';
+    if(S.statusFilter==='warning') return stockStatus(p)==='warning';
+    if(S.statusFilter==='healthy') return stockStatus(p)==='healthy';
+    if(S.statusFilter==='discontinued') return p.status==='discontinued';
+    return true;
+  });
+
+  const cats = [...new Set(DB.products.map(p=>p.cat))];
+
+  const rows = prods.map(p=>{
+    const s = stockStatus(p);
+    const avail = available(p);
+    const pct = p.par>0?Math.min(100,(p.current/p.par)*100):100;
+    const disc = p.status==='discontinued'?`<span class="badge badge-disc" style="margin-left:6px">Disc.</span>`:'';
+    // find in-transit
+    const transit = inTransitForSKU(p.sku);
+    const transitTxt = transit.length?`<div style="font-family:var(--font-mono);font-size:9px;color:var(--transit);margin-top:2px">📦 +${transit.reduce((a,i)=>a+i.ordered,0)} ${p.uom} ETA ${fmtDate(transit[0].eta)}</div>`:'';
+    return `<tr data-sku="${p.sku}">
+      <td><span class="sdot ${s}"></span></td>
+      <td class="td-sku">${p.sku}</td>
+      <td><div>${p.name}${disc}</div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text-tertiary)">${p.cat} · ${p.sub} · Rack ${p.rack}</div></td>
+      <td>${fmtQty(p.current,p.uom)}</td>
+      <td>${fmtQty(p.allocated,p.uom)}</td>
+      <td>
+        ${fmtQty(avail,p.uom)}
+        ${transitTxt}
+        <div class="bar-wrap" style="margin-top:4px">
+          <div class="bar-track"><div class="bar-fill ${s}" style="width:${pct}%"></div></div>
+          <span style="font-family:var(--font-mono);font-size:9px;color:var(--text-tertiary)">${Math.round(pct)}%</span>
+        </div>
+      </td>
+      <td>${fmtQty(p.par,p.uom)}</td>
+      <td style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)">${p.supplier}</td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="toolbar">
+      <input class="search-input" placeholder="Search SKU or product name…" value="${S.search}" id="inv-search">
+      <select class="sel" id="cat-filter">
+        <option value="all">All Categories</option>
+        ${cats.map(c=>`<option value="${c}"${S.catFilter===c?' selected':''}>${c}</option>`).join('')}
+      </select>
+      <select class="sel" id="status-filter">
+        <option value="all">All Status</option>
+        <option value="critical"${S.statusFilter==='critical'?' selected':''}>Critical</option>
+        <option value="warning"${S.statusFilter==='warning'?' selected':''}>Warning</option>
+        <option value="healthy"${S.statusFilter==='healthy'?' selected':''}>Healthy</option>
+        <option value="discontinued"${S.statusFilter==='discontinued'?' selected':''}>Discontinued</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th></th><th>SKU</th><th>Product</th>
+          <th style="text-align:right">Current</th>
+          <th style="text-align:right">Allocated</th>
+          <th>Available / Level</th>
+          <th style="text-align:right">Par Level</th>
+          <th>Supplier</th>
+        </tr></thead>
+        <tbody>${rows||`<tr><td colspan="8"><div class="empty"><div class="empty-icon">🔍</div><div class="empty-txt">No products match filters</div></div></td></tr>`}</tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <span class="pg-info">Showing ${prods.length} of ${DB.products.length} products</span>
+      <div class="pg-btns"><div class="pg-btn act">1</div></div>
+    </div>
+  </div>`;
+}
+
+function renderPOs(){
+  let pos = DB.pos;
+  if(S.poStatusFilter!=='all') pos = pos.filter(p=>p.status===S.poStatusFilter);
+
+  const rows = pos.map(po=>{
+    const totalItems = po.items.reduce((a,i)=>a+i.ordered,0);
+    const outstanding = po.items.reduce((a,i)=>a+(i.ordered-i.received),0);
+    return `<tr data-po="${po.id}">
+      <td class="td-sku">${po.id}</td>
+      <td>${fmtDate(po.date)}</td>
+      <td><div style="font-weight:500">${po.supplier}</div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text-tertiary)">${po.contact}</div></td>
+      <td>${fmtDate(po.exp)}</td>
+      <td><span class="td-num">${po.items.length}</span><span class="td-unit">lines</span></td>
+      <td>${poBadge(po.status)}</td>
+      <td>
+        ${po.status==='draft'?`<button class="btn btn-sm" onclick="advancePO('${po.id}',event)">Send to Supplier</button>`:''}
+        ${po.status==='sent'?`<button class="btn btn-sm" onclick="advancePO('${po.id}',event)">Mark In-Transit</button>`:''}
+        ${po.status==='in_transit'?`<button class="btn btn-primary btn-sm" onclick="receiveFromPO('${po.id}',event)">Receive Stock</button>`:''}
+      </td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="toolbar">
+      <select class="sel" id="po-status-filter">
+        <option value="all">All Status</option>
+        <option value="draft">Draft</option>
+        <option value="sent">Sent</option>
+        <option value="in_transit">In-Transit</option>
+        <option value="fully_received">Received</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>PO Number</th><th>Date</th><th>Supplier</th><th>Expected Date</th><th>Items</th><th>Status</th><th>Action</th>
+        </tr></thead>
+        <tbody>${rows||`<tr><td colspan="7"><div class="empty"><div class="empty-icon">📋</div><div class="empty-txt">No purchase orders found</div></div></td></tr>`}</tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <span class="pg-info">${pos.length} purchase orders</span>
+      <div class="pg-btns"><div class="pg-btn act">1</div></div>
+    </div>
+  </div>`;
+}
+
+function renderReceiving(){
+  const inTransit = DB.pos.filter(p=>p.status==='in_transit');
+  const po = S.grnPO ? DB.pos.find(p=>p.id===S.grnPO) : null;
+
+  let grnForm = '';
+  if(po){
+    const itemRows = po.items.map((item,i)=>`<tr>
+      <td class="td-sku">${item.sku}</td>
+      <td>${item.name}</td>
+      <td class="td-num">${item.ordered}</td>
+      <td><input class="fi" type="number" id="grn-qty-${i}" value="${item.ordered}" min="0" oninput="calcVariance(${i},${item.ordered})"></td>
+      <td id="grn-var-${i}" class="var-ok">±0</td>
+      <td><input class="fi" type="text" id="grn-rack-${i}" placeholder="A-01" style="width:70px"></td>
+    </tr>`).join('');
+
+    grnForm = `<div class="card" style="margin-top:14px">
+      <div class="card-header">
+        <span class="card-title">GRN — ${po.id} · ${po.supplier}</span>
+        <span style="margin-left:auto;font-family:var(--font-mono);font-size:10px;color:var(--transit)">ETA was ${fmtDate(po.exp)}</span>
+      </div>
+      <div style="padding:16px">
+        <div class="form-grid" style="margin-bottom:14px">
+          <div class="form-group">
+            <label class="form-label">Supplier DO Number</label>
+            <input class="form-input" id="grn-do" placeholder="e.g. DO-2024-0315">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Receipt Date</label>
+            <input class="form-input" type="date" id="grn-date" value="2024-03-10">
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="grn-table">
+            <thead><tr>
+              <th>SKU</th><th>Product</th><th>Expected</th><th>Actual Received</th><th>Variance</th><th>Rack Location</th>
+            </tr></thead>
+            <tbody>${itemRows}</tbody>
+          </table>
+        </div>
+        <div class="form-group" style="margin-top:14px">
+          <label class="form-label">Discrepancy Notes</label>
+          <textarea class="form-ta" id="grn-notes" placeholder="Note any damages or short deliveries…"></textarea>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:14px;justify-content:flex-end">
+          <button class="btn" onclick="S.grnPO=null;renderContent()">Cancel</button>
+          <button class="btn btn-primary" onclick="completeGRN('${po.id}')">Complete Receipt</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  const poList = inTransit.map(p=>`<div class="list-item">
+    <span class="li-sku">${p.id}</span>
+    <div><div class="li-name">${p.supplier}</div><div class="li-sub">${p.items.length} items · ETA ${fmtDate(p.exp)}</div></div>
+    <div class="li-meta">${poBadge(p.status)}</div>
+    <button class="btn btn-sm btn-primary" style="margin-left:12px" onclick="S.grnPO='${p.id}';renderContent()">Start GRN</button>
+  </div>`).join('');
+
+  return `<div class="page">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Select Inbound Purchase Order</span></div>
+      ${poList||`<div class="empty"><div class="empty-icon">📦</div><div class="empty-txt">No in-transit POs to receive</div></div>`}
+    </div>
+    ${grnForm}
+  </div>`;
+}
+
+function renderRequisitions(){
+  const rows = DB.requisitions.map(r=>`<tr data-req="${r.id}">
+    <td class="td-sku">${r.id}</td>
+    <td style="font-weight:500">${r.job}</td>
+    <td>${r.by}</td>
+    <td>${fmtDate(r.date)}</td>
+    <td>${fmtDate(r.required)}</td>
+    <td><span class="td-num">${r.items.length}</span> <span class="td-unit">items</span></td>
+    <td>${reqBadge(r.status)}</td>
+    <td>
+      ${r.status==='pending'?`<button class="btn btn-sm btn-primary" onclick="approveReq('${r.id}',event)">Approve</button>`:''}
+      ${r.status==='approved'?`<button class="btn btn-sm" onclick="issueReq('${r.id}',event)">Issue Stock</button>`:''}
+    </td>
+  </tr>`).join('');
+
+  return `<div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Req No.</th><th>Job Order</th><th>Requested By</th><th>Date</th><th>Required By</th><th>Items</th><th>Status</th><th>Action</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderAvailability(){
+  let results = '';
+  if(S.availSearch.length>1){
+    const q = S.availSearch.toLowerCase();
+    const found = DB.products.filter(p=>p.sku.toLowerCase().includes(q)||p.name.toLowerCase().includes(q));
+    results = found.map(p=>{
+      const avail = available(p);
+      const s = stockStatus(p);
+      const transit = inTransitForSKU(p.sku);
+      const transitHTML = transit.length?transit.map(t=>`<div style="font-family:var(--font-mono);font-size:10px;color:var(--transit);margin-top:4px">
+        📦 ${t.po}: +${t.ordered} ${p.uom} · ETA ${fmtDate(t.eta)} · ${t.supplier}
+      </div>`).join(''):'<div style="font-family:var(--font-mono);font-size:10px;color:var(--text-tertiary);margin-top:4px">No incoming orders</div>';
+
+      const discBadge = p.status==='discontinued'?`<span class="badge badge-disc">Discontinued</span>`:`<span class="badge badge-active">Active</span>`;
+      return `<div class="avail-result">
+        <div class="avail-head">
+          <span class="sdot ${s}"></span>
+          <div>
+            <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:700">${p.sku}</div>
+            <div style="font-size:13px;font-weight:600;margin-top:1px">${p.name}</div>
+          </div>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+            ${discBadge}
+            <span style="font-family:var(--font-mono);font-size:10px;color:var(--text-tertiary)">📍 Rack ${p.rack}</span>
+          </div>
+        </div>
+        <div class="avail-metrics">
+          <div class="avail-metric">
+            <div class="aml">Current Stock</div>
+            <div class="amv" style="color:${s==='critical'?'var(--critical)':s==='warning'?'var(--warning)':'var(--healthy)'}">${p.current}<span class="amu">${p.uom}</span></div>
+          </div>
+          <div class="avail-metric">
+            <div class="aml">Allocated</div>
+            <div class="amv" style="color:var(--warning)">${p.allocated}<span class="amu">${p.uom}</span></div>
+          </div>
+          <div class="avail-metric">
+            <div class="aml">Available Now</div>
+            <div class="amv" style="color:${avail>0?'var(--healthy)':'var(--critical)'}">${avail}<span class="amu">${p.uom}</span></div>
+          </div>
+          <div class="avail-metric">
+            <div class="aml">Par Level</div>
+            <div class="amv" style="color:var(--text-secondary)">${p.par}<span class="amu">${p.uom}</span></div>
+          </div>
+        </div>
+        <div style="padding:12px 16px;border-top:1px solid var(--border-subtle);">
+          <div style="font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);margin-bottom:4px">Incoming Orders</div>
+          ${transitHTML}
+        </div>
+      </div>`;
+    }).join('');
+    if(!found.length) results = `<div class="empty"><div class="empty-icon">🔍</div><div class="empty-txt">No products found for "${S.availSearch}"</div></div>`;
+  }
+
+  return `<div class="page">
+    <div class="card">
+      <div style="padding:20px">
+        <div style="font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:0.15em;color:var(--text-tertiary);margin-bottom:8px">Search Product</div>
+        <input class="search-input" id="avail-search" placeholder="Type SKU or product name… e.g. HG-X200 or Hinge" value="${S.availSearch}" style="font-size:13px;padding:10px 14px">
+        <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-tertiary);margin-top:6px">Check real-time stock availability, allocation status, and incoming shipment ETAs</div>
+      </div>
+    </div>
+    <div id="avail-results">${results}</div>
+  </div>`;
+}
+
+function renderTransactions(){
+  const rows = [...DB.transactions].reverse().map(tx=>{
+    const cls = tx.type==='purchase_receipt'?'tx-receipt':tx.type==='production_issue'?'tx-issue':'tx-adjust';
+    const typeLabel = {purchase_receipt:'Purchase Receipt',production_issue:'Production Issue',adjustment:'Adjustment'}[tx.type]||tx.type;
+    const qtyStr = tx.qty>0?`+${tx.qty}`:`${tx.qty}`;
+    return `<tr>
+      <td style="font-family:var(--font-mono);font-size:10px;color:var(--text-tertiary)">${tx.date}</td>
+      <td><span class="badge ${tx.type==='purchase_receipt'?'badge-received':tx.type==='production_issue'?'badge-critical':'badge-warning'}">${typeLabel}</span></td>
+      <td class="td-sku">${tx.sku}</td>
+      <td>${tx.name}</td>
+      <td class="td-num ${cls}">${qtyStr}</td>
+      <td class="td-num" style="color:var(--text-tertiary)">${tx.before}</td>
+      <td class="td-num">${tx.after}</td>
+      <td style="font-family:var(--font-mono);font-size:10px;color:var(--accent)">${tx.ref}</td>
+      <td style="font-size:11px;color:var(--text-secondary)">${tx.user}</td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Date & Time</th><th>Type</th><th>SKU</th><th>Product</th><th style="text-align:right">Change</th><th style="text-align:right">Before</th><th style="text-align:right">After</th><th>Reference</th><th>User</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderReports(){
+  const reports = [
+    {icon:'📊',title:'Stock Status Report',desc:'All items with current, allocated, and available quantities. Low stock items highlighted.'},
+    {icon:'📦',title:'Incoming Stock Report',desc:'All in-transit POs with ETA dates and expected quantities.'},
+    {icon:'↕',title:'Stock Movement Report',desc:'Filter by date range, category, or transaction type.'},
+    {icon:'🐢',title:'Slow-Moving Stock',desc:'Items with no movement in last 30/60/90 days. Identify obsolete inventory.'},
+    {icon:'⚠️',title:'Low Stock Alerts',desc:'All items at or below par level with recommended order quantities.'},
+    {icon:'💰',title:'Stock Value Report',desc:'Total inventory value by category. (Requires unit pricing setup)'},
+  ];
+  return `<div class="page">
+    <div class="report-grid">
+      ${reports.map(r=>`<div class="report-card" onclick="alert('${r.title} — Full reporting module coming in Phase 2.')">
+        <div class="report-icon">${r.icon}</div>
+        <div class="report-title">${r.title}</div>
+        <div class="report-desc">${r.desc}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// ─── MODALS ──────────────────────────────────────────────────────────────────
+
+function showModal(html){
+  document.getElementById('modal-root').innerHTML = `<div class="modal-overlay" id="modal-overlay">${html}</div>`;
+  document.getElementById('modal-overlay').addEventListener('click',e=>{if(e.target===e.currentTarget)hideModal();});
+}
+function hideModal(){document.getElementById('modal-root').innerHTML='';}
+
+function showCreatePO(){
+  S.newPOItems = [{sku:'',qty:'',eta:''}];
+  renderPOModal();
+}
+
+function renderPOModal(){
+  const suppliers = [...new Set(DB.products.map(p=>p.supplier))];
+  const skuOptions = DB.products.map(p=>`<option value="${p.sku}">${p.sku} — ${p.name}</option>`).join('');
+  const lineRows = S.newPOItems.map((item,i)=>`<tr>
+    <td>${i+1}</td>
+    <td><select class="fi" style="width:200px" onchange="updatePOLine(${i},'sku',this.value)">
+      <option value="">Select product…</option>${skuOptions}
+    </select></td>
+    <td><input class="fi" type="number" placeholder="Qty" style="width:70px" onchange="updatePOLine(${i},'qty',this.value)"></td>
+    <td><input class="fi" type="date" onchange="updatePOLine(${i},'eta',this.value)"></td>
+    <td><button class="btn btn-sm btn-danger" onclick="removePOLine(${i})">✕</button></td>
+  </tr>`).join('');
+
+  showModal(`<div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Create Purchase Order</span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Supplier Name</label>
+          <select class="form-sel" id="po-supplier">
+            ${suppliers.map(s=>`<option>${s}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Supplier Contact</label>
+          <input class="form-input" id="po-contact" placeholder="+60 12 xxx xxxx">
+        </div>
+        <div class="form-group">
+          <label class="form-label">PO Date</label>
+          <input class="form-input" type="date" id="po-date" value="2024-03-10">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Expected Delivery</label>
+          <input class="form-input" type="date" id="po-exp">
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-ta" id="po-notes" placeholder="Order notes…"></textarea>
+        </div>
+      </div>
+      <hr class="form-divider">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary)">Line Items</span>
+        <button class="btn btn-sm" onclick="addPOLine()">+ Add Item</button>
+      </div>
+      <table class="li-table">
+        <thead><tr><th>#</th><th>Product (SKU)</th><th>Qty</th><th>ETA Date</th><th></th></tr></thead>
+        <tbody id="po-lines">${lineRows}</tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Cancel</button>
+      <button class="btn" onclick="savePO('draft')">Save Draft</button>
+      <button class="btn btn-primary" onclick="savePO('sent')">Send to Supplier</button>
+    </div>
+  </div>`);
+}
+
+function addPOLine(){S.newPOItems.push({sku:'',qty:'',eta:''});renderPOModal();}
+function removePOLine(i){S.newPOItems.splice(i,1);renderPOModal();}
+function updatePOLine(i,key,val){S.newPOItems[i][key]=val;}
+
+function savePO(status){
+  const newId = `PO-2024-00${DB.pos.length+1}`;
+  const supplier = document.getElementById('po-supplier').value;
+  const contact = document.getElementById('po-contact').value;
+  const date = document.getElementById('po-date').value;
+  const exp = document.getElementById('po-exp').value;
+  const notes = document.getElementById('po-notes').value;
+  const items = S.newPOItems.filter(i=>i.sku).map(i=>{
+    const prod = DB.products.find(p=>p.sku===i.sku);
+    return {sku:i.sku,name:prod?.name||i.sku,ordered:parseFloat(i.qty)||0,received:0,eta:i.eta};
+  });
+  DB.pos.push({id:newId,date,supplier,contact,exp,status,notes,items});
+  hideModal();
+  navigate('purchase-orders');
+}
+
+function showAddProduct(){
+  showModal(`<div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add New Product</span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">SKU</label><input class="form-input" id="np-sku" placeholder="e.g. AL-800-3M"></div>
+        <div class="form-group"><label class="form-label">Product Name</label><input class="form-input" id="np-name" placeholder="Profile 800 3m"></div>
+        <div class="form-group"><label class="form-label">Category</label>
+          <select class="form-sel" id="np-cat">
+            <option>Aluminium</option><option>Hardware</option><option>Glass</option><option>Accessory</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Sub-Category</label><input class="form-input" id="np-sub"></div>
+        <div class="form-group"><label class="form-label">Unit of Measure</label>
+          <select class="form-sel" id="np-uom"><option>pcs</option><option>meter</option><option>sqm</option><option>set</option><option>roll</option></select>
+        </div>
+        <div class="form-group"><label class="form-label">Rack Location</label><input class="form-input" id="np-rack" placeholder="A-01"></div>
+        <div class="form-group"><label class="form-label">Par Level</label><input class="form-input" type="number" id="np-par" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Reorder Point</label><input class="form-input" type="number" id="np-reorder" placeholder="0"></div>
+        <div class="form-group"><label class="form-label">Lead Time (days)</label><input class="form-input" type="number" id="np-lead" placeholder="30"></div>
+        <div class="form-group"><label class="form-label">Supplier</label><input class="form-input" id="np-supplier"></div>
+        <div class="form-group"><label class="form-label">Opening Stock</label><input class="form-input" type="number" id="np-stock" placeholder="0"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProduct()">Add Product</button>
+    </div>
+  </div>`);
+}
+
+function saveProduct(){
+  const sku = document.getElementById('np-sku').value.trim();
+  if(!sku){alert('SKU is required');return;}
+  if(DB.products.find(p=>p.sku===sku)){alert('SKU already exists');return;}
+  DB.products.push({
+    sku,name:document.getElementById('np-name').value,
+    cat:document.getElementById('np-cat').value,sub:document.getElementById('np-sub').value,
+    uom:document.getElementById('np-uom').value,rack:document.getElementById('np-rack').value,
+    current:parseFloat(document.getElementById('np-stock').value)||0,allocated:0,
+    par:parseFloat(document.getElementById('np-par').value)||0,
+    reorder:parseFloat(document.getElementById('np-reorder').value)||0,
+    lead:parseInt(document.getElementById('np-lead').value)||30,
+    supplier:document.getElementById('np-supplier').value,status:'active',
+  });
+  hideModal();
+  renderContent();
+}
+
+function showCreateReq(){
+  const skuOptions = DB.products.map(p=>`<option value="${p.sku}">${p.sku} — ${p.name} (Avail: ${available(p)} ${p.uom})</option>`).join('');
+  showModal(`<div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">New Stock Requisition</span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Job Order Number</label><input class="form-input" id="rq-job" placeholder="JOB-150"></div>
+        <div class="form-group"><label class="form-label">Requested By</label><input class="form-input" id="rq-by"></div>
+        <div class="form-group"><label class="form-label">Request Date</label><input class="form-input" type="date" id="rq-date" value="2024-03-10"></div>
+        <div class="form-group"><label class="form-label">Required By</label><input class="form-input" type="date" id="rq-req"></div>
+      </div>
+      <hr class="form-divider">
+      <div style="margin-bottom:8px;font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary)">Items Required</div>
+      <table class="li-table">
+        <thead><tr><th>#</th><th>Product</th><th>Quantity</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td><select class="fi" style="width:260px" id="rq-sku-0"><option value="">Select…</option>${skuOptions}</select></td><td><input class="fi" type="number" id="rq-qty-0" placeholder="Qty"></td></tr>
+          <tr><td>2</td><td><select class="fi" style="width:260px" id="rq-sku-1"><option value="">Select…</option>${skuOptions}</select></td><td><input class="fi" type="number" id="rq-qty-1" placeholder="Qty"></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveReq()">Submit Requisition</button>
+    </div>
+  </div>`);
+}
+
+function saveReq(){
+  const job = document.getElementById('rq-job').value;
+  const by = document.getElementById('rq-by').value;
+  if(!job||!by){alert('Job order and requester name required');return;}
+  const items=[];
+  for(let i=0;i<2;i++){
+    const sku=document.getElementById(`rq-sku-${i}`).value;
+    const qty=parseFloat(document.getElementById(`rq-qty-${i}`).value);
+    if(sku&&qty){const prod=DB.products.find(p=>p.sku===sku);items.push({sku,name:prod?.name||sku,req:qty,issued:0});}
+  }
+  if(!items.length){alert('Add at least one item');return;}
+  const newId=`REQ-2024-00${DB.requisitions.length+1}`;
+  DB.requisitions.push({id:newId,job,by,date:'2024-03-10',required:document.getElementById('rq-req').value,status:'pending',items});
+  hideModal();renderContent();
+}
+
+// ─── ACTIONS ─────────────────────────────────────────────────────────────────
+
+function advancePO(poId, e){
+  e.stopPropagation();
+  const po = DB.pos.find(p=>p.id===poId);
+  if(!po) return;
+  const next = {draft:'sent',sent:'in_transit'};
+  if(next[po.status]) po.status=next[po.status];
+  renderContent();
+}
+
+function receiveFromPO(poId, e){
+  e.stopPropagation();
+  S.grnPO = poId;
+  navigate('receiving');
+}
+
+function calcVariance(i, expected){
+  const input = document.getElementById(`grn-qty-${i}`);
+  const actual = parseFloat(input?.value)||0;
+  const varEl = document.getElementById(`grn-var-${i}`);
+  if(!varEl) return;
+  const diff = actual - expected;
+  varEl.className = diff===0?'var-ok':diff<0?'var-short':'var-over';
+  varEl.textContent = diff===0?'✓ OK':`${diff>0?'+':''}${diff}`;
+}
+
+function completeGRN(poId){
+  const po = DB.pos.find(p=>p.id===poId);
+  if(!po) return;
+  po.items.forEach((item,i)=>{
+    const actual = parseFloat(document.getElementById(`grn-qty-${i}`)?.value)||item.ordered;
+    item.received = actual;
+    const prod = DB.products.find(p=>p.sku===item.sku);
+    if(prod){
+      const before = prod.current;
+      prod.current += actual;
+      DB.transactions.push({id:`TXN-${String(DB.transactions.length+1).padStart(3,'0')}`,date:'2024-03-10 09:00',type:'purchase_receipt',sku:item.sku,name:item.name,qty:actual,before,after:prod.current,ref:`GRN-${poId}`,user:'Current User'});
+    }
+  });
+  po.status = 'fully_received';
+  S.grnPO = null;
+  alert(`GRN completed. Stock levels updated for ${po.items.length} product(s).`);
+  navigate('inventory');
+}
+
+function approveReq(reqId, e){
+  e.stopPropagation();
+  const r = DB.requisitions.find(x=>x.id===reqId);
+  if(r) r.status='approved';
+  renderContent();
+}
+
+function issueReq(reqId, e){
+  e.stopPropagation();
+  const r = DB.requisitions.find(x=>x.id===reqId);
+  if(!r) return;
+  r.items.forEach(item=>{
+    const prod = DB.products.find(p=>p.sku===item.sku);
+    if(prod){
+      const before=prod.current;
+      prod.current -= item.req;
+      item.issued = item.req;
+      DB.transactions.push({id:`TXN-${String(DB.transactions.length+1).padStart(3,'0')}`,date:'2024-03-10 10:00',type:'production_issue',sku:item.sku,name:item.name,qty:-item.req,before,after:prod.current,ref:r.id,user:'Warehouse Staff'});
+    }
+  });
+  r.status='issued';
+  renderContent();
+}
+
+// ─── EVENT BINDING ───────────────────────────────────────────────────────────
+
+function bindEvents(){
+  // Inventory filters
+  const invSearch = document.getElementById('inv-search');
+  if(invSearch) invSearch.addEventListener('input',e=>{S.search=e.target.value;renderContent();});
+
+  const catFilter = document.getElementById('cat-filter');
+  if(catFilter) catFilter.addEventListener('change',e=>{S.catFilter=e.target.value;renderContent();});
+
+  const statusFilter = document.getElementById('status-filter');
+  if(statusFilter) statusFilter.addEventListener('change',e=>{S.statusFilter=e.target.value;renderContent();});
+
+  const poStatusFilter = document.getElementById('po-status-filter');
+  if(poStatusFilter) poStatusFilter.addEventListener('change',e=>{S.poStatusFilter=e.target.value;renderContent();});
+
+  // Availability search
+  const availSearch = document.getElementById('avail-search');
+  if(availSearch) availSearch.addEventListener('input',e=>{S.availSearch=e.target.value;document.getElementById('avail-results').innerHTML=renderAvailResults();});
+
+  // Nav delegation
+  document.querySelectorAll('[data-nav]').forEach(el=>{
+    el.addEventListener('click',()=>navigate(el.dataset.nav));
+  });
+}
+
+function renderAvailResults(){
+  S.availSearch = document.getElementById('avail-search')?.value||S.availSearch;
+  // Re-render using S.availSearch
+  const tmpSearch = S.availSearch;
+  if(tmpSearch.length<2) return '';
+  const q=tmpSearch.toLowerCase();
+  const found=DB.products.filter(p=>p.sku.toLowerCase().includes(q)||p.name.toLowerCase().includes(q));
+  if(!found.length) return `<div class="empty"><div class="empty-icon">🔍</div><div class="empty-txt">No products found</div></div>`;
+  return found.map(p=>{
+    const avail=available(p);const s=stockStatus(p);
+    const transit=inTransitForSKU(p.sku);
+    const transitHTML=transit.length?transit.map(t=>`<div style="font-family:var(--font-mono);font-size:10px;color:var(--transit);margin-top:4px">📦 ${t.po}: +${t.ordered} ${p.uom} · ETA ${fmtDate(t.eta)}</div>`).join(''):'<div style="font-family:var(--font-mono);font-size:10px;color:var(--text-tertiary);margin-top:4px">No incoming orders</div>';
+    return `<div class="avail-result">
+      <div class="avail-head">
+        <span class="sdot ${s}"></span>
+        <div><div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:700">${p.sku}</div><div style="font-size:13px;font-weight:600;margin-top:1px">${p.name}</div></div>
+        <div style="margin-left:auto;font-family:var(--font-mono);font-size:10px;color:var(--text-tertiary)">📍 Rack ${p.rack} · Lead ${p.lead}d</div>
+      </div>
+      <div class="avail-metrics">
+        <div class="avail-metric"><div class="aml">Current</div><div class="amv" style="color:${s==='critical'?'var(--critical)':s==='warning'?'var(--warning)':'var(--healthy)'}">${p.current}<span class="amu">${p.uom}</span></div></div>
+        <div class="avail-metric"><div class="aml">Allocated</div><div class="amv" style="color:var(--warning)">${p.allocated}<span class="amu">${p.uom}</span></div></div>
+        <div class="avail-metric"><div class="aml">Available</div><div class="amv" style="color:${avail>0?'var(--healthy)':'var(--critical)'}">${avail}<span class="amu">${p.uom}</span></div></div>
+        <div class="avail-metric"><div class="aml">Par Level</div><div class="amv" style="color:var(--text-secondary)">${p.par}<span class="amu">${p.uom}</span></div></div>
+      </div>
+      <div style="padding:12px 16px;border-top:1px solid var(--border-subtle);">${transitHTML}</div>
+    </div>`;
+  }).join('');
+}
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+
+renderNav();
+navigate('dashboard');
+</script>
+</body>
+</html>
