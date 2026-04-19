@@ -9,19 +9,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg-base: #F7F7F7;
-  --bg-surface: #FFFFFF;
-  --bg-elevated: #FAFAFA;
-  --bg-interactive: #F7F7F7;
-  --bg-hover: #FAFAFA;
+  --bg-base: #0A0A0A;
+  --bg-surface: #141414;
+  --bg-elevated: #1A1A1A;
+  --bg-interactive: #1E1E1E;
+  --bg-hover: #252525;
 
-  --border-subtle: #F0F0F0;
-  --border-default: #EBEBEB;
-  --border-strong: #D8D8D8;
+  --border-subtle: #1E1E1E;
+  --border-default: #2A2A2A;
+  --border-strong: #404040;
 
-  --text-primary: #222222;
-  --text-secondary: #717171;
-  --text-tertiary: #B0B0B0;
+  --text-primary: #EBEBEB;
+  --text-secondary: #A0A0A0;
+  --text-tertiary: #6B6B6B;
 
   --accent: #FF385C;
   --accent-dim: rgba(255, 56, 92, 0.06);
@@ -432,6 +432,24 @@ tbody tr:hover td {
   font-weight: 500;
 }
 
+.td-center {
+  text-align: center;
+}
+
+th.td-center {
+  text-align: center;
+}
+
+/* ── PRODUCT IMAGE ──────────────────────────────────────────────────────── */
+.product-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border-default);
+  background: var(--bg-elevated);
+}
+
 /* ── BADGES ─────────────────────────────────────────────────────────────── */
 .badge {
   display: inline-flex;
@@ -593,7 +611,7 @@ option { background: #fff; }
   backdrop-filter: blur(2px);
 }
 
-.modal {
+.modal, .modal-dialog {
   background: var(--bg-surface);
   border-radius: 16px;
   width: 100%;
@@ -608,8 +626,9 @@ option { background: #fff; }
   padding: 20px 24px 16px;
   border-bottom: 1px solid var(--border-default);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
+  gap: 16px;
 }
 
 .modal-title {
@@ -619,19 +638,20 @@ option { background: #fff; }
   color: var(--text-primary);
 }
 
-.modal-close {
+.modal-close, .close-btn {
   background: var(--bg-interactive);
   border: none;
   color: var(--text-tertiary);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1;
-  padding: 6px 8px;
+  padding: 8px 10px;
   border-radius: 6px;
   transition: all var(--tr);
+  flex-shrink: 0;
 }
 
-.modal-close:hover {
+.modal-close:hover, .close-btn:hover {
   background: var(--border-default);
   color: var(--text-primary);
 }
@@ -645,6 +665,15 @@ option { background: #fff; }
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
+}
+
+.field-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
 }
 
 /* ── FORMS ──────────────────────────────────────────────────────────────── */
@@ -836,6 +865,12 @@ option { background: #fff; }
   transform: translateY(-1px);
 }
 
+.report-card.active {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(139, 92, 246, 0.08) 100%);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
 .report-icon { font-size: 24px; margin-bottom: 12px; }
 
 .report-title {
@@ -896,38 +931,397 @@ option { background: #fff; }
 /* ── PULSE ──────────────────────────────────────────────────────────────── */
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
 .pulse { animation: pulse 2s infinite; }
+
+/* ── KANBAN BOARD ───────────────────────────────────────────────────────── */
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  padding: 20px;
+  height: calc(100vh - var(--header-height) - 40px);
+  overflow-x: auto;
+}
+
+.kanban-column {
+  background: var(--bg-surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-default);
+  display: flex;
+  flex-direction: column;
+  min-width: 320px;
+  height: fit-content;
+  max-height: 100%;
+}
+
+.kanban-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-card) var(--radius-card) 0 0;
+}
+
+.kanban-title {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kanban-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 11px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
+.kanban-column.ongoing .kanban-title { color: var(--transit); }
+.kanban-column.ongoing .kanban-count { background: var(--transit-dim); color: var(--transit); }
+
+.kanban-column.upcoming .kanban-title { color: var(--warning); }
+.kanban-column.upcoming .kanban-count { background: var(--warning-dim); color: var(--warning); }
+
+.kanban-column.completed .kanban-title { color: var(--healthy); }
+.kanban-column.completed .kanban-count { background: var(--healthy-dim); color: var(--healthy); }
+
+.kanban-cards {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  max-height: calc(100vh - var(--header-height) - 120px);
+}
+
+.kanban-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-card);
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: all var(--tr);
+  box-shadow: var(--shadow-card);
+}
+
+.kanban-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 2px 8px rgba(255, 56, 92, 0.12), 0 0 0 1px rgba(255, 56, 92, 0.1);
+  transform: translateY(-1px);
+}
+
+.job-number {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.job-project {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+.job-customer {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.job-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.job-meta-item {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.job-meta-label {
+  font-weight: 600;
+}
+
+.job-priority {
+  display: inline-flex;
+  padding: 3px 8px;
+  border-radius: var(--radius-badge);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.job-priority.high {
+  background: var(--critical-dim);
+  color: var(--critical);
+}
+
+.job-priority.normal {
+  background: var(--bg-interactive);
+  color: var(--text-secondary);
+}
+
+.job-priority.low {
+  background: var(--healthy-dim);
+  color: var(--healthy);
+}
+
+.job-value {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ─── PRINT STYLES ────────────────────────────────────────────────────────── */
+@media print {
+  /* Hide all navigation and UI elements */
+  .sidebar,
+  .topbar,
+  .toolbar,
+  .btn,
+  button,
+  .modal-overlay,
+  .modal,
+  .report-grid,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Fix layout containers to allow content flow */
+  html,
+  body {
+    width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .app {
+    display: block !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .main {
+    overflow: visible !important;
+    height: auto !important;
+    display: block !important;
+  }
+
+  /* Make content full width */
+  .content {
+    margin-left: 0 !important;
+    padding: 20px !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  /* Optimize card for print */
+  .card {
+    box-shadow: none !important;
+    border: none !important;
+    page-break-inside: auto;
+    margin: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Remove pseudo-elements that interfere with pagination */
+  .card::before,
+  .card::after {
+    display: none !important;
+  }
+
+  .card-header {
+    background: #f5f5f5 !important;
+    border-bottom: 2px solid #333 !important;
+    padding: 12px 16px !important;
+    page-break-after: avoid;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .card-title {
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: #000 !important;
+  }
+
+  .card-title::before {
+    content: "AluminiumKing Inventory Management System\A";
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ddd;
+    white-space: pre;
+  }
+
+  /* Table wrapper - remove overflow constraints */
+  .table-wrap {
+    overflow: visible !important;
+    max-height: none !important;
+    height: auto !important;
+  }
+
+  /* Table optimization for print */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    page-break-inside: auto !important;
+    overflow: visible !important;
+  }
+
+  thead {
+    display: table-header-group !important;
+  }
+
+  tbody {
+    display: table-row-group !important;
+  }
+
+  tr {
+    page-break-inside: avoid !important;
+    page-break-after: auto !important;
+  }
+
+  th {
+    background: #f0f0f0 !important;
+    color: #000 !important;
+    font-weight: 600 !important;
+    border: 1px solid #ccc !important;
+    padding: 8px !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  td {
+    border: 1px solid #ddd !important;
+    padding: 6px 8px !important;
+    color: #000 !important;
+  }
+
+  /* Stat cards for print */
+  .stats-grid {
+    display: grid;
+    margin-bottom: 16px !important;
+    page-break-inside: avoid;
+  }
+
+  .stat-card {
+    border: 1px solid #ddd !important;
+    padding: 12px !important;
+    page-break-inside: avoid;
+  }
+
+  .stat-card.critical {
+    background: #fee !important;
+    border-color: #c33 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .stat-card.warning {
+    background: #ffc !important;
+    border-color: #c90 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .stat-card.healthy {
+    background: #efe !important;
+    border-color: #3c3 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .stat-card.transit {
+    background: #eef !important;
+    border-color: #66c !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .stat-label {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #000 !important;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .stat-value {
+    font-size: 24px !important;
+    font-weight: 700 !important;
+    color: #000 !important;
+  }
+
+  /* Preserve important colors in print */
+  [style*="color"] {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Page setup */
+  @page {
+    margin: 0.5in 0.75in;
+    size: A4 portrait;
+  }
+
+  /* Ensure content flows properly */
+  .page,
+  .report-single-view {
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  /* Control orphans and widows */
+  * {
+    orphans: 2 !important;
+    widows: 2 !important;
+  }
+
+  /* Force print to show all content */
+  @page:first {
+    margin-top: 0.5in;
+  }
+}
 </style>
+<!-- SheetJS library for Excel export -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
 <div class="app">
-  <!-- SIDEBAR -->
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <div class="logo-mark">Aluminium<span>King</span></div>
-      <div class="logo-sub">Inventory Management System</div>
-    </div>
-    <div id="nav-content"></div>
-    <div class="sidebar-footer">
-      <div class="user-chip">
-        <div class="user-avatar">AK</div>
-        <div>
-          <div class="user-name">Admin User</div>
-          <div class="user-role">Administrator</div>
-        </div>
-      </div>
-    </div>
-  </nav>
-
-  <!-- MAIN -->
-  <div class="main">
-    <header class="topbar">
-      <div>
-        <div class="page-title" id="page-title">Dashboard</div>
-      </div>
-      <div class="topbar-right" id="topbar-actions"></div>
-    </header>
-    <main class="content" id="content"></main>
-  </div>
+  <!-- Content will be dynamically loaded based on authentication status -->
 </div>
 
 <div id="modal-root"></div>
@@ -936,63 +1330,100 @@ option { background: #fff; }
 // ─── DATA ────────────────────────────────────────────────────────────────────
 
 const DB = {
-  products: [
-    {sku:'AL-650-3M',name:'Profile 650 3m',cat:'Aluminium',sub:'Profile',uom:'meter',current:5.0,allocated:2.0,par:50.0,reorder:30.0,lead:45,rack:'C-01',status:'active',supplier:'China Aluminium Co.'},
-    {sku:'AL-750-6M',name:'Profile 750 6m',cat:'Aluminium',sub:'Profile',uom:'meter',current:120.0,allocated:30.0,par:80.0,reorder:50.0,lead:45,rack:'C-02',status:'active',supplier:'China Aluminium Co.'},
-    {sku:'AL-500-3M',name:'Profile 500 3m',cat:'Aluminium',sub:'Profile',uom:'meter',current:85.0,allocated:20.0,par:60.0,reorder:40.0,lead:45,rack:'C-03',status:'active',supplier:'China Aluminium Co.'},
-    {sku:'HG-X200',name:'Hinge Heavy Duty X-200',cat:'Hardware',sub:'Hinge',uom:'pcs',current:2,allocated:0,par:20,reorder:10,lead:30,rack:'A-12',status:'active',supplier:'Golden Hardware Co.'},
-    {sku:'HG-P100',name:'Pivot Hinge P-100',cat:'Hardware',sub:'Hinge',uom:'pcs',current:12,allocated:4,par:20,reorder:10,lead:30,rack:'A-10',status:'active',supplier:'Golden Hardware Co.'},
-    {sku:'TR-T500',name:'Track System T-500',cat:'Hardware',sub:'Track',uom:'pcs',current:0,allocated:0,par:10,reorder:5,lead:30,rack:'B-05',status:'active',supplier:'Golden Hardware Co.'},
-    {sku:'GL-6MM-CLR',name:'Glass 6mm Clear',cat:'Glass',sub:'Clear',uom:'sqm',current:45.5,allocated:12.0,par:20.0,reorder:15.0,lead:21,rack:'D-03',status:'active',supplier:'KL Glass Sdn Bhd'},
-    {sku:'GL-8MM-TIN',name:'Glass 8mm Tinted',cat:'Glass',sub:'Tinted',uom:'sqm',current:22.0,allocated:8.0,par:15.0,reorder:10.0,lead:21,rack:'D-05',status:'active',supplier:'KL Glass Sdn Bhd'},
-    {sku:'GL-10MM-FRO',name:'Glass 10mm Frosted',cat:'Glass',sub:'Frosted',uom:'sqm',current:0,allocated:0,par:10.0,reorder:5.0,lead:21,rack:'D-07',status:'active',supplier:'KL Glass Sdn Bhd'},
-    {sku:'LK-SS201',name:'Lock Stainless Steel 201',cat:'Hardware',sub:'Lock',uom:'pcs',current:8,allocated:3,par:15,reorder:8,lead:30,rack:'A-08',status:'discontinued',supplier:'Golden Hardware Co.'},
-    {sku:'RO-SS-01',name:'Roller Stainless Set',cat:'Hardware',sub:'Roller',uom:'set',current:35,allocated:10,par:30,reorder:20,lead:30,rack:'A-15',status:'active',supplier:'Golden Hardware Co.'},
-    {sku:'SC-SEAL-10M',name:'Rubber Seal Strip 10m',cat:'Accessory',sub:'Seal',uom:'roll',current:6,allocated:2,par:10,reorder:6,lead:14,rack:'E-01',status:'active',supplier:'Local Supplier KL'},
-  ],
-  pos: [
-    {id:'PO-2024-001',date:'2024-02-20',supplier:'China Aluminium Co.',contact:'+86 135 xxxx xxxx',exp:'2024-03-15',status:'in_transit',notes:'Urgent restock Q1',items:[
-      {sku:'AL-650-3M',name:'Profile 650 3m',ordered:200,received:0,eta:'2024-03-15'},
-      {sku:'AL-750-6M',name:'Profile 750 6m',ordered:50,received:0,eta:'2024-03-15'},
-    ]},
-    {id:'PO-2024-002',date:'2024-02-25',supplier:'Golden Hardware Co.',contact:'+86 138 xxxx xxxx',exp:'2024-03-18',status:'in_transit',notes:'',items:[
-      {sku:'HG-X200',name:'Hinge Heavy Duty X-200',ordered:100,received:0,eta:'2024-03-18'},
-      {sku:'TR-T500',name:'Track System T-500',ordered:50,received:0,eta:'2024-03-18'},
-      {sku:'RO-SS-01',name:'Roller Stainless Set',ordered:40,received:0,eta:'2024-03-20'},
-    ]},
-    {id:'PO-2024-003',date:'2024-03-01',supplier:'KL Glass Sdn Bhd',contact:'+60 12 xxxx xxxx',exp:'2024-03-22',status:'sent',notes:'Shower screen project',items:[
-      {sku:'GL-6MM-CLR',name:'Glass 6mm Clear',ordered:30,received:0,eta:'2024-03-22'},
-      {sku:'GL-10MM-FRO',name:'Glass 10mm Frosted',ordered:15,received:0,eta:'2024-03-22'},
-    ]},
-    {id:'PO-2024-004',date:'2024-01-15',supplier:'China Aluminium Co.',contact:'+86 135 xxxx xxxx',exp:'2024-02-20',status:'fully_received',notes:'',items:[
-      {sku:'AL-500-3M',name:'Profile 500 3m',ordered:100,received:100,eta:'2024-02-20'},
-    ]},
-    {id:'PO-2024-005',date:'2024-03-05',supplier:'Golden Hardware Co.',contact:'+86 138 xxxx xxxx',exp:'2024-03-25',status:'draft',notes:'Pending approval from manager',items:[
-      {sku:'HG-P100',name:'Pivot Hinge P-100',ordered:50,received:0,eta:'2024-03-25'},
-      {sku:'SC-SEAL-10M',name:'Rubber Seal Strip 10m',ordered:20,received:0,eta:'2024-03-25'},
-    ]},
-  ],
-  requisitions: [
-    {id:'REQ-2024-001',job:'JOB-145',by:'Ahmad Yusof',date:'2024-03-08',required:'2024-03-15',status:'pending',items:[
-      {sku:'AL-650-3M',name:'Profile 650 3m',req:20,issued:0},
-      {sku:'HG-X200',name:'Hinge X-200',req:8,issued:0},
-    ]},
-    {id:'REQ-2024-002',job:'JOB-148',by:'Rahman Ali',date:'2024-03-09',required:'2024-03-16',status:'approved',items:[
-      {sku:'GL-6MM-CLR',name:'Glass 6mm Clear',req:12,issued:0},
-      {sku:'RO-SS-01',name:'Roller Stainless Set',req:4,issued:0},
-    ]},
-    {id:'REQ-2024-003',job:'JOB-142',by:'Tan Wei Ming',date:'2024-03-05',required:'2024-03-10',status:'issued',items:[
-      {sku:'AL-500-3M',name:'Profile 500 3m',req:30,issued:30},
-    ]},
-  ],
-  transactions: [
-    {id:'TXN-001',date:'2024-03-05 09:14',type:'purchase_receipt',sku:'AL-500-3M',name:'Profile 500 3m',qty:+100,before:0,after:100,ref:'GRN-2024-001',user:'John Wong'},
-    {id:'TXN-002',date:'2024-03-05 14:30',type:'production_issue',sku:'AL-500-3M',name:'Profile 500 3m',qty:-15,before:100,after:85,ref:'REQ-2024-003',user:'Ahmad Yusof'},
-    {id:'TXN-003',date:'2024-03-07 10:00',type:'adjustment',sku:'GL-8MM-TIN',name:'Glass 8mm Tinted',qty:-2,before:24,after:22,ref:'ADJ-2024-001',user:'John Wong'},
-    {id:'TXN-004',date:'2024-03-08 08:45',type:'purchase_receipt',sku:'HG-P100',name:'Pivot Hinge P-100',qty:+20,before:0,after:20,ref:'GRN-2024-002',user:'John Wong'},
-    {id:'TXN-005',date:'2024-03-09 11:20',type:'production_issue',sku:'GL-6MM-CLR',name:'Glass 6mm Clear',qty:-10,before:55.5,after:45.5,ref:'REQ-2024-002',user:'Rahman Ali'},
-  ],
+  products: [],
+  pos: [],
+  requisitions: [],
+  transactions: [],
+  jobOrders: [],
 };
+
+// ─── API CLIENT ──────────────────────────────────────────────────────────────
+
+const API_BASE = window.location.origin;
+
+async function fetchAPI(endpoint) {
+  try {
+    const response = await fetch(`${API_BASE}${endpoint}`, { credentials: 'include' });
+
+    // If unauthorized, redirect to login
+    if (response.status === 401) {
+      console.warn('Unauthorized access, redirecting to login...');
+      S.isAuthenticated = false;
+      S.user = null;
+      showLoginScreen();
+      return [];
+    }
+
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.error(`Failed to fetch ${endpoint}:`, error);
+    return [];
+  }
+}
+
+async function loadData() {
+  const [products, pos, requisitions, transactions, jobOrders, suppliers] = await Promise.all([
+    fetchAPI('/api/products'),
+    fetchAPI('/api/purchase-orders'),
+    fetchAPI('/api/requisitions'),
+    fetchAPI('/api/transactions'),
+    fetchAPI('/api/job-orders'),
+    fetchAPI('/api/suppliers'),
+  ]);
+
+  // Convert string numbers to actual numbers for products
+  DB.products = products.map(p => ({
+    ...p,
+    current: parseFloat(p.current) || 0,
+    allocated: parseFloat(p.allocated) || 0,
+    par: parseFloat(p.par) || 0,
+    reorder: parseFloat(p.reorder) || 0,
+    lead: parseInt(p.lead) || 0
+  }));
+
+  // Convert numbers in PO items
+  DB.pos = pos.map(po => ({
+    ...po,
+    items: po.items.map(i => ({
+      ...i,
+      ordered: parseFloat(i.ordered) || 0,
+      received: parseFloat(i.received) || 0
+    }))
+  }));
+
+  // Convert numbers in requisition items
+  DB.requisitions = requisitions.map(req => ({
+    ...req,
+    items: req.items.map(i => ({
+      ...i,
+      req: parseFloat(i.req) || 0,
+      issued: parseFloat(i.issued) || 0
+    }))
+  }));
+
+  // Convert numbers in transactions
+  DB.transactions = transactions.map(tx => ({
+    ...tx,
+    qty: parseFloat(tx.qty) || 0,
+    before: parseFloat(tx.before) || 0,
+    after: parseFloat(tx.after) || 0
+  }));
+
+  // Job orders already have numbers converted
+  DB.jobOrders = jobOrders;
+
+  // Store suppliers
+  DB.suppliers = suppliers;
+
+  // Load users if super admin
+  if (S.user && S.user.role === 'super_admin') {
+    const usersResponse = await fetch('/api/users', { credentials: 'include' });
+    if (usersResponse.ok) {
+      S.users = await usersResponse.json();
+    }
+  }
+}
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 
@@ -1001,10 +1432,14 @@ const S = {
   search: '',
   catFilter: 'all',
   statusFilter: 'all',
+  supplierFilter: 'all',
   poStatusFilter: 'all',
+  poView: 'kanban',
   availSearch: '',
   grnPO: null,
   newPOItems: [{sku:'',name:'',qty:'',eta:''}],
+  user: null,
+  isAuthenticated: false
 };
 
 // ─── UTILS ───────────────────────────────────────────────────────────────────
@@ -1017,6 +1452,168 @@ function stockStatus(p) {
 function available(p){return Math.max(0,p.current - p.allocated);}
 function fmtQty(n,uom){return `<span class="td-num">${n%1===0?n:n.toFixed(1)}</span><span class="td-unit">${uom}</span>`;}
 function fmtDate(s){if(!s)return '—';const d=new Date(s);return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}
+function printReport(){
+  // Add print date to all cards before printing
+  const cards = document.querySelectorAll('.card');
+  const now = new Date().toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  cards.forEach(card => card.setAttribute('data-print-date', now));
+  window.print();
+}
+
+function exportToExcel(reportType){
+  let data = [];
+  let filename = '';
+  const timestamp = new Date().toLocaleString('en-GB',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}).replace(/[,:]/g,'-');
+
+  switch(reportType){
+    case 'stock-status':
+      filename = `Stock_Status_Report_${timestamp}.xlsx`;
+      const crit = criticalAlerts();
+      const warn = warningAlerts();
+      const healthy = DB.products.filter(p=>stockStatus(p)==='healthy');
+      const allProducts = [...crit, ...warn, ...healthy];
+      data = allProducts.map(p=>{
+        const avail = available(p);
+        const status = stockStatus(p);
+        return {
+          'Status': status === 'critical' ? '🔴 Critical' : status === 'warning' ? '⚠️ Warning' : '✅ Healthy',
+          'SKU': p.sku,
+          'Product': p.name,
+          'Category': p.category,
+          'Current Stock': parseFloat(p.current),
+          'Allocated': parseFloat(p.allocated),
+          'Available': parseFloat(avail),
+          'Par Level': parseFloat(p.par),
+          'UOM': p.uom,
+          'Supplier': p.supplier
+        };
+      });
+      break;
+
+    case 'incoming-stock':
+      filename = `Incoming_Stock_Report_${timestamp}.xlsx`;
+      const inTransitPOs = DB.pos.filter(po=>po.status==='in_transit');
+      data = inTransitPOs.flatMap(po=>{
+        return po.items.map(item=>{
+          const outstanding = parseFloat(item.ordered) - parseFloat(item.received);
+          return {
+            'PO Number': po.id,
+            'Supplier': po.supplier,
+            'Expected Date': po.exp,
+            'SKU': item.sku,
+            'Product': item.name,
+            'Ordered': parseFloat(item.ordered),
+            'Received': parseFloat(item.received),
+            'Outstanding': outstanding,
+            'UOM': item.uom
+          };
+        });
+      });
+      break;
+
+    case 'stock-movement':
+      filename = `Stock_Movement_Report_${timestamp}.xlsx`;
+      const from = new Date(S.movementDateFrom);
+      const to = new Date(S.movementDateTo);
+      let filtered = DB.transactions.filter(t=>{
+        const td = new Date(t.date);
+        return td >= from && td <= to;
+      });
+      if(S.movementType !== 'all'){
+        const typeMap = {in:['purchase_receipt'],out:['material_issue'],adjustment:['stock_adjustment_in','stock_adjustment_out']};
+        filtered = filtered.filter(t=>typeMap[S.movementType]?.includes(t.type));
+      }
+      data = filtered.map(t=>{
+        const product = DB.products.find(p=>p.sku===t.sku);
+        return {
+          'Date': t.date,
+          'Transaction Type': t.type.replace(/_/g,' ').replace(/\b\w/g,l=>l.toUpperCase()),
+          'SKU': t.sku,
+          'Product': product?.name || t.sku,
+          'Quantity': parseFloat(t.qty),
+          'UOM': product?.uom || '',
+          'Reference': t.ref || '',
+          'Notes': t.notes || ''
+        };
+      });
+      break;
+
+    case 'slow-moving':
+      filename = `Slow_Moving_Stock_Report_${timestamp}.xlsx`;
+      const cutoffDate = new Date();
+      cutoffDate.setDate(cutoffDate.getDate() - S.slowMovingDays);
+      const slowMoving = DB.products.filter(p=>{
+        const lastTrans = DB.transactions.filter(t=>t.sku===p.sku).sort((a,b)=>new Date(b.date)-new Date(a.date))[0];
+        if(!lastTrans) return true;
+        return new Date(lastTrans.date) < cutoffDate;
+      });
+      data = slowMoving.map(p=>{
+        const lastTrans = DB.transactions.filter(t=>t.sku===p.sku).sort((a,b)=>new Date(b.date)-new Date(a.date))[0];
+        const daysSinceMovement = lastTrans ? Math.floor((Date.now()-new Date(lastTrans.date))/(1000*60*60*24)) : 365;
+        return {
+          'SKU': p.sku,
+          'Product': p.name,
+          'Category': p.category,
+          'Current Stock': parseFloat(p.current),
+          'Days Since Movement': daysSinceMovement > 365 ? '365+' : daysSinceMovement,
+          'Last Transaction': lastTrans ? lastTrans.date : 'Never',
+          'UOM': p.uom,
+          'Supplier': p.supplier
+        };
+      });
+      break;
+
+    case 'low-stock':
+      filename = `Low_Stock_Alerts_Report_${timestamp}.xlsx`;
+      const critItems = criticalAlerts();
+      const warnItems = warningAlerts();
+      const lowStock = [...critItems, ...warnItems];
+      data = lowStock.map(p=>{
+        const avail = available(p);
+        const status = stockStatus(p);
+        const orderQty = Math.max(0, p.par - avail);
+        return {
+          'Alert Level': status === 'critical' ? '🔴 Critical' : '⚠️ Warning',
+          'SKU': p.sku,
+          'Product': p.name,
+          'Category': p.category,
+          'Current Stock': parseFloat(p.current),
+          'Allocated': parseFloat(p.allocated),
+          'Available': parseFloat(avail),
+          'Par Level': parseFloat(p.par),
+          'Recommended Order': orderQty,
+          'UOM': p.uom,
+          'Supplier': p.supplier
+        };
+      });
+      break;
+  }
+
+  if(data.length === 0){
+    alert('No data to export');
+    return;
+  }
+
+  // Create worksheet
+  const ws = XLSX.utils.json_to_sheet(data);
+
+  // Auto-size columns
+  const colWidths = Object.keys(data[0]).map(key => {
+    const maxLen = Math.max(
+      key.length,
+      ...data.map(row => String(row[key]).length)
+    );
+    return { wch: Math.min(maxLen + 2, 50) };
+  });
+  ws['!cols'] = colWidths;
+
+  // Create workbook
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, 'Report');
+
+  // Download
+  XLSX.writeFile(wb, filename);
+}
 function poBadge(s){
   const map={draft:'badge-draft',sent:'badge-sent',in_transit:'badge-transit',partially_received:'badge-warning',fully_received:'badge-received',cancelled:'badge-cancelled'};
   const label={draft:'Draft',sent:'Sent',in_transit:'In-Transit',partially_received:'Partial',fully_received:'Received',cancelled:'Cancelled'};
@@ -1032,46 +1629,130 @@ function inTransitForSKU(sku){
 }
 function criticalAlerts(){return DB.products.filter(p=>stockStatus(p)==='critical');}
 function warningAlerts(){return DB.products.filter(p=>stockStatus(p)==='warning');}
+function lowStockProducts(){return DB.products.filter(p=>stockStatus(p)==='critical' || stockStatus(p)==='warning');}
 function inTransitPOs(){return DB.pos.filter(p=>p.status==='in_transit');}
 function pendingReqs(){return DB.requisitions.filter(r=>r.status==='pending');}
 
 // ─── NAVIGATION ──────────────────────────────────────────────────────────────
 
 const NAV = [
-  {id:'dashboard',label:'Dashboard',icon:'⬚',section:null},
-  {section:'Inventory'},
-  {id:'inventory',label:'Products',icon:'◧'},
-  {id:'transactions',label:'Transactions',icon:'↕'},
-  {section:'Procurement'},
-  {id:'purchase-orders',label:'Purchase Orders',icon:'☰'},
-  {id:'receiving',label:'Stock Receiving',icon:'↙'},
-  {section:'Production'},
-  {id:'requisitions',label:'Requisitions',icon:'◈'},
-  {id:'availability',label:'Availability Check',icon:'◎'},
-  {section:'Reports'},
-  {id:'reports',label:'Reports',icon:'▤'},
+  {id:'dashboard',label:'Dashboard',icon:'⬚',section:null,roles:['super_admin','purchaser','stock_keeper','production']},
+  {section:'Inventory',roles:['super_admin','purchaser','stock_keeper','production']},
+  {id:'inventory',label:'Products',icon:'◧',roles:['super_admin','purchaser','stock_keeper','production']},
+  {id:'transactions',label:'Transactions',icon:'↕',roles:['super_admin','purchaser','stock_keeper','production']},
+  {section:'Procurement',roles:['super_admin','purchaser','stock_keeper']},
+  {id:'purchase-orders',label:'Purchase Orders',icon:'☰',roles:['super_admin','purchaser','stock_keeper']},
+  {id:'receiving',label:'Stock Receiving',icon:'↙',roles:['super_admin','stock_keeper']},
+  {section:'Production',roles:['super_admin','production','stock_keeper']},
+  {id:'job-orders',label:'Job Orders',icon:'◫',roles:['super_admin','production']},
+  {id:'requisitions',label:'Requisitions',icon:'◈',roles:['super_admin','production','stock_keeper']},
+  {id:'availability',label:'Availability Check',icon:'◎',roles:['super_admin','purchaser','stock_keeper','production']},
+  {section:'Reports',roles:['super_admin','purchaser','stock_keeper','production']},
+  {id:'reports',label:'Reports',icon:'▤',roles:['super_admin','purchaser','stock_keeper','production']},
+  {section:'System',roles:['super_admin']},
+  {id:'suppliers',label:'Suppliers',icon:'🏢',roles:['super_admin']},
+  {id:'users',label:'User Management',icon:'👤',roles:['super_admin']},
 ];
+
+function canAccess(roles) {
+  if (!S.user) return false;
+  if (S.user.role === 'super_admin') return true;
+  return roles && roles.includes(S.user.role);
+}
 
 function renderNav(){
   const crit = criticalAlerts().length;
+  const warn = warningAlerts().length;
+  const lowStock = lowStockProducts().length;
   const pend = pendingReqs().length;
-  const badges = {dashboard: crit+pend, 'purchase-orders': DB.pos.filter(p=>p.status==='in_transit').length};
+  const draftPOs = DB.pos.filter(p=>p.status==='draft').length;
+  const inTransit = DB.pos.filter(p=>p.status==='in_transit').length;
+  const ongoingJobs = DB.jobOrders.filter(j=>j.status==='ongoing').length;
+
+  const badges = {
+    dashboard: crit + pend,
+    inventory: lowStock,
+    'purchase-orders': draftPOs,
+    receiving: inTransit,
+    'job-orders': ongoingJobs,
+    requisitions: pend
+  };
   let html = '';
   let inSection = false;
+  let sectionVisible = false;
+
   NAV.forEach(n=>{
     if(n.section){
-      html+=`<div class="nav-section"><div class="nav-label">${n.section}</div>`;
-      inSection=true;
+      // Check if any items in this section are accessible
+      sectionVisible = NAV.filter(item => !item.section && canAccess(item.roles)).some(item => {
+        const sectionIndex = NAV.findIndex(s => s.section === n.section);
+        const nextSectionIndex = NAV.findIndex((s, i) => i > sectionIndex && s.section);
+        const itemIndex = NAV.indexOf(item);
+        return itemIndex > sectionIndex && (nextSectionIndex === -1 || itemIndex < nextSectionIndex);
+      });
+
+      if(sectionVisible && canAccess(n.roles)){
+        html+=`<div class="nav-section"><div class="nav-label">${n.section}</div>`;
+        inSection=true;
+      }
     } else {
-      if(inSection&&!n.section){/* already opened */}
-      const badge = badges[n.id]?`<span class="nav-badge">${badges[n.id]}</span>`:'';
-      html+=`<div class="nav-item${S.view===n.id?' active':''}" data-nav="${n.id}">
-        <span class="nav-icon">${n.icon}</span>${n.label}${badge}
-      </div>`;
+      if(canAccess(n.roles)){
+        const badge = badges[n.id]?`<span class="nav-badge">${badges[n.id]}</span>`:'';
+        html+=`<div class="nav-item${S.view===n.id?' active':''}" data-nav="${n.id}">
+          <span class="nav-icon">${n.icon}</span>${n.label}${badge}
+        </div>`;
+      }
     }
   });
-  document.getElementById('nav-content').innerHTML = html;
+  const navContent = document.getElementById('nav-content');
+  if (navContent) {
+    navContent.innerHTML = html;
+    renderUserInfo();
+  }
 }
+
+function renderUserInfo() {
+  if (!S.user) return;
+
+  const roleLabels = {
+    super_admin: 'Super Admin',
+    purchaser: 'Purchaser',
+    stock_keeper: 'Stock Keeper',
+    production: 'Production'
+  };
+
+  const initials = S.user.full_name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+
+  document.getElementById('sidebar-footer').innerHTML = `
+    <div class="user-chip" style="cursor:pointer;position:relative" onclick="toggleUserMenu(event)">
+      <div class="user-avatar">${initials}</div>
+      <div style="flex:1">
+        <div class="user-name">${S.user.full_name}</div>
+        <div class="user-role">${roleLabels[S.user.role] || S.user.role}</div>
+      </div>
+      <div style="font-size:10px;color:var(--text-tertiary)">▼</div>
+    </div>
+    <div id="user-menu" style="display:none;position:absolute;bottom:72px;left:8px;right:8px;background:var(--bg-elevated);border:1px solid var(--border-default);border-radius:var(--radius-card);box-shadow:var(--shadow-lg);z-index:1000">
+      <div style="padding:8px 0">
+        <div class="nav-item" onclick="logout()">
+          <span class="nav-icon">⎋</span>Logout
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function toggleUserMenu(e) {
+  e.stopPropagation();
+  const menu = document.getElementById('user-menu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+}
+
+// Close user menu when clicking outside
+document.addEventListener('click', () => {
+  const menu = document.getElementById('user-menu');
+  if(menu) menu.style.display = 'none';
+});
 
 function navigate(view){
   S.view=view;
@@ -1084,15 +1765,40 @@ function navigate(view){
 }
 
 function renderTopbar(){
-  const titles={dashboard:'Dashboard',inventory:'Products & Inventory','purchase-orders':'Purchase Orders',receiving:'Stock Receiving',requisitions:'Requisitions',availability:'Availability Check',transactions:'Transaction Log',reports:'Reports'};
-  document.getElementById('page-title').textContent = titles[S.view]||S.view;
-  const actions={
-    inventory:`<button class="btn btn-primary btn-sm" onclick="showAddProduct()">+ Add Product</button>`,
-    'purchase-orders':`<button class="btn btn-primary btn-sm" onclick="showCreatePO()">+ New PO</button>`,
-    receiving:``,
-    requisitions:`<button class="btn btn-primary btn-sm" onclick="showCreateReq()">+ New Requisition</button>`,
-  };
-  document.getElementById('topbar-actions').innerHTML = actions[S.view]||'';
+  const titles={dashboard:'Dashboard',inventory:'Products & Inventory','purchase-orders':'Purchase Orders',receiving:'Stock Receiving','job-orders':'Job Orders',requisitions:'Requisitions',availability:'Availability Check',transactions:'Transaction Log',reports:'Reports',suppliers:'Supplier Management',users:'User Management'};
+  const pageTitle = document.getElementById('page-title');
+  if (pageTitle) {
+    pageTitle.textContent = titles[S.view]||S.view;
+  }
+
+  // Role-based action buttons
+  const actions={};
+
+  if (canAccess(['super_admin', 'purchaser'])) {
+    actions.inventory = `<button class="btn btn-primary btn-sm" onclick="showAddProduct()">+ Add Product</button>`;
+  }
+
+  if (canAccess(['super_admin', 'purchaser'])) {
+    actions['purchase-orders'] = `<button class="btn btn-primary btn-sm" onclick="showCreatePO()">+ New PO</button>`;
+  }
+
+  if (canAccess(['super_admin', 'production'])) {
+    actions['job-orders'] = `<button class="btn btn-primary btn-sm" onclick="showCreateJob()">+ New Job</button>`;
+  }
+
+  if (canAccess(['super_admin', 'production', 'stock_keeper'])) {
+    actions.requisitions = `<button class="btn btn-primary btn-sm" onclick="showCreateReq()">+ New Requisition</button>`;
+  }
+
+  if (canAccess(['super_admin'])) {
+    actions.suppliers = `<button class="btn btn-primary btn-sm" onclick="showAddSupplier()">+ Add Supplier</button>`;
+    actions.users = `<button class="btn btn-primary btn-sm" onclick="showAddUser()">+ Add User</button>`;
+  }
+
+  const topbarActions = document.getElementById('topbar-actions');
+  if (topbarActions) {
+    topbarActions.innerHTML = actions[S.view]||'';
+  }
 }
 
 function renderContent(){
@@ -1101,10 +1807,13 @@ function renderContent(){
     inventory:renderInventory,
     'purchase-orders':renderPOs,
     receiving:renderReceiving,
+    'job-orders':renderJobOrders,
     requisitions:renderRequisitions,
     availability:renderAvailability,
     transactions:renderTransactions,
     reports:renderReports,
+    suppliers:renderSuppliers,
+    users:renderUsers,
   };
   document.getElementById('content').innerHTML = (views[S.view]||renderDashboard)();
   bindEvents();
@@ -1119,7 +1828,8 @@ function renderDashboard(){
   const transit=inTransitPOs();
   const reqs=pendingReqs();
 
-  const alertItems = [...crit,...warn].slice(0,6).map(p=>{
+  const lowStockItems = [...crit,...warn];
+  const alertItems = lowStockItems.map(p=>{
     const avail = available(p);
     const s = stockStatus(p);
     return `<div class="list-item">
@@ -1182,7 +1892,7 @@ function renderDashboard(){
         <div class="card-header">
           <span style="color:var(--critical);font-size:11px" class="pulse">⬤</span>
           <span class="card-title">Low Stock Alerts</span>
-          <span class="nav-badge">${crit.length+warn.length}</span>
+          <span class="nav-badge">${lowStockItems.length}</span>
           <span class="card-action" onclick="navigate('inventory')">View All →</span>
         </div>
         ${alertItems||`<div class="empty"><div class="empty-icon">✓</div><div class="empty-txt">All stock levels healthy</div></div>`}
@@ -1214,6 +1924,7 @@ function renderInventory(){
   let prods = DB.products;
   if(S.search) prods = prods.filter(p=>p.sku.toLowerCase().includes(S.search.toLowerCase())||p.name.toLowerCase().includes(S.search.toLowerCase()));
   if(S.catFilter!=='all') prods = prods.filter(p=>p.cat===S.catFilter);
+  if(S.supplierFilter!=='all') prods = prods.filter(p=>p.supplier===S.supplierFilter);
   if(S.statusFilter!=='all') prods = prods.filter(p=>{
     if(S.statusFilter==='critical') return stockStatus(p)==='critical';
     if(S.statusFilter==='warning') return stockStatus(p)==='warning';
@@ -1224,7 +1935,36 @@ function renderInventory(){
 
   const cats = [...new Set(DB.products.map(p=>p.cat))];
 
-  const rows = prods.map(p=>{
+  // Get suppliers sorted by SKU count (descending)
+  const supplierCounts = DB.products.reduce((acc, p) => {
+    acc[p.supplier] = (acc[p.supplier] || 0) + 1;
+    return acc;
+  }, {});
+  const suppliers = Object.entries(supplierCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([supplier]) => supplier);
+
+  // Group products by supplier
+  const groupedBySupplier = {};
+  prods.forEach(p => {
+    if (!groupedBySupplier[p.supplier]) {
+      groupedBySupplier[p.supplier] = [];
+    }
+    groupedBySupplier[p.supplier].push(p);
+  });
+
+  // Render rows grouped by supplier (sorted by SKU count)
+  const rows = suppliers.flatMap(supplier => {
+    const supplierProds = groupedBySupplier[supplier] || [];
+    if (supplierProds.length === 0) return [];
+
+    const supplierRow = `<tr class="supplier-row">
+      <td colspan="10" style="background:var(--bg-elevated);padding:10px 16px;font-weight:700;font-size:13px;color:var(--text-primary);border-top:2px solid var(--border-default)">
+        ${supplier} <span style="font-weight:500;color:var(--text-tertiary);margin-left:8px">(${supplierProds.length} SKUs)</span>
+      </td>
+    </tr>`;
+
+    const productRows = supplierProds.map(p=>{
     const s = stockStatus(p);
     const avail = available(p);
     const pct = p.par>0?Math.min(100,(p.current/p.par)*100):100;
@@ -1232,8 +1972,13 @@ function renderInventory(){
     // find in-transit
     const transit = inTransitForSKU(p.sku);
     const transitTxt = transit.length?`<div style="font-family:var(--font-mono);font-size:9px;color:var(--transit);margin-top:2px">📦 +${transit.reduce((a,i)=>a+i.ordered,0)} ${p.uom} ETA ${fmtDate(transit[0].eta)}</div>`:'';
+
+    const defaultImg = '/images/default-product.svg';
+    const imageUrl = p.image_url || defaultImg;
+
     return `<tr data-sku="${p.sku}">
       <td><span class="sdot ${s}"></span></td>
+      <td><img src="${imageUrl}" alt="${p.name}" class="product-img" onerror="if(this.src!=='${defaultImg}')this.src='${defaultImg}'"></td>
       <td class="td-sku">${p.sku}</td>
       <td><div>${p.name}${disc}</div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text-tertiary)">${p.cat} · ${p.sub} · Rack ${p.rack}</div></td>
       <td>${fmtQty(p.current,p.uom)}</td>
@@ -1248,12 +1993,20 @@ function renderInventory(){
       </td>
       <td>${fmtQty(p.par,p.uom)}</td>
       <td style="font-family:var(--font-mono);font-size:10px;color:var(--text-secondary)">${p.supplier}</td>
+      <td>${canAccess(['super_admin', 'purchaser']) ? `<button class="btn btn-sm" onclick="showEditProduct('${p.sku}',event)" style="font-size:10px;padding:4px 8px">Edit</button>` : ''}</td>
     </tr>`;
+    });
+
+    return [supplierRow, ...productRows];
   }).join('');
 
   return `<div class="card">
     <div class="toolbar">
       <input class="search-input" placeholder="Search SKU or product name…" value="${S.search}" id="inv-search">
+      <select class="sel" id="supplier-filter">
+        <option value="all">All Suppliers</option>
+        ${suppliers.map(s=>`<option value="${s}"${S.supplierFilter===s?' selected':''}>${s} (${supplierCounts[s]})</option>`).join('')}
+      </select>
       <select class="sel" id="cat-filter">
         <option value="all">All Categories</option>
         ${cats.map(c=>`<option value="${c}"${S.catFilter===c?' selected':''}>${c}</option>`).join('')}
@@ -1269,14 +2022,15 @@ function renderInventory(){
     <div class="table-wrap">
       <table>
         <thead><tr>
-          <th></th><th>SKU</th><th>Product</th>
+          <th></th><th>Image</th><th>SKU</th><th>Product</th>
           <th style="text-align:right">Current</th>
           <th style="text-align:right">Allocated</th>
           <th>Available / Level</th>
           <th style="text-align:right">Par Level</th>
           <th>Supplier</th>
+          <th>Action</th>
         </tr></thead>
-        <tbody>${rows||`<tr><td colspan="8"><div class="empty"><div class="empty-icon">🔍</div><div class="empty-txt">No products match filters</div></div></td></tr>`}</tbody>
+        <tbody>${rows||`<tr><td colspan="10"><div class="empty"><div class="empty-icon">🔍</div><div class="empty-txt">No products match filters</div></div></td></tr>`}</tbody>
       </table>
     </div>
     <div class="pagination">
@@ -1287,38 +2041,200 @@ function renderInventory(){
 }
 
 function renderPOs(){
+  // Kanban View - Exclude cancelled orders
+  if (S.poView === 'kanban') {
+    const draft = DB.pos.filter(p => p.status === 'draft');
+    const sent = DB.pos.filter(p => p.status === 'sent');
+    const inTransit = DB.pos.filter(p => p.status === 'in_transit');
+    const received = DB.pos.filter(p => p.status === 'fully_received');
+
+    const renderPOCard = (po) => {
+      const totalOrdered = po.items.reduce((sum, item) => sum + item.ordered, 0);
+      const totalReceived = po.items.reduce((sum, item) => sum + item.received, 0);
+      const daysUntilETA = Math.ceil((new Date(po.exp) - new Date()) / (1000 * 60 * 60 * 24));
+      const isOverdue = daysUntilETA < 0 && po.status === 'in_transit';
+      const etaColor = isOverdue ? 'var(--critical)' : daysUntilETA <= 3 ? 'var(--warning)' : 'var(--text-tertiary)';
+
+      let actionButton = '';
+      if (po.status === 'draft') {
+        actionButton = `<button class="btn btn-sm btn-primary" onclick="advancePO('${po.id}',event)" style="font-size:11px;padding:4px 8px">Send to Supplier</button>`;
+      } else if (po.status === 'sent') {
+        actionButton = `<button class="btn btn-sm btn-primary" onclick="advancePO('${po.id}',event)" style="font-size:11px;padding:4px 8px">Mark In-Transit</button>`;
+      } else if (po.status === 'in_transit') {
+        actionButton = `<button class="btn btn-sm btn-primary" onclick="receiveFromPO('${po.id}',event)" style="font-size:11px;padding:4px 8px">Receive Stock</button>`;
+      }
+
+      return `<div class="kanban-card" onclick="showPODetail('${po.id}')">
+        <div class="job-number">${po.id}</div>
+        <div class="job-project">${po.supplier}</div>
+        <div class="job-customer" style="font-family:var(--font-mono);font-size:10px">${po.contact}</div>
+        <div class="job-meta">
+          <div class="job-meta-item">
+            <span>📅</span>
+            <span class="job-meta-label">Date:</span>
+            <span>${fmtDate(po.date)}</span>
+          </div>
+          <div class="job-meta-item">
+            <span>📦</span>
+            <span class="job-meta-label">Items:</span>
+            <span>${po.items.length} lines</span>
+          </div>
+          <div class="job-meta-item">
+            <span>🚚</span>
+            <span class="job-meta-label">ETA:</span>
+            <span style="color:${etaColor}">${fmtDate(po.exp)}${isOverdue ? ' (Late)' : ''}</span>
+          </div>
+          ${po.status === 'in_transit' || po.status === 'fully_received' ? `
+          <div class="job-meta-item">
+            <span>✓</span>
+            <span class="job-meta-label">Progress:</span>
+            <span>${totalReceived}/${totalOrdered}</span>
+          </div>` : ''}
+        </div>
+        <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border-subtle);display:flex;gap:6px;justify-content:space-between">
+          <button class="btn btn-sm" onclick="cancelPO('${po.id}',event)" style="color:var(--critical);font-size:11px;padding:4px 8px">Cancel</button>
+          <div style="display:flex;gap:6px">${actionButton}</div>
+        </div>
+      </div>`;
+    };
+
+    return `<div style="margin-bottom:14px">
+      <div class="toolbar">
+        <div style="display:flex;gap:8px;align-items:center">
+          <button class="btn ${S.poView==='kanban'?'btn-primary':''}" onclick="S.poView='kanban';renderContent()">Kanban</button>
+          <button class="btn ${S.poView==='list'?'btn-primary':''}" onclick="S.poView='list';renderContent()">List</button>
+        </div>
+      </div>
+    </div>
+    <div class="kanban-board">
+      <div class="kanban-column draft">
+        <div class="kanban-header">
+          <div class="kanban-title">
+            <span>📝 Draft</span>
+            <span class="kanban-count">${draft.length}</span>
+          </div>
+        </div>
+        <div class="kanban-cards">
+          ${draft.length ? draft.map(renderPOCard).join('') : '<div class="empty"><div class="empty-txt">No draft orders</div></div>'}
+        </div>
+      </div>
+
+      <div class="kanban-column sent">
+        <div class="kanban-header">
+          <div class="kanban-title">
+            <span>📤 Sent to Supplier</span>
+            <span class="kanban-count">${sent.length}</span>
+          </div>
+        </div>
+        <div class="kanban-cards">
+          ${sent.length ? sent.map(renderPOCard).join('') : '<div class="empty"><div class="empty-txt">No sent orders</div></div>'}
+        </div>
+      </div>
+
+      <div class="kanban-column in-transit">
+        <div class="kanban-header">
+          <div class="kanban-title">
+            <span>🚚 In Transit</span>
+            <span class="kanban-count">${inTransit.length}</span>
+          </div>
+        </div>
+        <div class="kanban-cards">
+          ${inTransit.length ? inTransit.map(renderPOCard).join('') : '<div class="empty"><div class="empty-txt">No orders in transit</div></div>'}
+        </div>
+      </div>
+
+      <div class="kanban-column received">
+        <div class="kanban-header">
+          <div class="kanban-title">
+            <span>✅ Received</span>
+            <span class="kanban-count">${received.length}</span>
+          </div>
+        </div>
+        <div class="kanban-cards">
+          ${received.length ? received.map(renderPOCard).join('') : '<div class="empty"><div class="empty-txt">No received orders</div></div>'}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // List View - Include all statuses with filter
   let pos = DB.pos;
   if(S.poStatusFilter!=='all') pos = pos.filter(p=>p.status===S.poStatusFilter);
 
   const rows = pos.map(po=>{
     const totalItems = po.items.reduce((a,i)=>a+i.ordered,0);
     const outstanding = po.items.reduce((a,i)=>a+(i.ordered-i.received),0);
-    return `<tr data-po="${po.id}">
-      <td class="td-sku">${po.id}</td>
-      <td>${fmtDate(po.date)}</td>
-      <td><div style="font-weight:500">${po.supplier}</div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text-tertiary)">${po.contact}</div></td>
-      <td>${fmtDate(po.exp)}</td>
-      <td><span class="td-num">${po.items.length}</span><span class="td-unit">lines</span></td>
-      <td>${poBadge(po.status)}</td>
-      <td>
-        ${po.status==='draft'?`<button class="btn btn-sm" onclick="advancePO('${po.id}',event)">Send to Supplier</button>`:''}
-        ${po.status==='sent'?`<button class="btn btn-sm" onclick="advancePO('${po.id}',event)">Mark In-Transit</button>`:''}
-        ${po.status==='in_transit'?`<button class="btn btn-primary btn-sm" onclick="receiveFromPO('${po.id}',event)">Receive Stock</button>`:''}
-      </td>
-    </tr>`;
+
+    const itemsHtml = po.items.map(item => `
+      <div style="padding:8px 16px;border-bottom:1px solid var(--border-dim);display:grid;grid-template-columns:120px 1fr 100px 100px 100px;gap:12px;align-items:center">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:600">${item.sku}</div>
+        <div style="font-size:12px;color:var(--text-secondary)">${item.name}</div>
+        <div style="font-family:var(--font-mono);font-size:12px;font-weight:600;text-align:right">
+          ${item.ordered} <span style="font-size:10px;color:var(--text-tertiary)">${DB.products.find(p=>p.sku===item.sku)?.uom || 'pcs'}</span>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:12px;font-weight:600;text-align:right;color:var(--healthy)">
+          ${item.received} <span style="font-size:10px;color:var(--text-tertiary)">rcvd</span>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-tertiary);text-align:right">
+          ETA: ${fmtDate(item.eta)}
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <tr data-po="${po.id}">
+        <td class="td-sku">${po.id}</td>
+        <td>${fmtDate(po.date)}</td>
+        <td><div style="font-weight:500">${po.supplier}</div><div style="font-family:var(--font-mono);font-size:9px;color:var(--text-tertiary)">${po.contact}</div></td>
+        <td>${fmtDate(po.exp)}</td>
+        <td>
+          <button class="btn btn-sm" onclick="togglePOItems('${po.id}',event)" style="display:flex;align-items:center;gap:4px">
+            <span class="td-num">${po.items.length}</span> <span class="td-unit">lines</span>
+            <span id="po-arrow-${po.id}" style="transition:transform 0.2s;display:inline-block">▼</span>
+          </button>
+        </td>
+        <td>${poBadge(po.status)}</td>
+        <td>
+          ${po.status==='draft'?`<button class="btn btn-sm" onclick="advancePO('${po.id}',event)">Send to Supplier</button>`:''}
+          ${po.status==='sent'?`<button class="btn btn-sm" onclick="advancePO('${po.id}',event)">Mark In-Transit</button>`:''}
+          ${po.status==='in_transit'?`<button class="btn btn-primary btn-sm" onclick="receiveFromPO('${po.id}',event)">Receive Stock</button>`:''}
+          ${po.status==='cancelled'?`<button class="btn btn-sm" onclick="restorePO('${po.id}',event)" style="color:var(--healthy);margin-left:4px">Restore</button>`:`<button class="btn btn-sm" onclick="cancelPO('${po.id}',event)" style="color:var(--critical);margin-left:4px">Cancel</button>`}
+        </td>
+      </tr>
+      <tr id="po-items-${po.id}" style="display:none">
+        <td colspan="7" style="padding:0;background:var(--bg-hover)">
+          <div style="border-left:3px solid var(--accent);background:var(--bg-elevated)">
+            <div style="padding:12px 16px;background:var(--bg-subtle);border-bottom:1px solid var(--border);display:grid;grid-template-columns:120px 1fr 100px 100px 100px;gap:12px">
+              <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);font-weight:600">SKU</div>
+              <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);font-weight:600">Product</div>
+              <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);font-weight:600;text-align:right">Ordered</div>
+              <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);font-weight:600;text-align:right">Received</div>
+              <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);font-weight:600;text-align:right">ETA</div>
+            </div>
+            ${itemsHtml}
+          </div>
+        </td>
+      </tr>
+    `;
   }).join('');
 
-  return `<div class="card">
+  return `<div style="margin-bottom:14px">
     <div class="toolbar">
-      <select class="sel" id="po-status-filter">
-        <option value="all">All Status</option>
-        <option value="draft">Draft</option>
-        <option value="sent">Sent</option>
-        <option value="in_transit">In-Transit</option>
-        <option value="fully_received">Received</option>
-        <option value="cancelled">Cancelled</option>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn ${S.poView==='kanban'?'btn-primary':''}" onclick="S.poView='kanban';renderContent()">Kanban</button>
+        <button class="btn ${S.poView==='list'?'btn-primary':''}" onclick="S.poView='list';renderContent()">List</button>
+      </div>
+      <select class="sel" id="po-status-filter" onchange="S.poStatusFilter=this.value;renderContent()">
+        <option value="all" ${S.poStatusFilter==='all'?'selected':''}>All Status</option>
+        <option value="draft" ${S.poStatusFilter==='draft'?'selected':''}>Draft</option>
+        <option value="sent" ${S.poStatusFilter==='sent'?'selected':''}>Sent</option>
+        <option value="in_transit" ${S.poStatusFilter==='in_transit'?'selected':''}>In-Transit</option>
+        <option value="fully_received" ${S.poStatusFilter==='fully_received'?'selected':''}>Received</option>
+        <option value="cancelled" ${S.poStatusFilter==='cancelled'?'selected':''}>Cancelled</option>
       </select>
     </div>
+  </div>
+  <div class="card">
     <div class="table-wrap">
       <table>
         <thead><tr>
@@ -1385,12 +2301,40 @@ function renderReceiving(){
     </div>`;
   }
 
-  const poList = inTransit.map(p=>`<div class="list-item">
-    <span class="li-sku">${p.id}</span>
-    <div><div class="li-name">${p.supplier}</div><div class="li-sub">${p.items.length} items · ETA ${fmtDate(p.exp)}</div></div>
-    <div class="li-meta">${poBadge(p.status)}</div>
-    <button class="btn btn-sm btn-primary" style="margin-left:12px" onclick="S.grnPO='${p.id}';renderContent()">Start GRN</button>
-  </div>`).join('');
+  const poList = inTransit.map(p=>{
+    const itemsHtml = p.items.map(item => `
+      <div style="padding:6px 16px;border-bottom:1px solid var(--border-dim);display:grid;grid-template-columns:100px 1fr 80px;gap:12px;align-items:center;font-size:12px">
+        <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:600">${item.sku}</div>
+        <div style="color:var(--text-secondary)">${item.name}</div>
+        <div style="font-family:var(--font-mono);font-weight:600;text-align:right">
+          ${item.ordered} <span style="font-size:10px;color:var(--text-tertiary)">${DB.products.find(pr=>pr.sku===item.sku)?.uom || 'pcs'}</span>
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <div class="list-item" style="flex-direction:column;align-items:stretch;padding:0">
+        <div style="display:flex;align-items:center;padding:12px 16px">
+          <span class="li-sku">${p.id}</span>
+          <div><div class="li-name">${p.supplier}</div><div class="li-sub">ETA ${fmtDate(p.exp)}</div></div>
+          <button class="btn btn-sm" onclick="toggleReceivingItems('${p.id}',event)" style="display:flex;align-items:center;gap:4px;margin-left:auto">
+            ${p.items.length} items
+            <span id="rcv-arrow-${p.id}" style="transition:transform 0.2s;display:inline-block">▼</span>
+          </button>
+          <div class="li-meta" style="margin-left:12px">${poBadge(p.status)}</div>
+          <button class="btn btn-sm btn-primary" style="margin-left:12px" onclick="S.grnPO='${p.id}';renderContent()">Start GRN</button>
+        </div>
+        <div id="rcv-items-${p.id}" style="display:none;background:var(--bg-elevated);border-top:1px solid var(--border)">
+          <div style="padding:8px 16px;background:var(--bg-subtle);border-bottom:1px solid var(--border);display:grid;grid-template-columns:100px 1fr 80px;gap:12px">
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);font-weight:600">SKU</div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);font-weight:600">Product</div>
+            <div style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);font-weight:600;text-align:right">Qty</div>
+          </div>
+          ${itemsHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
 
   return `<div class="page">
     <div class="card">
@@ -1401,20 +2345,151 @@ function renderReceiving(){
   </div>`;
 }
 
+function renderJobOrders(){
+  const ongoing = DB.jobOrders.filter(j => j.status === 'ongoing');
+  const upcoming = DB.jobOrders.filter(j => j.status === 'upcoming');
+  const completed = DB.jobOrders.filter(j => j.status === 'completed');
+
+  const renderCard = (job) => {
+    const daysUntilDue = Math.ceil((new Date(job.due_date) - new Date()) / (1000 * 60 * 60 * 24));
+    const isOverdue = daysUntilDue < 0;
+    const dueDateColor = isOverdue ? 'var(--critical)' : daysUntilDue <= 7 ? 'var(--warning)' : 'var(--text-tertiary)';
+
+    // Status change buttons based on current status
+    let statusButtons = '';
+    if (job.status === 'upcoming') {
+      statusButtons = `<button class="btn btn-sm btn-primary" onclick="changeJobStatus('${job.job_number}', 'ongoing', event)" style="font-size:11px;padding:4px 8px">Start Job</button>`;
+    } else if (job.status === 'ongoing') {
+      statusButtons = `
+        <button class="btn btn-sm" onclick="changeJobStatus('${job.job_number}', 'upcoming', event)" style="font-size:10px;padding:3px 6px">← Back</button>
+        <button class="btn btn-sm btn-primary" onclick="changeJobStatus('${job.job_number}', 'completed', event)" style="font-size:11px;padding:4px 8px">Complete</button>
+      `;
+    } else if (job.status === 'completed') {
+      statusButtons = `<button class="btn btn-sm" onclick="changeJobStatus('${job.job_number}', 'ongoing', event)" style="font-size:10px;padding:3px 6px">← Reopen</button>`;
+    }
+
+    return `<div class="kanban-card" onclick="showJobDetail('${job.job_number}')">
+      <div class="job-number">${job.job_number}</div>
+      <div class="job-project">${job.project_name}</div>
+      <div class="job-customer">${job.customer_name}</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+        <span class="job-priority ${job.priority}">${job.priority}</span>
+        ${job.total_value ? `<span class="job-value">RM ${job.total_value.toLocaleString()}</span>` : ''}
+      </div>
+      <div class="job-meta">
+        <div class="job-meta-item">
+          <span>📅</span>
+          <span class="job-meta-label">Due:</span>
+          <span style="color:${dueDateColor}">${fmtDate(job.due_date)}${isOverdue ? ' (Overdue)' : ''}</span>
+        </div>
+        ${job.start_date ? `<div class="job-meta-item">
+          <span>▶</span>
+          <span class="job-meta-label">Started:</span>
+          <span>${fmtDate(job.start_date)}</span>
+        </div>` : ''}
+        ${job.completion_date ? `<div class="job-meta-item">
+          <span>✓</span>
+          <span class="job-meta-label">Completed:</span>
+          <span>${fmtDate(job.completion_date)}</span>
+        </div>` : ''}
+        <div class="job-meta-item">
+          <span>📦</span>
+          <span class="job-meta-label">Materials:</span>
+          <span>${job.materials.length} items</span>
+        </div>
+      </div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border-subtle);display:flex;gap:6px;justify-content:space-between">
+        <button class="btn btn-sm" onclick="deleteJobOrder('${job.job_number}',event)" style="color:var(--critical);font-size:11px;padding:4px 8px">Delete</button>
+        <div style="display:flex;gap:6px">${statusButtons}</div>
+      </div>
+    </div>`;
+  };
+
+  return `<div class="kanban-board">
+    <div class="kanban-column upcoming">
+      <div class="kanban-header">
+        <div class="kanban-title">
+          <span>📋 Upcoming</span>
+          <span class="kanban-count">${upcoming.length}</span>
+        </div>
+      </div>
+      <div class="kanban-cards">
+        ${upcoming.length ? upcoming.map(renderCard).join('') : '<div class="empty"><div class="empty-txt">No upcoming jobs</div></div>'}
+      </div>
+    </div>
+
+    <div class="kanban-column ongoing">
+      <div class="kanban-header">
+        <div class="kanban-title">
+          <span>🔨 Ongoing</span>
+          <span class="kanban-count">${ongoing.length}</span>
+        </div>
+      </div>
+      <div class="kanban-cards">
+        ${ongoing.length ? ongoing.map(renderCard).join('') : '<div class="empty"><div class="empty-txt">No ongoing jobs</div></div>'}
+      </div>
+    </div>
+
+    <div class="kanban-column completed">
+      <div class="kanban-header">
+        <div class="kanban-title">
+          <span>✓ Completed</span>
+          <span class="kanban-count">${completed.length}</span>
+        </div>
+      </div>
+      <div class="kanban-cards">
+        ${completed.length ? completed.map(renderCard).join('') : '<div class="empty"><div class="empty-txt">No completed jobs</div></div>'}
+      </div>
+    </div>
+  </div>`;
+}
+
 function renderRequisitions(){
-  const rows = DB.requisitions.map(r=>`<tr data-req="${r.id}">
-    <td class="td-sku">${r.id}</td>
-    <td style="font-weight:500">${r.job}</td>
-    <td>${r.by}</td>
-    <td>${fmtDate(r.date)}</td>
-    <td>${fmtDate(r.required)}</td>
-    <td><span class="td-num">${r.items.length}</span> <span class="td-unit">items</span></td>
-    <td>${reqBadge(r.status)}</td>
-    <td>
-      ${r.status==='pending'?`<button class="btn btn-sm btn-primary" onclick="approveReq('${r.id}',event)">Approve</button>`:''}
-      ${r.status==='approved'?`<button class="btn btn-sm" onclick="issueReq('${r.id}',event)">Issue Stock</button>`:''}
-    </td>
-  </tr>`).join('');
+  const rows = DB.requisitions.map(r=>{
+    const itemsHtml = r.items.map(item => `
+      <div style="padding:8px 16px;border-bottom:1px solid var(--border-dim);display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--accent);font-weight:600">${item.sku}</div>
+          <div style="font-size:12px;color:var(--text-secondary);margin-top:2px">${item.name}</div>
+        </div>
+        <div style="font-family:var(--font-mono);font-size:13px;font-weight:600">
+          ${item.requested} <span style="font-size:10px;color:var(--text-tertiary)">${DB.products.find(p=>p.sku===item.sku)?.uom || 'pcs'}</span>
+        </div>
+      </div>
+    `).join('');
+
+    return `
+      <tr data-req="${r.id}">
+        <td class="td-sku">${r.id}</td>
+        <td style="font-weight:500">${r.job}</td>
+        <td>${r.by}</td>
+        <td>${fmtDate(r.date)}</td>
+        <td>${fmtDate(r.required)}</td>
+        <td>
+          <button class="btn btn-sm" onclick="toggleReqItems('${r.id}',event)" style="display:flex;align-items:center;gap:4px">
+            <span class="td-num">${r.items.length}</span> <span class="td-unit">items</span>
+            <span id="req-arrow-${r.id}" style="transition:transform 0.2s;display:inline-block">▼</span>
+          </button>
+        </td>
+        <td>${reqBadge(r.status)}</td>
+        <td>
+          ${r.status==='pending'?`<button class="btn btn-sm btn-primary" onclick="approveReq('${r.id}',event)">Approve</button>`:''}
+          ${r.status==='approved'?`<button class="btn btn-sm" onclick="issueReq('${r.id}',event)">Issue Stock</button>`:''}
+          <button class="btn btn-sm" onclick="deleteRequisition('${r.id}',event)" style="color:var(--critical);margin-left:4px">Delete</button>
+        </td>
+      </tr>
+      <tr id="req-items-${r.id}" style="display:none">
+        <td colspan="8" style="padding:0;background:var(--bg-hover)">
+          <div style="border-left:3px solid var(--accent);background:var(--bg-elevated)">
+            <div style="padding:12px 16px;background:var(--bg-subtle);border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary);font-weight:600">
+              Requisition Items
+            </div>
+            ${itemsHtml}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
 
   return `<div class="card">
     <div class="table-wrap">
@@ -1426,6 +2501,52 @@ function renderRequisitions(){
       </table>
     </div>
   </div>`;
+}
+
+function toggleReqItems(reqId, event) {
+  event.stopPropagation();
+  const itemsRow = document.getElementById(`req-items-${reqId}`);
+  const arrow = document.getElementById(`req-arrow-${reqId}`);
+
+  if (itemsRow.style.display === 'none') {
+    itemsRow.style.display = 'table-row';
+    arrow.style.transform = 'rotate(180deg)';
+  } else {
+    itemsRow.style.display = 'none';
+    arrow.style.transform = 'rotate(0deg)';
+  }
+}
+
+function togglePOItems(poId, event) {
+  event.stopPropagation();
+  const itemsRow = document.getElementById(`po-items-${poId}`);
+  const arrow = document.getElementById(`po-arrow-${poId}`);
+
+  if (itemsRow && arrow) {
+    if (itemsRow.style.display === 'none') {
+      itemsRow.style.display = 'table-row';
+      arrow.style.transform = 'rotate(180deg)';
+    } else {
+      itemsRow.style.display = 'none';
+      arrow.style.transform = 'rotate(0deg)';
+    }
+  }
+}
+
+function toggleReceivingItems(poId, event) {
+  event.stopPropagation();
+  const itemsDiv = document.getElementById(`rcv-items-${poId}`);
+  const arrow = document.getElementById(`rcv-arrow-${poId}`);
+
+  if (itemsDiv && arrow) {
+    if (itemsDiv.style.display === 'none') {
+      itemsDiv.style.display = 'block';
+      arrow.style.transform = 'rotate(180deg)';
+    } else {
+      itemsDiv.style.display = 'none';
+      arrow.style.transform = 'rotate(0deg)';
+    }
+  }
 }
 
 function renderAvailability(){
@@ -1524,21 +2645,456 @@ function renderTransactions(){
 }
 
 function renderReports(){
+  if(!S.reportType) S.reportType = null;
+
   const reports = [
-    {icon:'📊',title:'Stock Status Report',desc:'All items with current, allocated, and available quantities. Low stock items highlighted.'},
-    {icon:'📦',title:'Incoming Stock Report',desc:'All in-transit POs with ETA dates and expected quantities.'},
-    {icon:'↕',title:'Stock Movement Report',desc:'Filter by date range, category, or transaction type.'},
-    {icon:'🐢',title:'Slow-Moving Stock',desc:'Items with no movement in last 30/60/90 days. Identify obsolete inventory.'},
-    {icon:'⚠️',title:'Low Stock Alerts',desc:'All items at or below par level with recommended order quantities.'},
-    {icon:'💰',title:'Stock Value Report',desc:'Total inventory value by category. (Requires unit pricing setup)'},
+    {id:'stock-status', icon:'📊',title:'Stock Status Report',desc:'All items with current, allocated, and available quantities. Low stock items highlighted.'},
+    {id:'incoming-stock', icon:'📦',title:'Incoming Stock Report',desc:'All in-transit POs with ETA dates and expected quantities.'},
+    {id:'stock-movement', icon:'↕',title:'Stock Movement Report',desc:'Filter by date range, category, or transaction type.'},
+    {id:'slow-moving', icon:'🐢',title:'Slow-Moving Stock',desc:'Items with no movement in last 30/60/90 days. Identify obsolete inventory.'},
+    {id:'low-stock', icon:'⚠️',title:'Low Stock Alerts',desc:'All items at or below par level with recommended order quantities.'},
   ];
+
+  // Show report grid overview when no specific report is selected
+  if(!S.reportType){
+    return `<div class="page">
+      <div class="report-grid">
+        ${reports.map(r=>`<div class="report-card" onclick="S.reportType='${r.id}';navigate('reports')">
+          <div class="report-icon">${r.icon}</div>
+          <div class="report-title">${r.title}</div>
+          <div class="report-desc">${r.desc}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  // Show single report view with back button
   return `<div class="page">
-    <div class="report-grid">
-      ${reports.map(r=>`<div class="report-card" onclick="alert('${r.title} — Full reporting module coming in Phase 2.')">
-        <div class="report-icon">${r.icon}</div>
-        <div class="report-title">${r.title}</div>
-        <div class="report-desc">${r.desc}</div>
-      </div>`).join('')}
+    <div class="report-single-view">
+      <button class="btn btn-sm no-print" onclick="S.reportType=null;navigate('reports')" style="margin-bottom:16px">
+        ← Back to Reports
+      </button>
+      ${renderReportContent()}
+    </div>
+  </div>`;
+}
+
+function renderReportContent(){
+  switch(S.reportType){
+    case 'stock-status': return renderStockStatusReport();
+    case 'incoming-stock': return renderIncomingStockReport();
+    case 'stock-movement': return renderStockMovementReport();
+    case 'slow-moving': return renderSlowMovingReport();
+    case 'low-stock': return renderLowStockReport();
+    default: return '';
+  }
+}
+
+function renderStockStatusReport(){
+  const crit = criticalAlerts();
+  const warn = warningAlerts();
+  const healthy = DB.products.filter(p=>stockStatus(p)==='healthy');
+
+  const allProducts = [...crit, ...warn, ...healthy];
+
+  const rows = allProducts.map(p=>{
+    const avail = available(p);
+    const s = stockStatus(p);
+    return `<tr>
+      <td><span class="sdot ${s}"></span></td>
+      <td class="td-sku">${p.sku}</td>
+      <td>${p.name}</td>
+      <td>${p.category}</td>
+      <td class="td-center">${fmtQty(p.current, p.uom)}</td>
+      <td class="td-center">${fmtQty(p.allocated, p.uom)}</td>
+      <td class="td-center"><span style="color:${s==='critical'?'var(--critical)':s==='warning'?'var(--warning)':'var(--healthy)'}">${fmtQty(avail, p.uom)}</span></td>
+      <td class="td-center">${fmtQty(p.par, p.uom)}</td>
+      <td>${p.supplier}</td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="card-header">
+      <span class="card-title">Stock Status Report</span>
+      <div>
+        <button class="btn btn-sm" onclick="exportToExcel('stock-status')">📥 Download Excel</button>
+        <button class="btn btn-sm" onclick="printReport()">🖨️ Print Report</button>
+      </div>
+    </div>
+    <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:20px">
+      <div class="stat-card critical">
+        <div class="stat-label">Critical Stock</div>
+        <div class="stat-value">${crit.length}</div>
+      </div>
+      <div class="stat-card warning">
+        <div class="stat-label">Low Stock Warning</div>
+        <div class="stat-value">${warn.length}</div>
+      </div>
+      <div class="stat-card healthy">
+        <div class="stat-label">Healthy Stock</div>
+        <div class="stat-value">${healthy.length}</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th></th><th>SKU</th><th>Product</th><th>Category</th>
+          <th style="text-align:center">Current</th>
+          <th style="text-align:center">Allocated</th>
+          <th style="text-align:center">Available</th>
+          <th style="text-align:center">Par Level</th>
+          <th>Supplier</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderIncomingStockReport(){
+  const inTransitPOs = DB.pos.filter(po=>po.status==='in_transit');
+
+  const rows = inTransitPOs.flatMap(po=>{
+    return po.items.map(item=>{
+      const outstanding = item.ordered - item.received;
+      return `<tr>
+        <td class="td-sku">${po.id}</td>
+        <td>${po.supplier}</td>
+        <td>${fmtDate(po.exp)}</td>
+        <td class="td-sku">${item.sku}</td>
+        <td>${item.name}</td>
+        <td class="td-center">${fmtQty(item.ordered, item.uom)}</td>
+        <td class="td-center">${fmtQty(item.received, item.uom)}</td>
+        <td class="td-center"><span style="color:var(--accent);font-weight:600">${fmtQty(outstanding, item.uom)}</span></td>
+      </tr>`;
+    });
+  }).join('');
+
+  return `<div class="card">
+    <div class="card-header">
+      <span class="card-title">Incoming Stock Report</span>
+      <div>
+        <button class="btn btn-sm" onclick="exportToExcel('incoming-stock')">📥 Download Excel</button>
+        <button class="btn btn-sm" onclick="printReport()">🖨️ Print Report</button>
+      </div>
+    </div>
+    <div class="stat-card transit" style="margin-bottom:20px">
+      <div class="stat-label">Total In-Transit POs</div>
+      <div class="stat-value">${inTransitPOs.length}</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>PO Number</th><th>Supplier</th><th>Expected Date</th>
+          <th>SKU</th><th>Product</th>
+          <th style="text-align:center">Ordered</th>
+          <th style="text-align:center">Received</th>
+          <th style="text-align:center">Outstanding</th>
+        </tr></thead>
+        <tbody>${rows||`<tr><td colspan="8"><div class="empty"><div class="empty-icon">📦</div><div class="empty-txt">No in-transit purchase orders</div></div></td></tr>`}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderStockMovementReport(){
+  if(!S.movementDateFrom) S.movementDateFrom = new Date(Date.now()-30*24*60*60*1000).toISOString().split('T')[0];
+  if(!S.movementDateTo) S.movementDateTo = new Date().toISOString().split('T')[0];
+  if(!S.movementType) S.movementType = 'all';
+
+  let transactions = DB.transactions.filter(t=>{
+    const tDate = new Date(t.date);
+    const fromDate = new Date(S.movementDateFrom);
+    const toDate = new Date(S.movementDateTo);
+    return tDate >= fromDate && tDate <= toDate;
+  });
+
+  if(S.movementType !== 'all'){
+    transactions = transactions.filter(t=>t.type===S.movementType);
+  }
+
+  const rows = transactions.map(t=>{
+    const typeLabel = {
+      'in': '<span class="badge" style="background:var(--healthy-dim);color:var(--healthy)">IN</span>',
+      'out': '<span class="badge" style="background:var(--critical-dim);color:var(--critical)">OUT</span>',
+      'adjustment': '<span class="badge" style="background:var(--warning-dim);color:var(--warning)">ADJ</span>',
+    }[t.type] || t.type;
+
+    return `<tr>
+      <td>${fmtDate(t.date)}</td>
+      <td>${typeLabel}</td>
+      <td class="td-sku">${t.sku}</td>
+      <td>${DB.products.find(p=>p.sku===t.sku)?.name || t.sku}</td>
+      <td class="td-center">${fmtQty(t.quantity, t.uom)}</td>
+      <td>${t.reference || '—'}</td>
+      <td>${t.notes || '—'}</td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="card-header">
+      <span class="card-title">Stock Movement Report</span>
+      <div>
+        <button class="btn btn-sm" onclick="exportToExcel('stock-movement')">📥 Download Excel</button>
+        <button class="btn btn-sm" onclick="printReport()">🖨️ Print Report</button>
+      </div>
+    </div>
+    <div class="toolbar">
+      <input type="date" class="fi" value="${S.movementDateFrom}" onchange="S.movementDateFrom=this.value;navigate('reports')" style="width:150px">
+      <span style="margin:0 8px">to</span>
+      <input type="date" class="fi" value="${S.movementDateTo}" onchange="S.movementDateTo=this.value;navigate('reports')" style="width:150px">
+      <select class="sel" value="${S.movementType}" onchange="S.movementType=this.value;navigate('reports')">
+        <option value="all">All Types</option>
+        <option value="in">Stock In</option>
+        <option value="out">Stock Out</option>
+        <option value="adjustment">Adjustments</option>
+      </select>
+    </div>
+    <div class="stat-card" style="margin-bottom:20px">
+      <div class="stat-label">Total Transactions</div>
+      <div class="stat-value">${transactions.length}</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Date</th><th>Type</th><th>SKU</th><th>Product</th>
+          <th style="text-align:center">Quantity</th>
+          <th>Reference</th><th>Notes</th>
+        </tr></thead>
+        <tbody>${rows||`<tr><td colspan="7"><div class="empty"><div class="empty-icon">↕</div><div class="empty-txt">No transactions found for selected period</div></div></td></tr>`}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderSlowMovingReport(){
+  if(!S.slowMovingDays) S.slowMovingDays = 30;
+
+  const cutoffDate = new Date(Date.now() - S.slowMovingDays*24*60*60*1000);
+
+  const slowMoving = DB.products.filter(p=>{
+    const lastTransaction = DB.transactions
+      .filter(t=>t.sku===p.sku)
+      .sort((a,b)=>new Date(b.date)-new Date(a.date))[0];
+
+    if(!lastTransaction) return true;
+    return new Date(lastTransaction.date) < cutoffDate;
+  });
+
+  const rows = slowMoving.map(p=>{
+    const lastTrans = DB.transactions
+      .filter(t=>t.sku===p.sku)
+      .sort((a,b)=>new Date(b.date)-new Date(a.date))[0];
+
+    const daysSinceMovement = lastTrans
+      ? Math.floor((Date.now() - new Date(lastTrans.date))/(24*60*60*1000))
+      : 999;
+
+    return `<tr>
+      <td class="td-sku">${p.sku}</td>
+      <td>${p.name}</td>
+      <td>${p.category}</td>
+      <td class="td-center">${fmtQty(p.current, p.uom)}</td>
+      <td class="td-center"><span style="color:var(--warning);font-weight:600">${daysSinceMovement > 365 ? '365+' : daysSinceMovement}</span></td>
+      <td>${lastTrans ? fmtDate(lastTrans.date) : 'Never'}</td>
+      <td>${p.supplier}</td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="card-header">
+      <span class="card-title">Slow-Moving Stock Report</span>
+      <div>
+        <button class="btn btn-sm" onclick="exportToExcel('slow-moving')">📥 Download Excel</button>
+        <button class="btn btn-sm" onclick="printReport()">🖨️ Print Report</button>
+      </div>
+    </div>
+    <div class="toolbar">
+      <label style="margin-right:12px">No movement in:</label>
+      <button class="btn btn-sm ${S.slowMovingDays===30?'btn-primary':''}" onclick="S.slowMovingDays=30;navigate('reports')">30 days</button>
+      <button class="btn btn-sm ${S.slowMovingDays===60?'btn-primary':''}" onclick="S.slowMovingDays=60;navigate('reports')">60 days</button>
+      <button class="btn btn-sm ${S.slowMovingDays===90?'btn-primary':''}" onclick="S.slowMovingDays=90;navigate('reports')">90 days</button>
+    </div>
+    <div class="stat-card warning" style="margin-bottom:20px">
+      <div class="stat-label">Slow-Moving Items (${S.slowMovingDays}+ days)</div>
+      <div class="stat-value">${slowMoving.length}</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>SKU</th><th>Product</th><th>Category</th>
+          <th style="text-align:center">Current Stock</th>
+          <th style="text-align:center">Days Since Movement</th>
+          <th>Last Transaction</th>
+          <th>Supplier</th>
+        </tr></thead>
+        <tbody>${rows||`<tr><td colspan="7"><div class="empty"><div class="empty-icon">✓</div><div class="empty-txt">All items have recent movement</div></div></td></tr>`}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderLowStockReport(){
+  const crit = criticalAlerts();
+  const warn = warningAlerts();
+  const lowStock = [...crit, ...warn];
+
+  const rows = lowStock.map(p=>{
+    const avail = available(p);
+    const s = stockStatus(p);
+    const orderQty = Math.max(0, p.par - avail);
+
+    return `<tr>
+      <td><span class="sdot ${s}"></span></td>
+      <td class="td-sku">${p.sku}</td>
+      <td>${p.name}</td>
+      <td>${p.category}</td>
+      <td class="td-center"><span style="color:${s==='critical'?'var(--critical)':'var(--warning)'}">${fmtQty(avail, p.uom)}</span></td>
+      <td class="td-center">${fmtQty(p.par, p.uom)}</td>
+      <td class="td-center"><span style="color:var(--accent);font-weight:600">${fmtQty(orderQty, p.uom)}</span></td>
+      <td>${p.supplier}</td>
+      <td>${canAccess(['super_admin','purchaser'])?`<button class="btn btn-sm" onclick="createPOFromProduct('${p.sku}')">Create PO</button>`:''}</td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="card-header">
+      <span class="card-title">Low Stock Alerts Report</span>
+      <div>
+        <button class="btn btn-sm" onclick="exportToExcel('low-stock')">📥 Download Excel</button>
+        <button class="btn btn-sm" onclick="printReport()">🖨️ Print Report</button>
+      </div>
+    </div>
+    <div class="stats-grid" style="grid-template-columns:repeat(2,1fr);margin-bottom:20px">
+      <div class="stat-card critical">
+        <div class="stat-label">Critical Stock</div>
+        <div class="stat-value">${crit.length}</div>
+      </div>
+      <div class="stat-card warning">
+        <div class="stat-label">Low Stock Warning</div>
+        <div class="stat-value">${warn.length}</div>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th></th><th>SKU</th><th>Product</th><th>Category</th>
+          <th style="text-align:center">Available</th>
+          <th style="text-align:center">Par Level</th>
+          <th style="text-align:center">Order Qty</th>
+          <th>Supplier</th>
+          <th>Action</th>
+        </tr></thead>
+        <tbody>${rows||`<tr><td colspan="9"><div class="empty"><div class="empty-icon">✓</div><div class="empty-txt">All items are above par level</div></div></td></tr>`}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function createPOFromProduct(sku){
+  const product = DB.products.find(p=>p.sku===sku);
+  if(!product) return;
+
+  const avail = available(product);
+  const orderQty = Math.max(0, product.par - avail);
+
+  S.newPO = {
+    supplier: product.supplier,
+    contact: '',
+    exp: new Date(Date.now() + product.lead*24*60*60*1000).toISOString().split('T')[0],
+    items: [{
+      sku: product.sku,
+      name: product.name,
+      uom: product.uom,
+      ordered: orderQty,
+      received: 0
+    }]
+  };
+
+  navigate('purchase-orders');
+  setTimeout(() => showCreatePO(), 100);
+}
+
+function renderUsers(){
+  if (!S.users) S.users = [];
+
+  const roleLabels = {
+    super_admin: 'Super Admin',
+    purchaser: 'Purchaser',
+    stock_keeper: 'Stock Keeper',
+    production: 'Production'
+  };
+
+  const statusBadge = (status) => status === 'active'
+    ? '<span class="badge badge-active">Active</span>'
+    : '<span class="badge badge-disc">Inactive</span>';
+
+  const rows = S.users.map(u => {
+    const lastLogin = u.last_login ? fmtDate(u.last_login) : '—';
+    return `<tr>
+      <td>${u.username}</td>
+      <td>${u.full_name}</td>
+      <td>${u.email || '—'}</td>
+      <td>${roleLabels[u.role] || u.role}</td>
+      <td>${statusBadge(u.status)}</td>
+      <td>${lastLogin}</td>
+      <td>
+        <button class="btn btn-sm" onclick="showEditUser(${u.id})" style="margin-right:4px">Edit</button>
+        ${u.id !== S.user.id ? `<button class="btn btn-sm" onclick="deleteUser(${u.id}, '${u.username}')" style="color:var(--critical)">Delete</button>` : ''}
+      </td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Username</th><th>Full Name</th><th>Email</th><th>Role</th><th>Status</th><th>Last Login</th><th>Actions</th>
+        </tr></thead>
+        <tbody>${rows || '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-tertiary)">No users found</td></tr>'}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderSuppliers(){
+  if (!DB.suppliers) DB.suppliers = [];
+
+  const statusBadge = (status) => status === 'active'
+    ? '<span class="badge badge-active">Active</span>'
+    : '<span class="badge badge-disc">Inactive</span>';
+
+  const rows = DB.suppliers.map(s => {
+    return `<tr>
+      <td style="font-weight:500">${s.name}</td>
+      <td>${s.contact_person || '—'}</td>
+      <td style="font-family:var(--font-mono);font-size:11px">${s.phone || '—'}</td>
+      <td>${s.email || '—'}</td>
+      <td style="font-size:12px;color:var(--text-secondary)">${s.address || '—'}</td>
+      <td style="text-align:center">${s.lead_time_days || 0} days</td>
+      <td>${statusBadge(s.status)}</td>
+      <td>
+        <button class="btn btn-sm" onclick="showEditSupplier(${s.id})" style="margin-right:4px">Edit</button>
+        <button class="btn btn-sm" onclick="deleteSupplier(${s.id}, '${s.name}')" style="color:var(--critical)">Delete</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  return `<div class="card">
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Supplier Name</th>
+          <th>Contact Person</th>
+          <th>Phone</th>
+          <th>Email</th>
+          <th>Address</th>
+          <th>Lead Time</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr></thead>
+        <tbody>${rows.length ? rows : '<tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text-tertiary)">No suppliers found</td></tr>'}</tbody>
+      </table>
     </div>
   </div>`;
 }
@@ -1551,23 +3107,651 @@ function showModal(html){
 }
 function hideModal(){document.getElementById('modal-root').innerHTML='';}
 
-function showCreatePO(){
+async function changeJobStatus(jobNumber, newStatus, event) {
+  event.stopPropagation(); // Prevent card click event
+
+  try {
+    const response = await fetch(`/api/job-orders/${jobNumber}/status`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({ status: newStatus })
+    });
+
+    if (response.ok) {
+      await loadData(); // Reload data to refresh the kanban board
+      renderContent(); // Re-render the current view
+    } else {
+      const error = await response.json();
+      alert('Failed to update job status: ' + (error.error || 'Unknown error'));
+    }
+  } catch (error) {
+    console.error('Error updating job status:', error);
+    alert('Failed to update job status');
+  }
+}
+
+async function cancelPO(poNumber, event) {
+  event.stopPropagation();
+
+  if (!confirm(`Are you sure you want to cancel Purchase Order ${poNumber}?\n\nYou can restore it later from the List view.`)) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/purchase-orders/${poNumber}/status`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({ status: 'cancelled' })
+    });
+
+    if (response.ok) {
+      await loadData();
+      renderContent();
+    } else {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        alert('Failed to cancel purchase order: ' + (error.error || 'Unknown error'));
+      } else {
+        alert('Failed to cancel purchase order. Please check if the server is running.');
+      }
+    }
+  } catch (error) {
+    console.error('Error cancelling purchase order:', error);
+    alert('Failed to cancel purchase order');
+  }
+}
+
+async function restorePO(poNumber, event) {
+  event.stopPropagation();
+
+  if (!confirm(`Restore Purchase Order ${poNumber} to Draft status?`)) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/purchase-orders/${poNumber}/status`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({ status: 'draft' })
+    });
+
+    if (response.ok) {
+      await loadData();
+      renderContent();
+    } else {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        alert('Failed to restore purchase order: ' + (error.error || 'Unknown error'));
+      } else {
+        alert('Failed to restore purchase order. Please check if the server is running.');
+      }
+    }
+  } catch (error) {
+    console.error('Error restoring purchase order:', error);
+    alert('Failed to restore purchase order');
+  }
+}
+
+async function deleteJobOrder(jobNumber, event) {
+  event.stopPropagation();
+
+  if (!confirm(`Are you sure you want to delete Job Order ${jobNumber}?\n\nThis will also delete all associated requisitions.\nThis action cannot be undone.`)) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/job-orders/${jobNumber}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+
+    if (response.ok) {
+      await loadData();
+      renderContent();
+    } else {
+      const error = await response.json();
+      alert('Failed to delete job order: ' + (error.error || 'Unknown error'));
+    }
+  } catch (error) {
+    console.error('Error deleting job order:', error);
+    alert('Failed to delete job order');
+  }
+}
+
+async function deleteRequisition(reqNumber, event) {
+  event.stopPropagation();
+
+  if (!confirm(`Are you sure you want to delete Requisition ${reqNumber}?\n\nThis action cannot be undone.`)) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/requisitions/${reqNumber}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+
+    if (response.ok) {
+      await loadData();
+      renderContent();
+    } else {
+      const error = await response.json();
+      alert('Failed to delete requisition: ' + (error.error || 'Unknown error'));
+    }
+  } catch (error) {
+    console.error('Error deleting requisition:', error);
+    alert('Failed to delete requisition');
+  }
+}
+
+function showJobDetail(jobNumber){
+  const job = DB.jobOrders.find(j => j.job_number === jobNumber);
+  if(!job) return;
+
+  const statusBadge = {
+    ongoing: '<span class="badge" style="background:var(--transit-dim);color:var(--transit)">Ongoing</span>',
+    upcoming: '<span class="badge" style="background:var(--warning-dim);color:var(--warning)">Upcoming</span>',
+    completed: '<span class="badge" style="background:var(--healthy-dim);color:var(--healthy)">Completed</span>'
+  }[job.status] || job.status;
+
+  const materialsRows = job.materials.map(m => {
+    const product = DB.products.find(p => p.sku === m.sku);
+    const available = product ? Math.max(0, product.current - product.allocated) : 0;
+    const fulfilled = m.allocated >= m.required;
+
+    return `<tr>
+      <td class="td-sku">${m.sku}</td>
+      <td>${m.name}</td>
+      <td class="td-center">${fmtQty(m.required, product?.uom || 'unit')}</td>
+      <td class="td-center">${fmtQty(m.allocated, product?.uom || 'unit')}</td>
+      <td class="td-center">${fmtQty(m.used, product?.uom || 'unit')}</td>
+      <td class="td-center">
+        <span style="color:${available > 0 ? 'var(--healthy)' : 'var(--critical)'}">${fmtQty(available, product?.uom || 'unit')}</span>
+      </td>
+      <td class="td-center">
+        ${fulfilled ? '<span style="color:var(--healthy)">✓</span>' : '<span style="color:var(--warning)">⚠</span>'}
+      </td>
+    </tr>`;
+  }).join('');
+
+  const html = `<div class="modal-dialog" style="max-width:900px">
+    <div class="modal-header">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:12px;color:var(--accent);font-weight:700;margin-bottom:4px">${job.job_number}</div>
+        <div class="modal-title">${job.project_name}</div>
+      </div>
+      <button class="close-btn" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+        <div>
+          <div class="field-label">Customer</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-primary)">${job.customer_name}</div>
+        </div>
+        <div>
+          <div class="field-label">Status</div>
+          <div>${statusBadge} <span class="job-priority ${job.priority}">${job.priority}</span></div>
+        </div>
+        <div>
+          <div class="field-label">Contact Person</div>
+          <div style="font-size:13px">${job.contact_person || '—'}</div>
+          ${job.contact_phone ? `<div style="font-size:12px;color:var(--text-tertiary);margin-top:2px">${job.contact_phone}</div>` : ''}
+        </div>
+        <div>
+          <div class="field-label">Location</div>
+          <div style="font-size:13px">${job.location || '—'}</div>
+        </div>
+        <div>
+          <div class="field-label">Order Date</div>
+          <div style="font-size:13px">${fmtDate(job.order_date)}</div>
+        </div>
+        <div>
+          <div class="field-label">Due Date</div>
+          <div style="font-size:13px;font-weight:600">${fmtDate(job.due_date)}</div>
+        </div>
+        ${job.start_date ? `<div>
+          <div class="field-label">Start Date</div>
+          <div style="font-size:13px">${fmtDate(job.start_date)}</div>
+        </div>` : ''}
+        ${job.completion_date ? `<div>
+          <div class="field-label">Completion Date</div>
+          <div style="font-size:13px">${fmtDate(job.completion_date)}</div>
+        </div>` : ''}
+        ${job.total_value ? `<div>
+          <div class="field-label">Total Value</div>
+          <div style="font-family:var(--font-mono);font-size:16px;font-weight:700;color:var(--text-primary)">RM ${job.total_value.toLocaleString()}</div>
+        </div>` : ''}
+      </div>
+
+      ${job.description ? `<div style="margin-bottom:20px">
+        <div class="field-label">Description</div>
+        <div style="font-size:13px;color:var(--text-secondary);line-height:1.5">${job.description}</div>
+      </div>` : ''}
+
+      <div style="margin-bottom:12px">
+        <div class="field-label">Required Materials (${job.materials.length} items)</div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Product</th>
+              <th class="td-center">Required</th>
+              <th class="td-center">Allocated</th>
+              <th class="td-center">Used</th>
+              <th class="td-center">Available</th>
+              <th class="td-center">Status</th>
+            </tr>
+          </thead>
+          <tbody>${materialsRows}</tbody>
+        </table>
+      </div>
+
+      ${job.notes ? `<div style="margin-top:20px">
+        <div class="field-label">Notes</div>
+        <div style="font-size:13px;color:var(--text-secondary);background:var(--bg-elevated);padding:12px;border-radius:var(--radius-input);line-height:1.5">${job.notes}</div>
+      </div>` : ''}
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Close</button>
+    </div>
+  </div>`;
+
+  showModal(html);
+}
+
+function showCreateJob(){
+  if (!S.newJobMaterials) {
+    S.newJobMaterials = [{sku:'',qty:''}];
+  }
+  renderJobModal();
+}
+
+function renderJobModal(){
+  const materialRows = S.newJobMaterials.map((item,i)=>{
+    const isLastRow = i === S.newJobMaterials.length - 1;
+    return `<tr>
+      <td>${i+1}</td>
+      <td>
+        <input
+          type="text"
+          class="fi job-product-search"
+          style="width:250px"
+          placeholder="Search product..."
+          value="${item.sku ? getProductLabel(item.sku) : ''}"
+          data-sku="${item.sku}"
+          id="job-mat-sku-${i}"
+          onkeyup="searchJobProduct(${i}, this.value)"
+          onfocus="showJobProductDropdown(${i}, this.value)"
+          autocomplete="off"
+        >
+        <div id="job-dropdown-${i}" class="product-dropdown" style="display:none;position:absolute;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;max-height:200px;overflow-y:auto;width:250px;z-index:1000;margin-top:2px;box-shadow:0 4px 12px rgba(0,0,0,0.15)"></div>
+      </td>
+      <td><input class="fi" type="number" placeholder="Qty" style="width:80px" value="${item.qty}" onchange="updateJobMaterial(${i},'qty',this.value)" id="job-mat-qty-${i}"></td>
+      <td>${S.newJobMaterials.length > 1 ? `<button class="btn btn-sm btn-danger" onclick="removeJobMaterial(${i})">✕</button>` : ''}</td>
+    </tr>`;
+  }).join('');
+
+  showModal(`<div class="modal" style="max-width:900px">
+    <div class="modal-header">
+      <span class="modal-title">Create New Job Order</span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid" style="grid-template-columns:1fr 1fr">
+        <div class="form-group">
+          <label class="form-label">Customer Name</label>
+          <input class="form-input" id="job-customer" placeholder="Customer name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Project Name</label>
+          <input class="form-input" id="job-project" placeholder="Project name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Priority</label>
+          <select class="form-sel" id="job-priority">
+            <option value="normal">Normal</option>
+            <option value="high">High</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Order Date</label>
+          <input class="form-input" type="date" id="job-order-date" value="${new Date().toISOString().split('T')[0]}">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Due Date</label>
+          <input class="form-input" type="date" id="job-due-date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact Person</label>
+          <input class="form-input" id="job-contact" placeholder="Contact person">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact Phone</label>
+          <input class="form-input" id="job-phone" placeholder="+60 12 xxx xxxx">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Location</label>
+          <input class="form-input" id="job-location" placeholder="Job site location">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Total Value (RM)</label>
+          <input class="form-input" type="number" id="job-value" placeholder="0.00">
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Description</label>
+          <textarea class="form-ta" id="job-description" placeholder="Job description…" rows="3"></textarea>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Notes</label>
+          <textarea class="form-ta" id="job-notes" placeholder="Additional notes…" rows="2"></textarea>
+        </div>
+      </div>
+      <hr class="form-divider">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary)">Required Materials</span>
+      </div>
+      <table class="li-table">
+        <thead><tr><th>#</th><th>Product (SKU)</th><th>Quantity Required</th><th></th></tr></thead>
+        <tbody id="job-materials">${materialRows}</tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveJobOrder()">Create Job Order</button>
+    </div>
+  </div>`);
+
+  // Add click outside to close dropdowns
+  setTimeout(() => {
+    document.addEventListener('click', closeAllJobDropdowns);
+  }, 100);
+}
+
+function getProductLabel(sku) {
+  const prod = DB.products.find(p => p.sku === sku);
+  if (!prod) return '';
+  return `${prod.sku} — ${prod.name} (Avail: ${available(prod)} ${prod.uom})`;
+}
+
+function searchJobProduct(index, query) {
+  const dropdown = document.getElementById(`job-dropdown-${index}`);
+  if (!dropdown) return;
+
+  if (!query || query.length < 1) {
+    showJobProductDropdown(index, '');
+    return;
+  }
+
+  const searchTerm = query.toLowerCase();
+  const filtered = DB.products.filter(p => {
+    return p.sku.toLowerCase().includes(searchTerm) ||
+           p.name.toLowerCase().includes(searchTerm);
+  });
+
+  if (filtered.length === 0) {
+    dropdown.innerHTML = '<div style="padding:12px;color:var(--text-tertiary);text-align:center">No products found</div>';
+    dropdown.style.display = 'block';
+    return;
+  }
+
+  const items = filtered.slice(0, 10).map(p => {
+    return `<div class="product-dropdown-item" onclick="selectJobProduct(${index}, '${p.sku}')" style="padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--border-dim)" onmouseover="this.style.background='var(--bg-hover)'" onmouseout="this.style.background='transparent'">
+      <div style="font-weight:500;color:var(--text-primary)">${p.sku}</div>
+      <div style="font-size:12px;color:var(--text-secondary)">${p.name}</div>
+      <div style="font-size:11px;color:var(--text-tertiary)">Available: ${available(p)} ${p.uom}</div>
+    </div>`;
+  }).join('');
+
+  dropdown.innerHTML = items;
+  dropdown.style.display = 'block';
+}
+
+function showJobProductDropdown(index, currentValue) {
+  searchJobProduct(index, currentValue);
+}
+
+function selectJobProduct(index, sku) {
+  const input = document.getElementById(`job-mat-sku-${index}`);
+  const dropdown = document.getElementById(`job-dropdown-${index}`);
+
+  if (input) {
+    input.value = getProductLabel(sku);
+    input.setAttribute('data-sku', sku);
+  }
+
+  if (dropdown) {
+    dropdown.style.display = 'none';
+  }
+
+  // Update the material in state
+  S.newJobMaterials[index].sku = sku;
+
+  // Auto-add new row if this is the last row and has a product selected
+  if (index === S.newJobMaterials.length - 1 && sku) {
+    addJobMaterial();
+  }
+
+  // Focus on quantity field
+  setTimeout(() => {
+    const qtyInput = document.getElementById(`job-mat-qty-${index}`);
+    if (qtyInput) qtyInput.focus();
+  }, 100);
+}
+
+function closeAllJobDropdowns(e) {
+  // Close all dropdowns unless clicking on a search input or dropdown
+  if (!e.target.classList.contains('job-product-search') &&
+      !e.target.closest('.product-dropdown')) {
+    document.querySelectorAll('.product-dropdown').forEach(d => d.style.display = 'none');
+  }
+}
+
+function addJobMaterial(){
+  S.newJobMaterials.push({sku:'',qty:''});
+
+  // Store current form values
+  const materialValues = S.newJobMaterials.map((item, i) => {
+    const skuInput = document.getElementById(`job-mat-sku-${i}`);
+    const qtyInput = document.getElementById(`job-mat-qty-${i}`);
+    return {
+      sku: skuInput ? skuInput.getAttribute('data-sku') || '' : item.sku,
+      qty: qtyInput ? qtyInput.value : item.qty
+    };
+  });
+
+  // Update state with preserved values
+  materialValues.forEach((val, i) => {
+    if (S.newJobMaterials[i]) {
+      S.newJobMaterials[i] = val;
+    }
+  });
+
+  // Re-render only the materials table instead of whole modal
+  const tbody = document.getElementById('job-materials');
+  if (tbody) {
+    const materialRows = S.newJobMaterials.map((item,i)=>{
+      return `<tr>
+        <td>${i+1}</td>
+        <td>
+          <input
+            type="text"
+            class="fi job-product-search"
+            style="width:250px"
+            placeholder="Search product..."
+            value="${item.sku ? getProductLabel(item.sku) : ''}"
+            data-sku="${item.sku}"
+            id="job-mat-sku-${i}"
+            onkeyup="searchJobProduct(${i}, this.value)"
+            onfocus="showJobProductDropdown(${i}, this.value)"
+            autocomplete="off"
+          >
+          <div id="job-dropdown-${i}" class="product-dropdown" style="display:none;position:absolute;background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;max-height:200px;overflow-y:auto;width:250px;z-index:1000;margin-top:2px;box-shadow:0 4px 12px rgba(0,0,0,0.15)"></div>
+        </td>
+        <td><input class="fi" type="number" placeholder="Qty" style="width:80px" value="${item.qty}" onchange="updateJobMaterial(${i},'qty',this.value)" id="job-mat-qty-${i}"></td>
+        <td>${S.newJobMaterials.length > 1 ? `<button class="btn btn-sm btn-danger" onclick="removeJobMaterial(${i})">✕</button>` : ''}</td>
+      </tr>`;
+    }).join('');
+    tbody.innerHTML = materialRows;
+  }
+}
+
+function removeJobMaterial(i){
+  if (S.newJobMaterials.length <= 1) return;
+  S.newJobMaterials.splice(i,1);
+  addJobMaterial(); // Re-render the table
+}
+
+function updateJobMaterial(i,key,val){
+  S.newJobMaterials[i][key]=val;
+}
+
+async function saveJobOrder(){
+  const customer_name = document.getElementById('job-customer').value.trim();
+  const project_name = document.getElementById('job-project').value.trim();
+  const order_date = document.getElementById('job-order-date').value;
+  const due_date = document.getElementById('job-due-date').value;
+
+  if(!customer_name || !project_name || !due_date){
+    alert('Please fill in all required fields (Customer Name, Project Name, Due Date)');
+    return;
+  }
+
+  // Get materials with names
+  const materials = S.newJobMaterials.filter(m=>m.sku && m.qty).map(m=>{
+    const prod = DB.products.find(p=>p.sku===m.sku);
+    return {
+      sku: m.sku,
+      name: prod?.name || m.sku,
+      quantity: parseFloat(m.qty)
+    };
+  });
+
+  if(materials.length === 0){
+    alert('Please add at least one material');
+    return;
+  }
+
+  const jobData = {
+    customer_name,
+    project_name,
+    description: document.getElementById('job-description').value,
+    order_date,
+    due_date,
+    priority: document.getElementById('job-priority').value,
+    location: document.getElementById('job-location').value,
+    contact_person: document.getElementById('job-contact').value,
+    contact_phone: document.getElementById('job-phone').value,
+    total_value: parseFloat(document.getElementById('job-value').value) || 0,
+    notes: document.getElementById('job-notes').value,
+    materials,
+    user_id: S.user.id
+  };
+
+  try {
+    const response = await fetch('/api/job-orders', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify(jobData)
+    });
+
+    if(response.ok){
+      const result = await response.json();
+      alert(`✅ Job Order created successfully!\n\nJob Number: ${result.job_number}\nRequisition: ${result.req_number}\n\nA requisition has been automatically created for the materials.`);
+      S.newJobMaterials = [{sku:'',qty:''}];
+      await loadData();
+      hideModal();
+      navigate('job-orders');
+    } else {
+      const error = await response.json();
+      alert('Failed to create job order: ' + (error.error || 'Unknown error'));
+    }
+  } catch(error){
+    console.error('Error creating job order:', error);
+    alert('Failed to create job order');
+  }
+}
+
+async function showCreatePO(){
   S.newPOItems = [{sku:'',qty:'',eta:''}];
+  S.selectedSupplierId = null;
+  S.supplierProducts = [];
+
+  // Load suppliers from API
+  try {
+    const response = await fetch('/api/suppliers');
+    S.suppliers = await response.json();
+  } catch(err) {
+    console.error('Error loading suppliers:', err);
+    S.suppliers = [];
+  }
+
+  renderPOModal();
+}
+
+async function onSupplierChange(supplierId){
+  S.selectedSupplierId = supplierId;
+
+  if(!supplierId) {
+    S.supplierProducts = [];
+    renderPOModal();
+    return;
+  }
+
+  // Load products for selected supplier
+  try {
+    const response = await fetch(`/api/suppliers/${supplierId}/products`);
+    S.supplierProducts = await response.json();
+  } catch(err) {
+    console.error('Error loading supplier products:', err);
+    S.supplierProducts = [];
+  }
+
+  // Auto-populate supplier phone and calculate expected delivery
+  const supplier = S.suppliers.find(s => s.id == supplierId);
+  if(supplier) {
+    document.getElementById('po-contact').value = supplier.phone || '';
+
+    // Calculate expected delivery date based on lead time
+    const today = new Date();
+    const deliveryDate = new Date(today.getTime() + (supplier.lead_time_days || 7) * 24 * 60 * 60 * 1000);
+    document.getElementById('po-exp').value = deliveryDate.toISOString().split('T')[0];
+  }
+
   renderPOModal();
 }
 
 function renderPOModal(){
-  const suppliers = [...new Set(DB.products.map(p=>p.supplier))];
-  const skuOptions = DB.products.map(p=>`<option value="${p.sku}">${p.sku} — ${p.name}</option>`).join('');
+  const supplierOptions = S.suppliers?.map(s=>
+    `<option value="${s.id}" ${S.selectedSupplierId==s.id?'selected':''}>${s.name}</option>`
+  ).join('') || '';
+
+  const skuOptions = (S.supplierProducts || []).map(p=>
+    `<option value="${p.sku}">${p.sku} — ${p.name}</option>`
+  ).join('');
+
   const lineRows = S.newPOItems.map((item,i)=>`<tr>
     <td>${i+1}</td>
-    <td><select class="fi" style="width:200px" onchange="updatePOLine(${i},'sku',this.value)">
+    <td><select class="fi" style="width:200px" onchange="updatePOLine(${i},'sku',this.value)" ${!S.selectedSupplierId?'disabled':''}>
       <option value="">Select product…</option>${skuOptions}
     </select></td>
-    <td><input class="fi" type="number" placeholder="Qty" style="width:70px" onchange="updatePOLine(${i},'qty',this.value)"></td>
-    <td><input class="fi" type="date" onchange="updatePOLine(${i},'eta',this.value)"></td>
+    <td><input class="fi" type="number" placeholder="Qty" style="width:70px" value="${item.qty||''}" onchange="updatePOLine(${i},'qty',this.value)"></td>
+    <td><input class="fi" type="date" value="${item.eta||''}" onchange="updatePOLine(${i},'eta',this.value)"></td>
     <td><button class="btn btn-sm btn-danger" onclick="removePOLine(${i})">✕</button></td>
   </tr>`).join('');
+
+  const today = new Date().toISOString().split('T')[0];
+  const currentSupplier = S.suppliers?.find(s => s.id == S.selectedSupplierId);
+  const currentPhone = currentSupplier?.phone || '';
+  const currentExp = document.getElementById('po-exp')?.value || '';
 
   showModal(`<div class="modal">
     <div class="modal-header">
@@ -1577,22 +3761,23 @@ function renderPOModal(){
     <div class="modal-body">
       <div class="form-grid">
         <div class="form-group">
-          <label class="form-label">Supplier Name</label>
-          <select class="form-sel" id="po-supplier">
-            ${suppliers.map(s=>`<option>${s}</option>`).join('')}
+          <label class="form-label">Supplier Name *</label>
+          <select class="form-sel" id="po-supplier" onchange="onSupplierChange(this.value)">
+            <option value="">— Select Supplier First —</option>
+            ${supplierOptions}
           </select>
         </div>
         <div class="form-group">
           <label class="form-label">Supplier Contact</label>
-          <input class="form-input" id="po-contact" placeholder="+60 12 xxx xxxx">
+          <input class="form-input" id="po-contact" value="${currentPhone}" placeholder="+60 12 xxx xxxx">
         </div>
         <div class="form-group">
           <label class="form-label">PO Date</label>
-          <input class="form-input" type="date" id="po-date" value="2024-03-10">
+          <input class="form-input" type="date" id="po-date" value="${today}">
         </div>
         <div class="form-group">
           <label class="form-label">Expected Delivery</label>
-          <input class="form-input" type="date" id="po-exp">
+          <input class="form-input" type="date" id="po-exp" value="${currentExp}">
         </div>
         <div class="form-group span-2">
           <label class="form-label">Notes</label>
@@ -1602,17 +3787,18 @@ function renderPOModal(){
       <hr class="form-divider">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-tertiary)">Line Items</span>
-        <button class="btn btn-sm" onclick="addPOLine()">+ Add Item</button>
+        <button class="btn btn-sm" onclick="addPOLine()" ${!S.selectedSupplierId?'disabled':''}>+ Add Item</button>
       </div>
-      <table class="li-table">
+      ${!S.selectedSupplierId ? '<div style="text-align:center;padding:20px;color:var(--text-tertiary);font-size:14px">Please select a supplier first to add products</div>' : ''}
+      <table class="li-table" ${!S.selectedSupplierId?'style="display:none"':''}>
         <thead><tr><th>#</th><th>Product (SKU)</th><th>Qty</th><th>ETA Date</th><th></th></tr></thead>
         <tbody id="po-lines">${lineRows}</tbody>
       </table>
     </div>
     <div class="modal-footer">
       <button class="btn" onclick="hideModal()">Cancel</button>
-      <button class="btn" onclick="savePO('draft')">Save Draft</button>
-      <button class="btn btn-primary" onclick="savePO('sent')">Send to Supplier</button>
+      <button class="btn" onclick="savePO('draft')" ${!S.selectedSupplierId?'disabled':''}>Save Draft</button>
+      <button class="btn btn-primary" onclick="savePO('sent')" ${!S.selectedSupplierId?'disabled':''}>Send to Supplier</button>
     </div>
   </div>`);
 }
@@ -1621,47 +3807,273 @@ function addPOLine(){S.newPOItems.push({sku:'',qty:'',eta:''});renderPOModal();}
 function removePOLine(i){S.newPOItems.splice(i,1);renderPOModal();}
 function updatePOLine(i,key,val){S.newPOItems[i][key]=val;}
 
-function savePO(status){
-  const newId = `PO-2024-00${DB.pos.length+1}`;
-  const supplier = document.getElementById('po-supplier').value;
+async function savePO(status){
+  if(!S.selectedSupplierId) {
+    alert('Please select a supplier first');
+    return;
+  }
+
+  const supplier = S.suppliers.find(s => s.id == S.selectedSupplierId);
+  if(!supplier) {
+    alert('Supplier not found');
+    return;
+  }
+
   const contact = document.getElementById('po-contact').value;
   const date = document.getElementById('po-date').value;
   const exp = document.getElementById('po-exp').value;
   const notes = document.getElementById('po-notes').value;
-  const items = S.newPOItems.filter(i=>i.sku).map(i=>{
-    const prod = DB.products.find(p=>p.sku===i.sku);
-    return {sku:i.sku,name:prod?.name||i.sku,ordered:parseFloat(i.qty)||0,received:0,eta:i.eta};
+
+  const items = S.newPOItems.filter(i=>i.sku && i.qty).map(i=>{
+    const prod = S.supplierProducts.find(p=>p.sku===i.sku);
+    return {
+      sku: i.sku,
+      name: prod?.name || i.sku,
+      ordered: parseFloat(i.qty) || 0,
+      received: 0,
+      eta: i.eta
+    };
   });
-  DB.pos.push({id:newId,date,supplier,contact,exp,status,notes,items});
-  hideModal();
-  navigate('purchase-orders');
+
+  if(items.length === 0) {
+    alert('Please add at least one product');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/purchase-orders', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        supplier: supplier.name,
+        contact,
+        date,
+        exp,
+        status,
+        notes,
+        items
+      })
+    });
+
+    if(!response.ok) {
+      throw new Error('Failed to create purchase order');
+    }
+
+    await loadData();
+    hideModal();
+    navigate('purchase-orders');
+  } catch(err) {
+    console.error('Error saving PO:', err);
+    alert('Failed to create purchase order');
+  }
+}
+
+// ─── PRODUCT SKU & VARIANT HELPERS ──────────────────────────────────────────
+
+const pinyinMap = {
+  '加': 'jia', '尼': 'ni', '兴': 'xing',
+  '厚': 'hou', '华': 'hua',
+  '好': 'hao', '莱': 'lai', '誉': 'yu',
+  '迈': 'mai', '比': 'bi', '克': 'ke'
+};
+
+function chineseToPinyin(text) {
+  let result = '';
+  for (let char of text) {
+    result += pinyinMap[char] || char;
+  }
+  return result;
+}
+
+function generateSKUPrefix(supplierName) {
+  if (!supplierName) return '';
+  const hasChinese = /[\u4e00-\u9fa5]/.test(supplierName);
+  if (hasChinese) {
+    const pinyin = chineseToPinyin(supplierName);
+    return pinyin.substring(0, 4).toUpperCase();
+  } else {
+    return supplierName.replace(/\s+/g, '').substring(0, 4).toUpperCase();
+  }
+}
+
+function generateSKU() {
+  const supplier = document.getElementById('np-supplier').value;
+  if (!supplier) {
+    alert('Please select a supplier first');
+    return;
+  }
+  const prefix = generateSKUPrefix(supplier);
+  const code = Math.floor(1000 + Math.random() * 9000);
+  document.getElementById('np-sku').value = `${prefix}-${code}`;
+  validateSKU();
+}
+
+async function validateSKU() {
+  const sku = document.getElementById('np-sku').value.trim();
+  const validationDiv = document.getElementById('sku-validation');
+  if (!sku) {
+    validationDiv.innerHTML = '';
+    return;
+  }
+  const exists = DB.products.find(p => p.sku === sku);
+  if (exists) {
+    validationDiv.innerHTML = '<span style="color:var(--critical)">✗ SKU already exists</span>';
+    return false;
+  } else {
+    validationDiv.innerHTML = '<span style="color:var(--healthy)">✓ SKU available</span>';
+    return true;
+  }
+}
+
+function toggleVariantSection() {
+  const hasVariant = document.getElementById('np-has-variant').checked;
+  const variantSection = document.getElementById('variant-section');
+  variantSection.style.display = hasVariant ? 'block' : 'none';
+  if (hasVariant && !document.getElementById('variant-list').children.length) {
+    addVariantRow();
+  }
+}
+
+let variantCounter = 0;
+function addVariantRow() {
+  const baseSKU = document.getElementById('np-sku').value.trim();
+  if (!baseSKU) {
+    alert('Please generate the base SKU first');
+    return;
+  }
+  const id = variantCounter++;
+  const variantList = document.getElementById('variant-list');
+  const row = document.createElement('div');
+  row.id = `variant-row-${id}`;
+  row.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 120px auto;gap:8px;margin-bottom:8px;align-items:end';
+  row.innerHTML = `
+    <div class="form-group" style="margin:0">
+      <label class="form-label" style="font-size:11px">Variant Name</label>
+      <input class="form-input" id="variant-name-${id}" placeholder="e.g. White, Black, Large" onblur="updateVariantSKU(${id})">
+    </div>
+    <div class="form-group" style="margin:0">
+      <label class="form-label" style="font-size:11px">Variant SKU</label>
+      <input class="form-input" id="variant-sku-${id}" readonly style="background:var(--bg-elevated);font-family:var(--font-mono);font-size:11px">
+    </div>
+    <div class="form-group" style="margin:0">
+      <label class="form-label" style="font-size:11px">Opening Stock</label>
+      <input class="form-input" type="number" id="variant-stock-${id}" placeholder="0" min="0">
+    </div>
+    <button class="btn btn-sm" onclick="removeVariantRow(${id})" type="button" style="color:var(--critical)">Remove</button>
+  `;
+  variantList.appendChild(row);
+}
+
+function updateVariantSKU(id) {
+  const baseSKU = document.getElementById('np-sku').value.trim();
+  const variantName = document.getElementById(`variant-name-${id}`).value.trim();
+  if (variantName) {
+    const variantSlug = variantName.toLowerCase().replace(/\s+/g, '-');
+    document.getElementById(`variant-sku-${id}`).value = `${baseSKU}-${variantSlug}`;
+  }
+}
+
+function removeVariantRow(id) {
+  const row = document.getElementById(`variant-row-${id}`);
+  if (row) row.remove();
 }
 
 function showAddProduct(){
-  showModal(`<div class="modal">
+  const supplierOptions = DB.suppliers
+    .filter(s => s.status === 'active')
+    .map(s => `<option value="${s.name}">${s.name}</option>`)
+    .join('');
+
+  variantCounter = 0;
+
+  showModal(`<div class="modal" style="max-width:900px">
     <div class="modal-header">
       <span class="modal-title">Add New Product</span>
       <button class="modal-close" onclick="hideModal()">✕</button>
     </div>
     <div class="modal-body">
       <div class="form-grid">
-        <div class="form-group"><label class="form-label">SKU</label><input class="form-input" id="np-sku" placeholder="e.g. AL-800-3M"></div>
-        <div class="form-group"><label class="form-label">Product Name</label><input class="form-input" id="np-name" placeholder="Profile 800 3m"></div>
-        <div class="form-group"><label class="form-label">Category</label>
+        <div class="form-group span-2">
+          <label class="form-label">Supplier *</label>
+          <select class="form-sel" id="np-supplier" onchange="generateSKU()" required>
+            <option value="">-- Select Supplier --</option>
+            ${supplierOptions}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">SKU * <span style="font-size:10px;color:var(--text-tertiary)">(Auto-generated, editable)</span></label>
+          <input class="form-input" id="np-sku" placeholder="Select supplier first" onblur="validateSKU()" style="font-family:var(--font-mono)">
+          <div id="sku-validation" style="font-size:11px;margin-top:4px"></div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Product Name *</label>
+          <input class="form-input" id="np-name" placeholder="e.g. Profile 800 3m" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Category</label>
           <select class="form-sel" id="np-cat">
             <option>Aluminium</option><option>Hardware</option><option>Glass</option><option>Accessory</option>
           </select>
         </div>
-        <div class="form-group"><label class="form-label">Sub-Category</label><input class="form-input" id="np-sub"></div>
-        <div class="form-group"><label class="form-label">Unit of Measure</label>
-          <select class="form-sel" id="np-uom"><option>pcs</option><option>meter</option><option>sqm</option><option>set</option><option>roll</option></select>
+        <div class="form-group">
+          <label class="form-label">Sub-Category</label>
+          <input class="form-input" id="np-sub">
         </div>
-        <div class="form-group"><label class="form-label">Rack Location</label><input class="form-input" id="np-rack" placeholder="A-01"></div>
-        <div class="form-group"><label class="form-label">Par Level</label><input class="form-input" type="number" id="np-par" placeholder="0"></div>
-        <div class="form-group"><label class="form-label">Reorder Point</label><input class="form-input" type="number" id="np-reorder" placeholder="0"></div>
-        <div class="form-group"><label class="form-label">Lead Time (days)</label><input class="form-input" type="number" id="np-lead" placeholder="30"></div>
-        <div class="form-group"><label class="form-label">Supplier</label><input class="form-input" id="np-supplier"></div>
-        <div class="form-group"><label class="form-label">Opening Stock</label><input class="form-input" type="number" id="np-stock" placeholder="0"></div>
+
+        <div class="form-group">
+          <label class="form-label">Unit of Measure</label>
+          <select class="form-sel" id="np-uom">
+            <option>pcs</option><option>meter</option><option>sqm</option><option>set</option><option>roll</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Rack Location</label>
+          <input class="form-input" id="np-rack" placeholder="A-01">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Par Level</label>
+          <input class="form-input" type="number" id="np-par" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reorder Point</label>
+          <input class="form-input" type="number" id="np-reorder" placeholder="0">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Lead Time (days)</label>
+          <input class="form-input" type="number" id="np-lead" placeholder="30">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Opening Stock</label>
+          <input class="form-input" type="number" id="np-stock" placeholder="0">
+        </div>
+
+        <div class="form-group span-2">
+          <label class="form-label">Product Image</label>
+          <input class="form-input" type="file" id="np-image" accept="image/*" onchange="handleImagePreview(this, 'np-preview')">
+          <div id="np-preview" style="margin-top:8px"></div>
+        </div>
+
+        <div class="form-group span-2" style="border-top:1px solid var(--border-default);padding-top:16px;margin-top:8px">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer">
+            <input type="checkbox" id="np-has-variant" onchange="toggleVariantSection()" style="width:16px;height:16px;cursor:pointer">
+            <span class="form-label" style="margin:0">Has Variants</span>
+          </label>
+        </div>
+
+        <div id="variant-section" style="display:none;grid-column:1/-1">
+          <div style="background:var(--bg-elevated);padding:16px;border-radius:8px;border:1px solid var(--border-default)">
+            <div style="font-weight:600;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center">
+              <span>Product Variants</span>
+              <button class="btn btn-sm" onclick="addVariantRow()" type="button">+ Add Variant</button>
+            </div>
+            <div id="variant-list"></div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
@@ -1671,22 +4083,211 @@ function showAddProduct(){
   </div>`);
 }
 
-function saveProduct(){
+async function saveProduct(){
   const sku = document.getElementById('np-sku').value.trim();
+  const supplier = document.getElementById('np-supplier').value;
+
+  if(!supplier){alert('Please select a supplier');return;}
   if(!sku){alert('SKU is required');return;}
   if(DB.products.find(p=>p.sku===sku)){alert('SKU already exists');return;}
-  DB.products.push({
-    sku,name:document.getElementById('np-name').value,
-    cat:document.getElementById('np-cat').value,sub:document.getElementById('np-sub').value,
-    uom:document.getElementById('np-uom').value,rack:document.getElementById('np-rack').value,
-    current:parseFloat(document.getElementById('np-stock').value)||0,allocated:0,
+
+  let imageUrl = '/images/default-product.svg';
+  const imageFile = document.getElementById('np-image').files[0];
+  if(imageFile){
+    imageUrl = await uploadImage(imageFile);
+  }
+
+  const baseProduct = {
+    sku,
+    name:document.getElementById('np-name').value,
+    cat:document.getElementById('np-cat').value,
+    sub:document.getElementById('np-sub').value,
+    uom:document.getElementById('np-uom').value,
+    rack:document.getElementById('np-rack').value,
+    current:parseFloat(document.getElementById('np-stock').value)||0,
+    allocated:0,
     par:parseFloat(document.getElementById('np-par').value)||0,
     reorder:parseFloat(document.getElementById('np-reorder').value)||0,
     lead:parseInt(document.getElementById('np-lead').value)||30,
-    supplier:document.getElementById('np-supplier').value,status:'active',
+    supplier,
+    status:'active',
+    image_url:imageUrl
+  };
+
+  try {
+    // Create base product
+    await fetch('/api/products', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify(baseProduct)
+    });
+
+    // Check if variants are enabled
+    const hasVariants = document.getElementById('np-has-variant').checked;
+    if (hasVariants) {
+      const variantList = document.getElementById('variant-list');
+      const variantRows = variantList.children;
+
+      for (let i = 0; i < variantRows.length; i++) {
+        const row = variantRows[i];
+        const id = row.id.replace('variant-row-', '');
+        const variantName = document.getElementById(`variant-name-${id}`).value.trim();
+        const variantSKU = document.getElementById(`variant-sku-${id}`).value.trim();
+        const variantStock = parseFloat(document.getElementById(`variant-stock-${id}`).value) || 0;
+
+        if (variantName && variantSKU) {
+          // Check if variant SKU already exists
+          if (DB.products.find(p => p.sku === variantSKU)) {
+            alert(`Variant SKU ${variantSKU} already exists`);
+            continue;
+          }
+
+          const variantProduct = {
+            ...baseProduct,
+            sku: variantSKU,
+            name: `${baseProduct.name} - ${variantName}`,
+            current: variantStock
+          };
+
+          await fetch('/api/products', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify(variantProduct)
+          });
+        }
+      }
+    }
+
+    await loadData();
+    hideModal();
+    renderContent();
+  } catch (error) {
+    console.error('Error saving product:', error);
+    alert('Failed to save product');
+  }
+}
+
+function showEditProduct(sku, event){
+  event?.stopPropagation();
+  const product = DB.products.find(p => p.sku === sku);
+  if(!product) return;
+
+  showModal(`<div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Edit Product: ${sku}</span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">SKU</label><input class="form-input" id="ep-sku" value="${product.sku}" readonly style="background:var(--bg-elevated)"></div>
+        <div class="form-group"><label class="form-label">Product Name</label><input class="form-input" id="ep-name" value="${product.name}"></div>
+        <div class="form-group"><label class="form-label">Category</label>
+          <select class="form-sel" id="ep-cat">
+            <option ${product.cat==='Aluminium'?'selected':''}>Aluminium</option>
+            <option ${product.cat==='Hardware'?'selected':''}>Hardware</option>
+            <option ${product.cat==='Glass'?'selected':''}>Glass</option>
+            <option ${product.cat==='Accessory'?'selected':''}>Accessory</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Sub-Category</label><input class="form-input" id="ep-sub" value="${product.sub}"></div>
+        <div class="form-group"><label class="form-label">Unit of Measure</label>
+          <select class="form-sel" id="ep-uom">
+            <option ${product.uom==='pcs'?'selected':''}>pcs</option>
+            <option ${product.uom==='meter'?'selected':''}>meter</option>
+            <option ${product.uom==='sqm'?'selected':''}>sqm</option>
+            <option ${product.uom==='set'?'selected':''}>set</option>
+            <option ${product.uom==='roll'?'selected':''}>roll</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Rack Location</label><input class="form-input" id="ep-rack" value="${product.rack}"></div>
+        <div class="form-group"><label class="form-label">Par Level</label><input class="form-input" type="number" id="ep-par" value="${product.par}"></div>
+        <div class="form-group"><label class="form-label">Reorder Point</label><input class="form-input" type="number" id="ep-reorder" value="${product.reorder}"></div>
+        <div class="form-group"><label class="form-label">Lead Time (days)</label><input class="form-input" type="number" id="ep-lead" value="${product.lead}"></div>
+        <div class="form-group"><label class="form-label">Supplier</label><input class="form-input" id="ep-supplier" value="${product.supplier}"></div>
+        <div class="form-group"><label class="form-label">Current Stock</label><input class="form-input" type="number" id="ep-stock" value="${product.current}"></div>
+        <div class="form-group"><label class="form-label">Status</label>
+          <select class="form-sel" id="ep-status">
+            <option ${product.status==='active'?'selected':''}>active</option>
+            <option ${product.status==='discontinued'?'selected':''}>discontinued</option>
+          </select>
+        </div>
+        <div class="form-group span-2">
+          <label class="form-label">Product Image</label>
+          <div style="margin-bottom:8px">
+            <img src="${product.image_url||'/images/default-product.svg'}" alt="${product.name}" style="width:120px;height:120px;object-fit:cover;border-radius:var(--radius-input);border:1px solid var(--border-default)">
+          </div>
+          <input class="form-input" type="file" id="ep-image" accept="image/*" onchange="handleImagePreview(this, 'ep-preview')">
+          <div id="ep-preview" style="margin-top:8px"></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="updateProduct('${sku}')">Save Changes</button>
+    </div>
+  </div>`);
+}
+
+async function updateProduct(sku){
+  const product = DB.products.find(p => p.sku === sku);
+  if(!product) return;
+
+  let imageUrl = product.image_url;
+  const imageFile = document.getElementById('ep-image').files[0];
+  if(imageFile){
+    imageUrl = await uploadImage(imageFile);
+  }
+
+  const updatedProduct = {
+    sku,
+    name:document.getElementById('ep-name').value,
+    cat:document.getElementById('ep-cat').value,
+    sub:document.getElementById('ep-sub').value,
+    uom:document.getElementById('ep-uom').value,
+    rack:document.getElementById('ep-rack').value,
+    current:parseFloat(document.getElementById('ep-stock').value)||0,
+    par:parseFloat(document.getElementById('ep-par').value)||0,
+    reorder:parseFloat(document.getElementById('ep-reorder').value)||0,
+    lead:parseInt(document.getElementById('ep-lead').value)||30,
+    supplier:document.getElementById('ep-supplier').value,
+    status:document.getElementById('ep-status').value,
+    image_url:imageUrl,
+    allocated:product.allocated
+  };
+
+  await fetch(`/api/products/${sku}`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(updatedProduct)
   });
+
+  await loadData();
   hideModal();
   renderContent();
+}
+
+async function uploadImage(file){
+  const formData = new FormData();
+  formData.append('image', file);
+  const response = await fetch('/api/upload-image', {
+    method: 'POST',
+    body: formData
+  });
+  const data = await response.json();
+  return data.url;
+}
+
+function handleImagePreview(input, previewId){
+  const preview = document.getElementById(previewId);
+  if(input.files && input.files[0]){
+    const reader = new FileReader();
+    reader.onload = function(e){
+      preview.innerHTML = `<img src="${e.target.result}" style="width:120px;height:120px;object-fit:cover;border-radius:var(--radius-input);border:1px solid var(--border-default)">`;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
 }
 
 function showCreateReq(){
@@ -1736,21 +4337,438 @@ function saveReq(){
   hideModal();renderContent();
 }
 
+// ─── USER MANAGEMENT ─────────────────────────────────────────────────────────
+
+function showAddUser(){
+  showModal(`<div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add New User</span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Username</label><input class="form-input" id="nu-username" required></div>
+        <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="nu-fullname" required></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="nu-email"></div>
+        <div class="form-group"><label class="form-label">Role</label>
+          <select class="form-sel" id="nu-role">
+            <option value="purchaser">Purchaser</option>
+            <option value="stock_keeper">Stock Keeper</option>
+            <option value="production">Production</option>
+            <option value="super_admin">Super Admin</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" type="password" id="nu-password" required></div>
+        <div class="form-group"><label class="form-label">Confirm Password</label><input class="form-input" type="password" id="nu-confirm" required></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNewUser()">Create User</button>
+    </div>
+  </div>`);
+}
+
+async function saveNewUser(){
+  const username = document.getElementById('nu-username').value.trim();
+  const full_name = document.getElementById('nu-fullname').value.trim();
+  const email = document.getElementById('nu-email').value.trim();
+  const role = document.getElementById('nu-role').value;
+  const password = document.getElementById('nu-password').value;
+  const confirm = document.getElementById('nu-confirm').value;
+
+  if(!username || !full_name || !password){
+    alert('Please fill in all required fields');
+    return;
+  }
+
+  if(password !== confirm){
+    alert('Passwords do not match');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/users', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({username, full_name, email, role, password})
+    });
+
+    if(response.ok){
+      await loadData();
+      hideModal();
+      renderContent();
+    } else {
+      const error = await response.json();
+      alert(error.error || 'Failed to create user');
+    }
+  } catch(error){
+    console.error('Error creating user:', error);
+    alert('Failed to create user');
+  }
+}
+
+function showEditUser(userId){
+  const user = S.users.find(u => u.id === userId);
+  if(!user) return;
+
+  showModal(`<div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Edit User: ${user.username}</span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Username</label><input class="form-input" value="${user.username}" readonly style="background:var(--bg-elevated)"></div>
+        <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" id="eu-fullname" value="${user.full_name}"></div>
+        <div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="eu-email" value="${user.email||''}"></div>
+        <div class="form-group"><label class="form-label">Role</label>
+          <select class="form-sel" id="eu-role">
+            <option value="purchaser"${user.role==='purchaser'?' selected':''}>Purchaser</option>
+            <option value="stock_keeper"${user.role==='stock_keeper'?' selected':''}>Stock Keeper</option>
+            <option value="production"${user.role==='production'?' selected':''}>Production</option>
+            <option value="super_admin"${user.role==='super_admin'?' selected':''}>Super Admin</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Status</label>
+          <select class="form-sel" id="eu-status">
+            <option value="active"${user.status==='active'?' selected':''}>Active</option>
+            <option value="inactive"${user.status==='inactive'?' selected':''}>Inactive</option>
+          </select>
+        </div>
+        <div class="form-group span-2"><label class="form-label">New Password (leave blank to keep current)</label><input class="form-input" type="password" id="eu-password"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="updateUserData(${userId})">Save Changes</button>
+    </div>
+  </div>`);
+}
+
+async function updateUserData(userId){
+  const full_name = document.getElementById('eu-fullname').value.trim();
+  const email = document.getElementById('eu-email').value.trim();
+  const role = document.getElementById('eu-role').value;
+  const status = document.getElementById('eu-status').value;
+  const password = document.getElementById('eu-password').value;
+
+  try {
+    const body = {full_name, email, role, status};
+    if(password) body.password = password;
+
+    const response = await fetch(`/api/users/${userId}`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify(body)
+    });
+
+    if(response.ok){
+      await loadData();
+      hideModal();
+      renderContent();
+    } else {
+      const error = await response.json();
+      alert(error.error || 'Failed to update user');
+    }
+  } catch(error){
+    console.error('Error updating user:', error);
+    alert('Failed to update user');
+  }
+}
+
+async function deleteUser(userId, username){
+  if(!confirm(`Are you sure you want to delete user "${username}"? This action cannot be undone.`)){
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/users/${userId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+
+    if(response.ok){
+      await loadData();
+      renderContent();
+    } else {
+      const error = await response.json();
+      alert(error.error || 'Failed to delete user');
+    }
+  } catch(error){
+    console.error('Error deleting user:', error);
+    alert('Failed to delete user');
+  }
+}
+
+// ─── SUPPLIER MANAGEMENT ─────────────────────────────────────────────────────
+
+function showAddSupplier(){
+  showModal(`<div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Add New Supplier</span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Supplier Name *</label><input class="form-input" id="ns-name" required></div>
+        <div class="form-group"><label class="form-label">Contact Person</label><input class="form-input" id="ns-contact"></div>
+        <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" id="ns-phone" placeholder="+60 12 345 6789"></div>
+        <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" id="ns-email"></div>
+        <div class="form-group span-2"><label class="form-label">Address</label><textarea class="form-ta" id="ns-address" rows="2"></textarea></div>
+        <div class="form-group"><label class="form-label">Delivery Lead Time (days)</label><input class="form-input" type="number" id="ns-leadtime" value="7" min="0"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveNewSupplier()">Create Supplier</button>
+    </div>
+  </div>`);
+}
+
+async function saveNewSupplier(){
+  const name = document.getElementById('ns-name').value.trim();
+  const contact_person = document.getElementById('ns-contact').value.trim();
+  const phone = document.getElementById('ns-phone').value.trim();
+  const email = document.getElementById('ns-email').value.trim();
+  const address = document.getElementById('ns-address').value.trim();
+  const lead_time_days = parseInt(document.getElementById('ns-leadtime').value) || 7;
+
+  if(!name){
+    alert('Please enter supplier name');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/suppliers', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({ name, contact_person, phone, email, address, lead_time_days })
+    });
+
+    if(response.ok){
+      hideModal();
+      await loadData();
+      renderContent();
+    } else {
+      const error = await response.json();
+      alert(error.error || 'Failed to create supplier');
+    }
+  } catch(error){
+    console.error('Error creating supplier:', error);
+    alert('Failed to create supplier');
+  }
+}
+
+function showEditSupplier(supplierId){
+  const supplier = DB.suppliers.find(s => s.id === supplierId);
+  if(!supplier) return;
+
+  showModal(`<div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Edit Supplier: ${supplier.name}</span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Supplier Name *</label><input class="form-input" id="es-name" value="${supplier.name}" required></div>
+        <div class="form-group"><label class="form-label">Contact Person</label><input class="form-input" id="es-contact" value="${supplier.contact_person || ''}"></div>
+        <div class="form-group"><label class="form-label">Phone Number</label><input class="form-input" id="es-phone" value="${supplier.phone || ''}"></div>
+        <div class="form-group"><label class="form-label">Email Address</label><input class="form-input" type="email" id="es-email" value="${supplier.email || ''}"></div>
+        <div class="form-group span-2"><label class="form-label">Address</label><textarea class="form-ta" id="es-address" rows="2">${supplier.address || ''}</textarea></div>
+        <div class="form-group"><label class="form-label">Delivery Lead Time (days)</label><input class="form-input" type="number" id="es-leadtime" value="${supplier.lead_time_days || 7}" min="0"></div>
+        <div class="form-group"><label class="form-label">Status</label>
+          <select class="form-sel" id="es-status">
+            <option value="active"${supplier.status==='active'?' selected':''}>Active</option>
+            <option value="inactive"${supplier.status==='inactive'?' selected':''}>Inactive</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="updateSupplierData(${supplierId})">Save Changes</button>
+    </div>
+  </div>`);
+}
+
+async function updateSupplierData(supplierId){
+  const name = document.getElementById('es-name').value.trim();
+  const contact_person = document.getElementById('es-contact').value.trim();
+  const phone = document.getElementById('es-phone').value.trim();
+  const email = document.getElementById('es-email').value.trim();
+  const address = document.getElementById('es-address').value.trim();
+  const lead_time_days = parseInt(document.getElementById('es-leadtime').value) || 7;
+  const status = document.getElementById('es-status').value;
+
+  if(!name){
+    alert('Please enter supplier name');
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/suppliers/${supplierId}`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({ name, contact_person, phone, email, address, lead_time_days })
+    });
+
+    if(response.ok){
+      hideModal();
+      await loadData();
+      renderContent();
+    } else {
+      const error = await response.json();
+      alert(error.error || 'Failed to update supplier');
+    }
+  } catch(error){
+    console.error('Error updating supplier:', error);
+    alert('Failed to update supplier');
+  }
+}
+
+async function deleteSupplier(supplierId, supplierName){
+  if(!confirm(`Are you sure you want to delete supplier "${supplierName}"?\n\nThis will not affect existing purchase orders, but you won't be able to create new POs for this supplier.`)){
+    return;
+  }
+
+  try {
+    const response = await fetch(`/api/suppliers/${supplierId}`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({ status: 'inactive' })
+    });
+
+    if(response.ok){
+      await loadData();
+      renderContent();
+    } else {
+      const error = await response.json();
+      alert(error.error || 'Failed to deactivate supplier');
+    }
+  } catch(error){
+    console.error('Error deactivating supplier:', error);
+    alert('Failed to deactivate supplier');
+  }
+}
+
 // ─── ACTIONS ─────────────────────────────────────────────────────────────────
 
-function advancePO(poId, e){
+async function advancePO(poId, e){
   e.stopPropagation();
   const po = DB.pos.find(p=>p.id===poId);
   if(!po) return;
   const next = {draft:'sent',sent:'in_transit'};
-  if(next[po.status]) po.status=next[po.status];
-  renderContent();
+  const newStatus = next[po.status];
+  if(!newStatus) return;
+
+  try {
+    const response = await fetch(`/api/purchase-orders/${poId}/status`, {
+      method: 'PUT',
+      headers: {'Content-Type': 'application/json'},
+      credentials: 'include',
+      body: JSON.stringify({ status: newStatus })
+    });
+
+    if (response.ok) {
+      await loadData();
+      renderContent();
+    } else {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        alert('Failed to update purchase order status: ' + (error.error || 'Unknown error'));
+      } else {
+        const text = await response.text();
+        console.error('Server error:', text);
+        alert('Failed to update purchase order status. Please check if the server is running.');
+      }
+    }
+  } catch (error) {
+    console.error('Error updating purchase order status:', error);
+    alert('Failed to update purchase order status. Network error or server not running.');
+  }
 }
 
 function receiveFromPO(poId, e){
   e.stopPropagation();
   S.grnPO = poId;
   navigate('receiving');
+}
+
+function showPODetail(poId){
+  const po = DB.pos.find(p => p.id === poId);
+  if(!po) return;
+
+  const itemRows = po.items.map(item => `
+    <tr>
+      <td class="td-sku">${item.sku}</td>
+      <td>${item.name}</td>
+      <td class="td-num">${item.ordered} <span style="font-size:10px;color:var(--text-tertiary)">${DB.products.find(p=>p.sku===item.sku)?.uom || 'pcs'}</span></td>
+      <td class="td-num" style="color:var(--healthy)">${item.received}</td>
+      <td style="color:var(--text-tertiary)">${fmtDate(item.eta)}</td>
+    </tr>
+  `).join('');
+
+  showModal(`<div class="modal">
+    <div class="modal-header">
+      <span class="modal-title">Purchase Order: ${po.id}</span>
+      <button class="modal-close" onclick="hideModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid" style="margin-bottom:20px">
+        <div class="form-group">
+          <label class="form-label">Supplier</label>
+          <div style="font-weight:500">${po.supplier}</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Contact</label>
+          <div style="font-family:var(--font-mono);font-size:11px">${po.contact}</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">PO Date</label>
+          <div>${fmtDate(po.date)}</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Expected Date</label>
+          <div>${fmtDate(po.exp)}</div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <div>${poBadge(po.status)}</div>
+        </div>
+      </div>
+      ${po.notes ? `<div class="form-group" style="margin-bottom:20px">
+        <label class="form-label">Notes</label>
+        <div style="padding:8px;background:var(--bg-elevated);border-radius:6px;font-size:12px">${po.notes}</div>
+      </div>` : ''}
+      <div class="form-group">
+        <label class="form-label">Items (${po.items.length})</label>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Product</th>
+                <th>Ordered</th>
+                <th>Received</th>
+                <th>ETA</th>
+              </tr>
+            </thead>
+            <tbody>${itemRows}</tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="hideModal()">Close</button>
+    </div>
+  </div>`);
 }
 
 function calcVariance(i, expected){
@@ -1813,6 +4831,9 @@ function bindEvents(){
   const invSearch = document.getElementById('inv-search');
   if(invSearch) invSearch.addEventListener('input',e=>{S.search=e.target.value;renderContent();});
 
+  const supplierFilter = document.getElementById('supplier-filter');
+  if(supplierFilter) supplierFilter.addEventListener('change',e=>{S.supplierFilter=e.target.value;renderContent();});
+
   const catFilter = document.getElementById('cat-filter');
   if(catFilter) catFilter.addEventListener('change',e=>{S.catFilter=e.target.value;renderContent();});
 
@@ -1861,10 +4882,168 @@ function renderAvailResults(){
   }).join('');
 }
 
+// ─── AUTHENTICATION ──────────────────────────────────────────────────────────
+
+async function checkAuth() {
+  try {
+    const response = await fetch('/api/auth/me', { credentials: 'include' });
+    if (response.ok) {
+      S.user = await response.json();
+      S.isAuthenticated = true;
+      return true;
+    }
+  } catch (error) {
+    console.error('Auth check failed:', error);
+  }
+  S.isAuthenticated = false;
+  return false;
+}
+
+async function login(username, password) {
+  try {
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ username, password })
+    });
+
+    if (response.ok) {
+      S.user = await response.json();
+      S.isAuthenticated = true;
+      return { success: true };
+    } else {
+      const error = await response.json();
+      return { success: false, error: error.error || 'Login failed' };
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    return { success: false, error: 'Network error' };
+  }
+}
+
+async function logout() {
+  try {
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+      credentials: 'include'
+    });
+  } catch (error) {
+    console.error('Logout error:', error);
+  }
+  S.user = null;
+  S.isAuthenticated = false;
+  showLoginScreen();
+}
+
+function showLoginScreen() {
+  const appContainer = document.querySelector('.app');
+  if (!appContainer) {
+    console.error('App container not found');
+    return;
+  }
+
+  appContainer.innerHTML = `
+    <div style="display:flex;min-height:100vh;align-items:center;justify-content:center;background:var(--bg-default);width:100%">
+      <div class="card" style="width:100%;max-width:420px;padding:40px">
+        <div style="text-align:center;margin-bottom:32px">
+          <div style="font-size:32px;font-weight:800;color:var(--accent);margin-bottom:8px">AluminiumKing</div>
+          <div style="font-size:14px;color:var(--text-tertiary)">Inventory Management System</div>
+        </div>
+        <div id="login-error" style="display:none;padding:12px;background:var(--critical-dim);color:var(--critical);border-radius:var(--radius-input);margin-bottom:20px;font-size:13px"></div>
+        <form onsubmit="handleLogin(event)" style="display:flex;flex-direction:column;gap:20px">
+          <div class="form-group">
+            <label class="form-label">Username</label>
+            <input class="form-input" type="text" id="login-username" required autofocus>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input class="form-input" type="password" id="login-password" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%;padding:12px" id="login-btn">Sign In</button>
+        </form>
+        <div style="margin-top:24px;padding-top:24px;border-top:1px solid var(--border-default);font-size:12px;color:var(--text-tertiary);text-align:center">
+          Default credentials: <code style="background:var(--bg-elevated);padding:2px 6px;border-radius:4px">admin / admin123</code>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const username = document.getElementById('login-username').value;
+  const password = document.getElementById('login-password').value;
+  const loginBtn = document.getElementById('login-btn');
+  const errorDiv = document.getElementById('login-error');
+
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'Signing in...';
+  errorDiv.style.display = 'none';
+
+  const result = await login(username, password);
+
+  if (result.success) {
+    await initApp();
+  } else {
+    errorDiv.textContent = result.error;
+    errorDiv.style.display = 'block';
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'Sign In';
+  }
+}
+
 // ─── INIT ────────────────────────────────────────────────────────────────────
 
-renderNav();
-navigate('dashboard');
+async function initApp() {
+  // Restore the main app structure
+  const appContainer = document.querySelector('.app');
+  if (!appContainer) return;
+
+  appContainer.innerHTML = `
+    <!-- SIDEBAR -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-mark">Aluminium<span>King</span></div>
+        <div class="logo-sub">Inventory Management System</div>
+      </div>
+      <div id="nav-content"></div>
+      <div class="sidebar-footer" id="sidebar-footer"></div>
+    </nav>
+
+    <!-- MAIN -->
+    <div class="main">
+      <header class="topbar">
+        <div>
+          <div class="page-title" id="page-title">Dashboard</div>
+        </div>
+        <div class="topbar-right" id="topbar-actions"></div>
+      </header>
+      <main class="content" id="content"></main>
+    </div>
+
+    <!-- MODAL ROOT -->
+    <div id="modal-root"></div>
+  `;
+
+  // Small delay to ensure DOM is ready
+  await new Promise(resolve => setTimeout(resolve, 10));
+
+  await loadData();
+  renderNav();
+  navigate('dashboard');
+}
+
+async function init() {
+  const authenticated = await checkAuth();
+  if (authenticated) {
+    await initApp();
+  } else {
+    showLoginScreen();
+  }
+}
+
+init();
 </script>
 </body>
 </html>

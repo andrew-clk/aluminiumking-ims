@@ -1,0 +1,12 @@
+node_modules
+.env
+*.log
+db/setup.js
+db/migrate_job_orders.js
+db/import_stock_sample.js
+db/test_excel_read.js
+db/analyze_stock_sample.js
+db/check_products.js
+db/fix_variants_table.js
+db/cleanup_mock_data.js
+STOCK SAMPLE.xls
